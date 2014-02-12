@@ -13,6 +13,8 @@
 // Needed to obtain the Navigation Controller
 #import "AppDelegate.h"
 
+#import "Disk.h"
+
 #pragma mark - HelloWorldLayer
 
 // HelloWorldLayer implementation
@@ -40,70 +42,81 @@
 	// always call "super" init
 	// Apple recommends to re-assign "self" with the "super's" return value
 	if( (self=[super init]) ) {
-		
-		// create and initialize a Label
-		CCLabelTTF *label = [CCLabelTTF labelWithString:@"Hello World" fontName:@"Marker Felt" fontSize:64];
-
-		// ask director for the window size
-		CGSize size = [[CCDirector sharedDirector] winSize];
-	
-		// position the label on the center of the screen
-		label.position =  ccp( size.width /2 , size.height/2 );
-		
-		// add the label as a child to this Layer
-		[self addChild: label];
-		
-		
-		
-		//
-		// Leaderboards and Achievements
-		//
-		
-		// Default font size will be 28 points.
-		[CCMenuItemFont setFontSize:28];
-		
-		// to avoid a retain-cycle with the menuitem and blocks
-		__block id copy_self = self;
-		
-		// Achievement Menu Item using blocks
-		CCMenuItem *itemAchievement = [CCMenuItemFont itemWithString:@"Achievements" block:^(id sender) {
-			
-			
-			GKAchievementViewController *achivementViewController = [[GKAchievementViewController alloc] init];
-			achivementViewController.achievementDelegate = copy_self;
-			
-			AppController *app = (AppController*) [[UIApplication sharedApplication] delegate];
-			
-			[[app navController] presentModalViewController:achivementViewController animated:YES];
-			
-			[achivementViewController release];
-		}];
-		
-		// Leaderboard Menu Item using blocks
-		CCMenuItem *itemLeaderboard = [CCMenuItemFont itemWithString:@"Leaderboard" block:^(id sender) {
-			
-			
-			GKLeaderboardViewController *leaderboardViewController = [[GKLeaderboardViewController alloc] init];
-			leaderboardViewController.leaderboardDelegate = copy_self;
-			
-			AppController *app = (AppController*) [[UIApplication sharedApplication] delegate];
-			
-			[[app navController] presentModalViewController:leaderboardViewController animated:YES];
-			
-			[leaderboardViewController release];
-		}];
-
-		
-		CCMenu *menu = [CCMenu menuWithItems:itemAchievement, itemLeaderboard, nil];
-		
-		[menu alignItemsHorizontallyWithPadding:20];
-		[menu setPosition:ccp( size.width/2, size.height/2 - 50)];
-		
-		// Add the menu to the layer
-		[self addChild:menu];
-
+        CGSize winSize = [[CCDirector sharedDirector] winSize];
+        
+        // All user-interactable objects
+        objects = [[NSMutableArray alloc] init];
+        
+        // No selected sprite initially
+        selectedSprite = NULL;
+        
+        // Add a some disks for testing
+        Disk* disk1 = [Disk node];
+        disk1.position = ccp(winSize.width/2 + 90, winSize.height/2);
+        disk1.color = blue;
+        [objects addObject:disk1];
+        [self addChild:disk1];
+        
+        Disk* disk2 = [Disk node];
+        disk2.position = ccp(winSize.width/2 - 90, winSize.height/2);
+        disk2.color = red;
+        [objects addObject:disk2];
+        [self addChild:disk2];
+        
+        Disk* disk3 = [Disk node];
+        disk3.position = ccp(winSize.width/2, winSize.height/2 + 90);
+        disk3.color = yellow;
+        [objects addObject:disk3];
+        [self addChild:disk3];
+        
+        Disk* disk4 = [Disk node];
+        disk4.position = ccp(winSize.width/2, winSize.height/2 - 90);
+        disk4.color = green;
+        [objects addObject:disk4];
+        [self addChild:disk4];
+        
+        // This layer can receive touches
+        [[CCDirector sharedDirector].touchDispatcher addTargetedDelegate:self priority:INT_MIN+1 swallowsTouches:YES];
 	}
 	return self;
+}
+
+-(void)selectObjectForTouch:(CGPoint)touchLocation {
+    for (Disk *d in objects) {
+        if (CGRectContainsPoint([d rect], touchLocation)) {
+            selectedSprite = d;
+            break;
+        }
+    }
+}
+
+-(void)panForTranslation:(CGPoint)translation {
+    if (selectedSprite) {
+        CGPoint newPos = ccpAdd(selectedSprite.position, translation);
+        selectedSprite.position = newPos;
+    }
+}
+
+- (BOOL) ccTouchBegan:(UITouch *)touch withEvent:(UIEvent *)event {
+    CGPoint touchLocation = [self convertTouchToNodeSpace:touch];
+    [self selectObjectForTouch:touchLocation];
+    
+    return YES;
+}
+
+- (void) ccTouchMoved:(UITouch *)touch withEvent:(UIEvent *)event {
+    CGPoint touchLocation = [self convertTouchToNodeSpace:touch];
+    
+    CGPoint oldTouchLocation = [touch previousLocationInView:touch.view];
+    oldTouchLocation = [[CCDirector sharedDirector] convertToGL:oldTouchLocation];
+    oldTouchLocation = [self convertToNodeSpace:oldTouchLocation];
+    
+    CGPoint translation = ccpSub(touchLocation, oldTouchLocation);
+    [self panForTranslation:translation];
+}
+
+- (void) ccTouchEnded:(UITouch *)touch withEvent:(UIEvent *)event {
+    selectedSprite = NULL;
 }
 
 // on "dealloc" you need to release all your retained objects
@@ -112,22 +125,11 @@
 	// in case you have something to dealloc, do it in this method
 	// in this particular example nothing needs to be released.
 	// cocos2d will automatically release all the children (Label)
+    
+    [objects dealloc];
 	
 	// don't forget to call "super dealloc"
 	[super dealloc];
 }
 
-#pragma mark GameKit delegate
-
--(void) achievementViewControllerDidFinish:(GKAchievementViewController *)viewController
-{
-	AppController *app = (AppController*) [[UIApplication sharedApplication] delegate];
-	[[app navController] dismissModalViewControllerAnimated:YES];
-}
-
--(void) leaderboardViewControllerDidFinish:(GKLeaderboardViewController *)viewController
-{
-	AppController *app = (AppController*) [[UIApplication sharedApplication] delegate];
-	[[app navController] dismissModalViewControllerAnimated:YES];
-}
 @end

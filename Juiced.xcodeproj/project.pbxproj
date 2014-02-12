@@ -141,6 +141,7 @@
 		D10FD69918A9DE5100328D09 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D10FD69818A9DE5100328D09 /* AppDelegate.m */; };
 		D10FD69C18A9DE5100328D09 /* MainLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = D10FD69B18A9DE5100328D09 /* MainLayer.m */; };
 		D10FD69F18A9DE5100328D09 /* IntroLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = D10FD69E18A9DE5100328D09 /* IntroLayer.m */; };
+		D16FA8D218AB461F0092EE7F /* Disk.m in Sources */ = {isa = PBXBuildFile; fileRef = D16FA8D118AB461F0092EE7F /* Disk.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -425,6 +426,8 @@
 		D10FD69B18A9DE5100328D09 /* MainLayer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MainLayer.m; sourceTree = "<group>"; };
 		D10FD69D18A9DE5100328D09 /* IntroLayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IntroLayer.h; sourceTree = "<group>"; };
 		D10FD69E18A9DE5100328D09 /* IntroLayer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IntroLayer.m; sourceTree = "<group>"; };
+		D16FA8D018AB461F0092EE7F /* Disk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Disk.h; sourceTree = "<group>"; };
+		D16FA8D118AB461F0092EE7F /* Disk.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Disk.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -489,6 +492,8 @@
 				D10FD69818A9DE5100328D09 /* AppDelegate.m */,
 				D10FD69A18A9DE5100328D09 /* MainLayer.h */,
 				D10FD69B18A9DE5100328D09 /* MainLayer.m */,
+				D16FA8D018AB461F0092EE7F /* Disk.h */,
+				D16FA8D118AB461F0092EE7F /* Disk.m */,
 				D10FD69D18A9DE5100328D09 /* IntroLayer.h */,
 				D10FD69E18A9DE5100328D09 /* IntroLayer.m */,
 				D10FD50718A9DE4F00328D09 /* Resources */,
@@ -967,6 +972,7 @@
 				D10FD5F218A9DE5000328D09 /* CCTMXXMLParser.m in Sources */,
 				D10FD68918A9DE5100328D09 /* ray2.c in Sources */,
 				D10FD62418A9DE5100328D09 /* base64.c in Sources */,
+				D16FA8D218AB461F0092EE7F /* Disk.m in Sources */,
 				D10FD54718A9DE5000328D09 /* CCActionTween.m in Sources */,
 				D10FD57E18A9DE5000328D09 /* CCLabelBMFont.m in Sources */,
 				D10FD62B18A9DE5100328D09 /* ccCArray.m in Sources */,
