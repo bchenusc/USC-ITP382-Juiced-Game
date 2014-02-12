@@ -13,6 +13,8 @@
 // Needed to obtain the Navigation Controller
 #import "AppDelegate.h"
 
+#import "Disk.h"
+
 #pragma mark - HelloWorldLayer
 
 // HelloWorldLayer implementation
@@ -101,9 +103,63 @@
 		
 		// Add the menu to the layer
 		[self addChild:menu];
+        
+        // All user-interactable objects
+        objects = [[NSMutableArray alloc] init];
+        
+        // No selected sprite initially
+        selectedSprite = NULL;
+        
+        // Add a random disk for testing
+        Disk* disk = [Disk node];
+        [objects addObject:disk];
+        [self addChild:disk];
+        
+        // This layer can receive touches
+        [self setTouchEnabled:YES];
 
 	}
 	return self;
+}
+
+-(void)selectObjectForTouch:(CGPoint)touchLocation {
+    for (Disk *d in objects) {
+        if (CGRectContainsPoint([d rect], touchLocation)) {
+            selectedSprite = d;
+            break;
+        }
+    }
+}
+
+-(void)panForTranslation:(CGPoint)translation {
+    if (selectedSprite) {
+        CGPoint newPos = ccpAdd(selectedSprite.position, translation);
+        selectedSprite.position = newPos;
+    }
+}
+
+- (BOOL) ccTouchBegan:(UITouch *)touch withEvent:(UIEvent *)event {
+    NSLog(@"TOUCHED A THING");
+    
+    CGPoint touchLocation = [self convertTouchToNodeSpace:touch];
+    [self selectObjectForTouch:touchLocation];
+    
+    return YES;
+}
+
+- (void) ccTouchMoved:(UITouch *)touch withEvent:(UIEvent *)event {
+    CGPoint touchLocation = [self convertTouchToNodeSpace:touch];
+    
+    CGPoint oldTouchLocation = [touch previousLocationInView:touch.view];
+    oldTouchLocation = [[CCDirector sharedDirector] convertToGL:oldTouchLocation];
+    oldTouchLocation = [self convertToNodeSpace:oldTouchLocation];
+    
+    CGPoint translation = ccpSub(touchLocation, oldTouchLocation);
+    [self panForTranslation:translation];
+}
+
+- (void) ccTouchEnded:(UITouch *)touch withEvent:(UIEvent *)event {
+    selectedSprite = NULL;
 }
 
 // on "dealloc" you need to release all your retained objects
@@ -112,6 +168,8 @@
 	// in case you have something to dealloc, do it in this method
 	// in this particular example nothing needs to be released.
 	// cocos2d will automatically release all the children (Label)
+    
+    [objects dealloc];
 	
 	// don't forget to call "super dealloc"
 	[super dealloc];

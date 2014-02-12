@@ -13,11 +13,16 @@
 #import "cocos2d.h"
 
 // HelloWorldLayer
-@interface MainLayer : CCLayer <GKAchievementViewControllerDelegate, GKLeaderboardViewControllerDelegate>
-{
+@interface MainLayer : CCLayer <GKAchievementViewControllerDelegate, GKLeaderboardViewControllerDelegate> {
+    NSMutableArray* objects;
+    CCSprite* selectedSprite;
 }
 
 // returns a CCScene that contains the HelloWorldLayer as the only child
 +(CCScene *) scene;
+
+-(void)selectObjectForTouch:(CGPoint)touchLocation;
+
+-(void)panForTranslation:(CGPoint)translation;
 
 @end
