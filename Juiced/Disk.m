@@ -17,9 +17,7 @@
 {
     self = [super init];
     if (self) {
-        //CGSize size = [[CCDirector sharedDirector] winSize];
-        
-        self.position = ccp(30, 30);
+        self.position = ccp(30, 60);
         radius = 30;
         
         CGSize c_size;
@@ -27,8 +25,6 @@
         c_size.height = 2 * radius;
         self.contentSize = c_size;
         self.anchorPoint = ccp(0.5, 0.5);
-        
-        [self setColor:ccGREEN];
     }
     return self;
 }
@@ -44,7 +40,8 @@
     glLineWidth(4);
     ccDrawColor4B(0, 0, 255, 255);
     
-    ccDrawSolidCircle(self.position, radius, 256);
+    ccDrawSolidCircle([[CCDirector sharedDirector] convertToGL:self.position], radius, 256);
+    //ccDrawSolidCircle(self.position, radius, 256);
 }
 
 @end
