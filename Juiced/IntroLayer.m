@@ -11,7 +11,7 @@
 
 // Import the interfaces
 #import "IntroLayer.h"
-#import "MainLayer.h"
+#import "GameplayLayer.h"
 
 
 #pragma mark - IntroLayer
@@ -63,6 +63,6 @@
 -(void) onEnter
 {
 	[super onEnter];
-	[[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:1.0 scene:[MainLayer scene] ]];
+	[[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:1.0 scene:[GameplayLayer scene] ]];
 }
 @end

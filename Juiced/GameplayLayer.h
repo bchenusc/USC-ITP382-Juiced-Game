@@ -13,7 +13,7 @@
 #import "cocos2d.h"
 
 // HelloWorldLayer
-@interface MainLayer : CCLayer {
+@interface GameplayLayer : CCLayer {
     NSMutableArray* objects;
     CCSprite* selectedSprite;
 }
