@@ -13,7 +13,7 @@
 #import "cocos2d.h"
 
 // HelloWorldLayer
-@interface MainLayer : CCLayer <GKAchievementViewControllerDelegate, GKLeaderboardViewControllerDelegate> {
+@interface MainLayer : CCLayer {
     NSMutableArray* objects;
     CCSprite* selectedSprite;
 }

@@ -8,9 +8,20 @@
 
 #import "CCSprite.h"
 
+enum Color {
+    red,
+    blue,
+    green,
+    yellow
+};
+
 @interface Disk : CCSprite {
+    enum Color iColor;
     float radius;
+    CGSize winSize;
 }
+
+@property enum Color color;
 
 - (CGRect) rect;
 

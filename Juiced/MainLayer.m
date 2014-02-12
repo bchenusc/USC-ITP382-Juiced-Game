@@ -42,6 +42,7 @@
 	// always call "super" init
 	// Apple recommends to re-assign "self" with the "super's" return value
 	if( (self=[super init]) ) {
+        CGSize winSize = [[CCDirector sharedDirector] winSize];
         
         // All user-interactable objects
         objects = [[NSMutableArray alloc] init];
@@ -49,10 +50,30 @@
         // No selected sprite initially
         selectedSprite = NULL;
         
-        // Add a random disk for testing
-        Disk* disk = [Disk node];
-        [objects addObject:disk];
-        [self addChild:disk];
+        // Add a some disks for testing
+        Disk* disk1 = [Disk node];
+        disk1.position = ccp(winSize.width/2 + 90, winSize.height/2);
+        disk1.color = blue;
+        [objects addObject:disk1];
+        [self addChild:disk1];
+        
+        Disk* disk2 = [Disk node];
+        disk2.position = ccp(winSize.width/2 - 90, winSize.height/2);
+        disk2.color = red;
+        [objects addObject:disk2];
+        [self addChild:disk2];
+        
+        Disk* disk3 = [Disk node];
+        disk3.position = ccp(winSize.width/2, winSize.height/2 + 90);
+        disk3.color = yellow;
+        [objects addObject:disk3];
+        [self addChild:disk3];
+        
+        Disk* disk4 = [Disk node];
+        disk4.position = ccp(winSize.width/2, winSize.height/2 - 90);
+        disk4.color = green;
+        [objects addObject:disk4];
+        [self addChild:disk4];
         
         // This layer can receive touches
         [[CCDirector sharedDirector].touchDispatcher addTargetedDelegate:self priority:INT_MIN+1 swallowsTouches:YES];
@@ -63,7 +84,6 @@
 -(void)selectObjectForTouch:(CGPoint)touchLocation {
     for (Disk *d in objects) {
         if (CGRectContainsPoint([d rect], touchLocation)) {
-            NSLog(@"Touched a disk");
             selectedSprite = d;
             break;
         }
@@ -78,8 +98,6 @@
 }
 
 - (BOOL) ccTouchBegan:(UITouch *)touch withEvent:(UIEvent *)event {
-    NSLog(@"Touched something");
-    
     CGPoint touchLocation = [self convertTouchToNodeSpace:touch];
     [self selectObjectForTouch:touchLocation];
     
@@ -94,8 +112,6 @@
     oldTouchLocation = [self convertToNodeSpace:oldTouchLocation];
     
     CGPoint translation = ccpSub(touchLocation, oldTouchLocation);
-    //translation.x *= 0.5;
-    //translation.y *= 0.5;
     [self panForTranslation:translation];
 }
 

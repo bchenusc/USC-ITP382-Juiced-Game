@@ -13,11 +13,15 @@
 
 @implementation Disk
 
+@synthesize color = iColor;
+
 - (id)init
 {
     self = [super init];
     if (self) {
-        self.position = ccp(30, 60);
+        winSize = [[CCDirector sharedDirector] winSize];
+        
+        self.position = ccp(winSize.width/2, winSize.height/2);
         radius = 30;
         
         CGSize c_size;
@@ -25,6 +29,8 @@
         c_size.height = 2 * radius;
         self.contentSize = c_size;
         self.anchorPoint = ccp(0.5, 0.5);
+        
+        iColor = blue;
     }
     return self;
 }
@@ -38,10 +44,26 @@
 
 - (void)draw {
     glLineWidth(4);
-    ccDrawColor4B(0, 0, 255, 255);
+    switch (iColor) {
+        case blue:
+            ccDrawColor4B(0, 0, 255, 255);
+            break;
+        case red:
+            ccDrawColor4B(255, 0, 0, 255);
+            break;
+        case green:
+            ccDrawColor4B(52, 199, 52, 255);
+            break;
+        case yellow:
+            ccDrawColor4B(255, 255, 0, 255);
+            break;
+        default:
+            break;
+    }
     
-    ccDrawSolidCircle([[CCDirector sharedDirector] convertToGL:self.position], radius, 256);
-    //ccDrawSolidCircle(self.position, radius, 256);
+    // Next line is really hacky, I dont't know why the translation is opposite in the y direction....
+    CGPoint toDraw = ccp(self.position.x, winSize.height-self.position.y);
+    ccDrawSolidCircle([[CCDirector sharedDirector] convertToGL:toDraw], radius, 256);
 }
 
 @end
