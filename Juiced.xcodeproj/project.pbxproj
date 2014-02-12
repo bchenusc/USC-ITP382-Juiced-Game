@@ -139,7 +139,7 @@
 		D10FD69118A9DE5100328D09 /* vec4.c in Sources */ = {isa = PBXBuildFile; fileRef = D10FD69018A9DE5100328D09 /* vec4.c */; };
 		D10FD69618A9DE5100328D09 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D10FD69518A9DE5100328D09 /* main.m */; };
 		D10FD69918A9DE5100328D09 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D10FD69818A9DE5100328D09 /* AppDelegate.m */; };
-		D10FD69C18A9DE5100328D09 /* HelloWorldLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = D10FD69B18A9DE5100328D09 /* HelloWorldLayer.m */; };
+		D10FD69C18A9DE5100328D09 /* MainLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = D10FD69B18A9DE5100328D09 /* MainLayer.m */; };
 		D10FD69F18A9DE5100328D09 /* IntroLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = D10FD69E18A9DE5100328D09 /* IntroLayer.m */; };
 /* End PBXBuildFile section */
 
@@ -421,8 +421,8 @@
 		D10FD69518A9DE5100328D09 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		D10FD69718A9DE5100328D09 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		D10FD69818A9DE5100328D09 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		D10FD69A18A9DE5100328D09 /* HelloWorldLayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HelloWorldLayer.h; sourceTree = "<group>"; };
-		D10FD69B18A9DE5100328D09 /* HelloWorldLayer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HelloWorldLayer.m; sourceTree = "<group>"; };
+		D10FD69A18A9DE5100328D09 /* MainLayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MainLayer.h; sourceTree = "<group>"; };
+		D10FD69B18A9DE5100328D09 /* MainLayer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MainLayer.m; sourceTree = "<group>"; };
 		D10FD69D18A9DE5100328D09 /* IntroLayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IntroLayer.h; sourceTree = "<group>"; };
 		D10FD69E18A9DE5100328D09 /* IntroLayer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IntroLayer.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -487,8 +487,8 @@
 			children = (
 				D10FD69718A9DE5100328D09 /* AppDelegate.h */,
 				D10FD69818A9DE5100328D09 /* AppDelegate.m */,
-				D10FD69A18A9DE5100328D09 /* HelloWorldLayer.h */,
-				D10FD69B18A9DE5100328D09 /* HelloWorldLayer.m */,
+				D10FD69A18A9DE5100328D09 /* MainLayer.h */,
+				D10FD69B18A9DE5100328D09 /* MainLayer.m */,
 				D10FD69D18A9DE5100328D09 /* IntroLayer.h */,
 				D10FD69E18A9DE5100328D09 /* IntroLayer.m */,
 				D10FD50718A9DE4F00328D09 /* Resources */,
@@ -1045,7 +1045,7 @@
 				D10FD67D18A9DE5100328D09 /* matrix.c in Sources */,
 				D10FD56318A9DE5000328D09 /* CCDrawingPrimitives.m in Sources */,
 				D10FD5CB18A9DE5000328D09 /* ccShaders.m in Sources */,
-				D10FD69C18A9DE5100328D09 /* HelloWorldLayer.m in Sources */,
+				D10FD69C18A9DE5100328D09 /* MainLayer.m in Sources */,
 				D10FD62118A9DE5100328D09 /* CCWindow.m in Sources */,
 				D10FD5FF18A9DE5000328D09 /* cocos2d.m in Sources */,
 				D10FD5AC18A9DE5000328D09 /* CCProgressTimer.m in Sources */,
@@ -1171,6 +1171,7 @@
 				D10FD6A418A9DE5100328D09 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

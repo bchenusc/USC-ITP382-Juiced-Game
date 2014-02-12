@@ -2,6 +2,8 @@
 //  IntroLayer.m
 //  Juiced
 //
+//  This layer is simply the entry point to the app that contains the app's splash screen.
+//
 //  Created by Matthew Pohlmann on 2/10/14.
 //  Copyright Silly Landmine Studios 2014. All rights reserved.
 //
@@ -9,7 +11,7 @@
 
 // Import the interfaces
 #import "IntroLayer.h"
-#import "HelloWorldLayer.h"
+#import "MainLayer.h"
 
 
 #pragma mark - IntroLayer
@@ -61,6 +63,6 @@
 -(void) onEnter
 {
 	[super onEnter];
-	[[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:1.0 scene:[HelloWorldLayer scene] ]];
+	[[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:1.0 scene:[MainLayer scene] ]];
 }
 @end
