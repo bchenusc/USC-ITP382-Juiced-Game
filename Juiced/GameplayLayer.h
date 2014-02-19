@@ -25,4 +25,6 @@
 
 -(void)panForTranslation:(CGPoint)translation;
 
+-(void)update:(ccTime)delta;
+
 @end

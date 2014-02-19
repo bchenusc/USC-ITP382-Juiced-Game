@@ -75,6 +75,8 @@
         [objects addObject:disk4];
         [self addChild:disk4];
         
+        [self scheduleUpdate];
+        
         // This layer can receive touches
         [[CCDirector sharedDirector].touchDispatcher addTargetedDelegate:self priority:INT_MIN+1 swallowsTouches:YES];
 	}
@@ -117,6 +119,22 @@
 
 - (void) ccTouchEnded:(UITouch *)touch withEvent:(UIEvent *)event {
     selectedSprite = NULL;
+}
+
+-(void)update:(ccTime)delta {
+    CGSize winSize = [[CCDirector sharedDirector] winSize];
+    for(int i = 0; i < objects.count; i++) {
+        Disk* d = objects[i];
+        // Check if the disc goes to a corner
+        if((d.position.x < 10 && (d.position.y < 10 || d.position.y > winSize.height - 10))
+           || (d.position.x > winSize.width - 10 && (d.position.y < 10 || d.position.y > winSize.height - 10))) {
+            if(d == selectedSprite)
+                selectedSprite = NULL;
+            [objects removeObject:d];
+            [self removeChild:d cleanup:YES];
+            i--;
+        }
+    }
 }
 
 // on "dealloc" you need to release all your retained objects
