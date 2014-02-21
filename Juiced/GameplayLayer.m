@@ -14,6 +14,7 @@
 #import "AppDelegate.h"
 
 #import "Disk.h"
+#import "CornerQuadrant.h"
 
 #pragma mark - HelloWorldLayer
 
@@ -47,6 +48,9 @@
         // All user-interactable objects
         objects = [[NSMutableArray alloc] init];
         
+        // Quadrants
+        quadrants = [[NSMutableArray alloc] init];
+        
         // No selected sprite initially
         selectedSprite = NULL;
         
@@ -75,6 +79,40 @@
         [objects addObject:disk4];
         [self addChild:disk4];
         
+        // Add some corner quadrants for testing
+        CornerQuadrant* quad1 = [CornerQuadrant node];
+        quad1.position = ccp(0, 0);
+        quad1.width = winSize.width / 4;
+        quad1.height = winSize.height / 2;
+        quad1.color = red;
+        [quadrants addObject:quad1];
+        [self addChild:quad1];
+        
+        CornerQuadrant* quad2 = [CornerQuadrant node];
+        quad2.position = ccp(0, winSize.height);
+        quad2.width = winSize.width / 4;
+        quad2.height = -winSize.height / 2;
+        quad2.color = yellow;
+        [quadrants addObject:quad2];
+        [self addChild:quad2];
+        
+        CornerQuadrant* quad3 = [CornerQuadrant node];
+        quad3.position = ccp(winSize.width, 0);
+        quad3.width = -winSize.width / 4;
+        quad3.height = winSize.height / 2;
+        quad3.color = blue;
+        [quadrants addObject:quad3];
+        [self addChild:quad3];
+        
+        CornerQuadrant* quad4 = [CornerQuadrant node];
+        quad4.position = ccp(winSize.width, winSize.height);
+        quad4.width = -winSize.width / 4;
+        quad4.height = -winSize.height / 2;
+        quad4.color = red;
+        [quadrants addObject:quad4];
+        [self addChild:quad4];
+        
+        // Schedule this layer for update
         [self scheduleUpdate];
         
         // This layer can receive touches
@@ -145,6 +183,8 @@
 	// cocos2d will automatically release all the children (Label)
     
     [objects dealloc];
+    
+    [quadrants dealloc];
 	
 	// don't forget to call "super dealloc"
 	[super dealloc];

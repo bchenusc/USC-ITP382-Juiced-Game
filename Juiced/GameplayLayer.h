@@ -15,6 +15,7 @@
 // HelloWorldLayer
 @interface GameplayLayer : CCLayer {
     NSMutableArray* objects;
+    NSMutableArray* quadrants;
     CCSprite* selectedSprite;
 }
 

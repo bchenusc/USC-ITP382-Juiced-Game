@@ -9,16 +9,11 @@
 #import "CCSprite.h"
 
 #import "cocos2d.h"
-
-enum Color {
-    red,
-    blue,
-    yellow,
-    green
-};
+#import "Disk.h"
 
 @interface CornerQuadrant : CCSprite {
     enum Color m_Color;
+    CGSize winSize;
     CGFloat m_Width;
     CGFloat m_Height;
     CGPoint m_Position;
