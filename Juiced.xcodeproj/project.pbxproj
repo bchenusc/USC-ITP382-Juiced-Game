@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3B083A7318B96B0A002ADD91 /* UILayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B083A7218B96B0A002ADD91 /* UILayer.m */; };
 		D10FD4F318A9DE4F00328D09 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D10FD4F218A9DE4F00328D09 /* QuartzCore.framework */; };
 		D10FD4F518A9DE4F00328D09 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D10FD4F418A9DE4F00328D09 /* OpenGLES.framework */; };
 		D10FD4F718A9DE4F00328D09 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D10FD4F618A9DE4F00328D09 /* OpenAL.framework */; };
@@ -146,6 +147,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3B083A7118B96B0A002ADD91 /* UILayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UILayer.h; sourceTree = "<group>"; };
+		3B083A7218B96B0A002ADD91 /* UILayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UILayer.m; sourceTree = "<group>"; };
 		D10FD4EF18A9DE4F00328D09 /* Juiced.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Juiced.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D10FD4F218A9DE4F00328D09 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		D10FD4F418A9DE4F00328D09 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -491,6 +494,8 @@
 		D10FD50618A9DE4F00328D09 /* Juiced */ = {
 			isa = PBXGroup;
 			children = (
+				3B083A7118B96B0A002ADD91 /* UILayer.h */,
+				3B083A7218B96B0A002ADD91 /* UILayer.m */,
 				D1DAC47D18B48FB400E29848 /* CornerQuadrant.h */,
 				D1DAC47E18B48FB400E29848 /* CornerQuadrant.m */,
 				D10FD69718A9DE5100328D09 /* AppDelegate.h */,
@@ -1049,6 +1054,7 @@
 				D10FD5EF18A9DE5000328D09 /* CCTMXTiledMap.m in Sources */,
 				D10FD5B018A9DE5000328D09 /* CCRenderTexture.m in Sources */,
 				D10FD53818A9DE5000328D09 /* CCActionInterval.m in Sources */,
+				3B083A7318B96B0A002ADD91 /* UILayer.m in Sources */,
 				D10FD5A618A9DE5000328D09 /* CCPhysicsDebugNode.m in Sources */,
 				D10FD52C18A9DE5000328D09 /* CCActionEase.m in Sources */,
 				D10FD56918A9DE5000328D09 /* CCFontDefinition.m in Sources */,
