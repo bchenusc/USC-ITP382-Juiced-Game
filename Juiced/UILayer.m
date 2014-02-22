@@ -26,18 +26,18 @@
     if (self) {
         CGSize size = [[CCDirector sharedDirector] winSize];
         
-        m_TitleLabel = [CCLabelTTF labelWithString:@"Round 1" fontName: @"Marker Felt" fontSize:30];
+        m_TitleLabel = [CCLabelTTF labelWithString:@"JUICED" fontName: @"Marker Felt" fontSize:30];
         m_TitleLabel.position = ccp(size.width/2, size.height/2);
         m_TitleLabel.visible = NO;
         [self addChild : m_TitleLabel];
         
-        m_ScoreLabel = [CCLabelTTF labelWithString:@"Game Over" fontName: @"Marker Felt" fontSize:30];
-        m_ScoreLabel.position = ccp(size.width/2, size.height/2);
+        m_ScoreLabel = [CCLabelTTF labelWithString:@"Score" fontName: @"Marker Felt" fontSize:30];
+        m_ScoreLabel.position = ccp(size.width/2, -size.height/2 + 10);
         m_ScoreLabel.visible = NO;
         [self addChild:m_ScoreLabel];
         
-        m_TimeLabel =[CCLabelTTF labelWithString:@"Got 2/2 ducks!" fontName: @"Marker Felt" fontSize:26];
-        m_TimeLabel.position = ccp(size.width/2, size.height/2);
+        m_TimeLabel =[CCLabelTTF labelWithString:@"Time: " fontName: @"Marker Felt" fontSize:26];
+        m_TimeLabel.position = ccp(size.width/2, size.height/2 + 10);
         m_TimeLabel.visible = NO;
         [self addChild : m_TimeLabel];
     }
@@ -45,23 +45,26 @@
 }
 
 - (void) showTitleLabel{
-    
+    m_TitleLabel.visible = YES;
 }
 - (void) hideTitleLabel{
-    
+    m_TitleLabel.visible = NO;
 }
 - (void) showScoreLabel : (int) score{
-    
+    m_ScoreLabel.string = [NSString stringWithFormat:@"%d pts", score];
+    m_ScoreLabel.visible = YES;
 }
 - (void) hideScoreLabel{
-    
+    m_ScoreLabel.visible = NO;
 }
 - (void) showTimeLabel: (int) time{
-    
+    m_TimeLabel.string = [NSString stringWithFormat:@"%d s", time];
+    m_TimeLabel.visible = YES;
 }
 - (void) hideTimeLabel{
-    
+    m_TimeLabel.visible = YES;
 }
+
 - (void) showGameOver{
     
 }
