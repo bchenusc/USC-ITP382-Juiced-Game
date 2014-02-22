@@ -164,15 +164,34 @@
     for(int i = 0; i < objects.count; i++) {
         Disk* d = objects[i];
         // Check if the disc goes to a corner
-        if((d.position.x < 10 && (d.position.y < 10 || d.position.y > winSize.height - 10))
-           || (d.position.x > winSize.width - 10 && (d.position.y < 10 || d.position.y > winSize.height - 10))) {
-            if(d == selectedSprite)
-                selectedSprite = NULL;
-            [objects removeObject:d];
-            [self removeChild:d cleanup:YES];
-            i--;
+        if((d.position.x < 20 && (d.position.y < 20 || d.position.y > winSize.height - 20))
+           || (d.position.x > winSize.width - 20 && (d.position.y < 20 || d.position.y > winSize.height - 20))) {
+            CornerQuadrant* intersectedCQ = [self getQuadrantAtRect:d.rect];
+            if(intersectedCQ != NULL) {
+                if(intersectedCQ.color == d.color) {
+                    if(d == selectedSprite)
+                        selectedSprite = NULL;
+                    [objects removeObject:d];
+                    [self removeChild:d cleanup:YES];
+                    i--;
+                }
+            }
         }
     }
+}
+
+-(CornerQuadrant*)getQuadrantAtRect:(CGRect)rect {
+    for(CornerQuadrant* cq in quadrants) {
+        // Each cornerQuadrant is composed of two rects, so create those two rects and see if there's an intersection
+        CGRect firstRect = 	CGRectMake(cq.position.x - cq.width / 2, cq.position.y + cq.height
+                                       / 2, cq.width, cq.thickness);
+        CGRect secondRect = CGRectMake(cq.position.x + cq.width / 2 - cq.thickness, cq.position.y + cq.height / 2, cq.thickness, cq.height);
+        
+        if(CGRectIntersectsRect(firstRect, rect) || CGRectIntersectsRect(secondRect, rect)) {
+            return cq;
+        }
+    }
+    return NULL;
 }
 
 // on "dealloc" you need to release all your retained objects

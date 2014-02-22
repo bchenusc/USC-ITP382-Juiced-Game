@@ -17,11 +17,13 @@
     CGFloat m_Width;
     CGFloat m_Height;
     CGPoint m_Position;
+    int m_Thickness;
 }
 
 @property enum Color color;
 @property CGFloat width;
 @property CGFloat height;
 @property CGPoint position;
+@property int thickness;
 
 @end

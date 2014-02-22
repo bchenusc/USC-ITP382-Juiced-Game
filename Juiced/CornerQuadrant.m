@@ -14,6 +14,7 @@
 @synthesize width = m_Width;
 @synthesize height = m_Height;
 @synthesize position = m_Position;
+@synthesize thickness = m_Thickness;
 
 - (id)init
 {
@@ -24,12 +25,13 @@
         self.color = blue;
         self.width = winSize.width / 4;
         self.height = winSize.height / 2;
+        self.thickness = 20;
     }
     return self;
 }
 
 - (void)draw {
-    glLineWidth(20);
+    glLineWidth(m_Thickness);
     switch (m_Color) {
         case blue:
             ccDrawColor4B(0, 0, 255, 255);

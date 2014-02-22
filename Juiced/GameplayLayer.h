@@ -12,6 +12,8 @@
 // When you import this file, you import all the cocos2d classes
 #import "cocos2d.h"
 
+#import "CornerQuadrant.h"
+
 // HelloWorldLayer
 @interface GameplayLayer : CCLayer {
     NSMutableArray* objects;
@@ -27,5 +29,7 @@
 -(void)panForTranslation:(CGPoint)translation;
 
 -(void)update:(ccTime)delta;
+
+-(CornerQuadrant*)getQuadrantAtRect:(CGRect)rect;
 
 @end
