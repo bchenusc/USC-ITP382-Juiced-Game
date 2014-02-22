@@ -13,12 +13,18 @@
 #import "cocos2d.h"
 
 #import "CornerQuadrant.h"
+#import "UILayer.h"
 
 // HelloWorldLayer
 @interface GameplayLayer : CCLayer {
     NSMutableArray* objects;
     NSMutableArray* quadrants;
     CCSprite* selectedSprite;
+    
+    int i_Score;
+    int i_Time;
+    
+    UILayer* uiLayer;
 }
 
 // returns a CCScene that contains the HelloWorldLayer as the only child
