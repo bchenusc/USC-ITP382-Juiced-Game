@@ -22,6 +22,7 @@
 @implementation GameplayLayer
 
 @synthesize DiskScore = i_DiskScore;
+@synthesize ParticleEmitter = emitter;
 
 // Helper class method that creates a Scene with the HelloWorldLayer as the only child.
 +(CCScene *) scene
@@ -136,6 +137,11 @@
         //[self gameStart];
         
         
+        
+        //Particle System Initialization
+        emitter = [CCParticleSystemQuad particleWithFile:@"Blue_Test.plist"];
+        emitter.position = ccp(winSize.width/2, winSize.height/2);
+        [self addChild:emitter];
         
 	}
 	return self;
@@ -308,13 +314,15 @@
         NSNumber* newNumber = [NSNumber numberWithInt:i];
         [randomArray addObject:newNumber];
     }
-    // Shuffle the array of random numbers
+    // Shuffle the array of random numbers corresponding to colors
     for(int i = 0; i < randomArray.count; i++) {
         int randomIndex = i + arc4random() % (4 - i);
         [randomArray exchangeObjectAtIndex:i withObjectAtIndex:randomIndex];
     }
+    // Assign it a random color
     for(int i = 0; i < quadrants.count; i++) {
         CornerQuadrant* cq = quadrants[i];
+        [cq setVisible:YES];
         switch([randomArray[i] integerValue]) {
             case 0:
                 cq.color = blue;
@@ -333,6 +341,15 @@
                 break;
         }
     }
+    [self scheduleOnce:@selector(blinkQuadrants) delay:8];
+}
+
+-(void) blinkQuadrants {
+    for(CornerQuadrant *cq in quadrants) {
+        CCBlink* blink = [CCBlink actionWithDuration:2 blinks:10];
+        [cq runAction:blink];
+    }
+    [self scheduleOnce:@selector(changeColorOfAllQuadrants) delay:2];
 }
 
 -(void) gameStart{
@@ -348,7 +365,8 @@
     // Schedule this layer for update
     [self scheduleUpdate];
     [self schedule:@selector(createDisks) interval:1];
-    [self schedule:@selector(changeColorOfAllQuadrants) interval:10];
+    [self scheduleOnce:@selector(blinkQuadrants) delay:8];
+    
 }
 
 - (void)animDecrementScore: float lerpFactor{
