@@ -166,8 +166,10 @@
         // Check if the disc goes to a corner
         if((d.position.x < 20 && (d.position.y < 20 || d.position.y > winSize.height - 20))
            || (d.position.x > winSize.width - 20 && (d.position.y < 20 || d.position.y > winSize.height - 20))) {
+            // Get the quadrant the disc is at, if there is one
             CornerQuadrant* intersectedCQ = [self getQuadrantAtRect:d.rect];
             if(intersectedCQ != NULL) {
+                // Check if the colors are the same, remove the disc if they are
                 if(intersectedCQ.color == d.color) {
                     if(d == selectedSprite)
                         selectedSprite = NULL;
@@ -182,11 +184,11 @@
 
 -(CornerQuadrant*)getQuadrantAtRect:(CGRect)rect {
     for(CornerQuadrant* cq in quadrants) {
-        // Each cornerQuadrant is composed of two rects, so create those two rects and see if there's an intersection
-        CGRect firstRect = 	CGRectMake(cq.position.x - cq.width / 2, cq.position.y + cq.height
-                                       / 2, cq.width, cq.thickness);
-        CGRect secondRect = CGRectMake(cq.position.x + cq.width / 2 - cq.thickness, cq.position.y + cq.height / 2, cq.thickness, cq.height);
-        
+        // Get the rects the quadrant is made up of, from the array of rects the quadrant returns
+        NSMutableArray* collidableRects = [cq getCollidableArea];
+        CGRect firstRect = [collidableRects[0] CGRectValue];
+        CGRect secondRect = [collidableRects[1] CGRectValue];
+        // If the rects intersect, return this quadrant
         if(CGRectIntersectsRect(firstRect, rect) || CGRectIntersectsRect(secondRect, rect)) {
             return cq;
         }

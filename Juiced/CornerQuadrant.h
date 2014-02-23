@@ -20,6 +20,9 @@
     int m_Thickness;
 }
 
+// Returns an array with two rects that make up this cornerquadrant
+-(NSMutableArray*)getCollidableArea;
+
 @property enum Color color;
 @property CGFloat width;
 @property CGFloat height;
