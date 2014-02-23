@@ -49,8 +49,11 @@
 // Spawns one disk at a random location
 -(void)spawnDisk;
 
-// Switches the color of all quadrants, scheduled
+// Switches the color of all quadrants
 -(void)changeColorOfAllQuadrants;
+
+// Blinks all quadrants
+-(void)blinkQuadrants;
 
 // Go through all the quadarnts and return the qudarnt at the given rect, if there is one
 -(CornerQuadrant*)getQuadrantAtRect:(CGRect)rect;
