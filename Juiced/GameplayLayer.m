@@ -108,7 +108,7 @@
         quad4.position = ccp(winSize.width, winSize.height);
         quad4.width = -winSize.width / 4;
         quad4.height = -winSize.height / 2;
-        quad4.color = red;
+        quad4.color = green;
         [quadrants addObject:quad4];
         [self addChild:quad4];
         
@@ -188,6 +188,9 @@
                     [self removeChild:d cleanup:YES];
                     i--;
                 }
+            } else {
+                // Call update only AFTER collisions are checked for
+                [d update:delta];
             }
         }
     }
