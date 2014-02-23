@@ -19,10 +19,14 @@ enum Color {
     enum Color iColor;
     float radius;
     CGSize winSize;
+    CGPoint iVelocity;
 }
 
 @property enum Color color;
+@property CGPoint velocity;
 
 - (CGRect) rect;
+
+-(void)update:(ccTime)delta;
 
 @end
