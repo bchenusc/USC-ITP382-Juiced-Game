@@ -123,10 +123,6 @@
         [quadrants addObject:quad4];
         [self addChild:quad4];
         
-        // Schedule this layer for update
-        [self scheduleUpdate];
-        [self schedule:@selector(createDisks) interval:1];
-        
         // This layer can receive touches
         //[[CCDirector sharedDirector].touchDispatcher addTargetedDelegate:self priority:INT_MIN+2 swallowsTouches:YES];
         
@@ -237,7 +233,8 @@
         [self unschedule:@selector(createDisks)];
         [self schedule:@selector(createDisks) interval:.5];
     } else if(i_Time == 40) {
-        [self scheduleOnce:@selector(createDisks) delay:.75];
+        [self unschedule:@selector(createDisks)];
+        [self schedule:@selector(createDisks) interval:.75];
     }
     
     for(int i = 0; i < timesToSpawnDisk; i++)
@@ -305,6 +302,9 @@
     [self schedule:@selector(timeDecrease) interval:1.0f];
     [uiLayer showScoreLabel: i_Score];
     [uiLayer showTimeLabel: i_Time];
+    // Schedule this layer for update
+    [self scheduleUpdate];
+    [self schedule:@selector(createDisks) interval:1];
 }
 
 -(void) timeDecrease{
