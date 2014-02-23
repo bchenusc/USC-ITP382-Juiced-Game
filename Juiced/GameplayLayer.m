@@ -117,6 +117,17 @@
         
         // This layer can receive touches
         [[CCDirector sharedDirector].touchDispatcher addTargetedDelegate:self priority:INT_MIN+1 swallowsTouches:YES];
+        
+        
+        //Layers
+        uiLayer = [UILayer node];
+        [self addChild:uiLayer];
+        
+        //Gameplay Variable initialization
+        [self gameStart];
+        
+        
+        
 	}
 	return self;
 }
@@ -194,6 +205,28 @@
         }
     }
     return NULL;
+}
+-(void) gameStart{
+    i_Score = 0;
+    i_Time = 60;
+    [self schedule:@selector(timeDecrease) interval:1.0f];
+    [uiLayer showTitleLabel];
+    [uiLayer showScoreLabel: i_Score];
+    [uiLayer showTimeLabel: i_Time];
+}
+
+-(void) timeDecrease{
+    i_Time --;
+    [uiLayer showTimeLabel:i_Time];
+    if (i_Time <= 0){
+        [self unschedule:@selector(timeDecrease)];
+        [self gameOver];
+    }
+}
+
+-(void) gameOver{
+    //Do something here
+    [uiLayer showGameOver];
 }
 
 // on "dealloc" you need to release all your retained objects
