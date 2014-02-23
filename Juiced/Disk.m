@@ -14,6 +14,7 @@
 @implementation Disk
 
 @synthesize color = iColor;
+@synthesize velocity = iVelocity;
 
 - (id)init
 {
@@ -22,6 +23,7 @@
         winSize = [[CCDirector sharedDirector] winSize];
         
         self.position = ccp(winSize.width/2, winSize.height/2);
+        iVelocity = ccp(0, 0);
         radius = 30;
         
         CGSize c_size;
@@ -40,6 +42,10 @@
                       self.position.y - self.contentSize.height * self.anchorPoint.y,
                       self.contentSize.width,
                       self.contentSize.height);
+}
+
+-(void)update:(ccTime)delta {
+    self.position = ccp(self.position.x + iVelocity.x * delta, self.position.y + iVelocity.y * delta);
 }
 
 - (void)draw {

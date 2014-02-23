@@ -25,9 +25,14 @@
     
     int i_Score;
     int i_Time;
+    int i_DiskScore;
+    int i_DiskComboMultiplier;
+    int diskZOrder;
     
     UILayer* uiLayer;
 }
+
+@property int DiskScore;
 
 // returns a CCScene that contains the HelloWorldLayer as the only child
 +(CCScene *) scene;
@@ -38,6 +43,9 @@
 
 -(void)update:(ccTime)delta;
 
+-(void)spawnDisk;
+
+// Go through all the quadarnts and return the qudarnt at the given rect, if there is one
 -(CornerQuadrant*)getQuadrantAtRect:(CGRect)rect;
 
 - (void)gameStart;

@@ -30,6 +30,15 @@
     return self;
 }
 
+-(NSMutableArray*)getCollidableArea {
+    NSMutableArray* returnArray = [NSMutableArray new];
+    CGRect firstRect = CGRectMake(m_Position.x, m_Position.y, m_Width, m_Thickness);
+    CGRect secondRect = CGRectMake(m_Position.x, m_Position.y, m_Thickness, m_Height);
+    [returnArray addObject:[NSValue valueWithCGRect:firstRect]];
+    [returnArray addObject:[NSValue valueWithCGRect:secondRect]];
+    return returnArray;
+}
+
 - (void)draw {
     glLineWidth(m_Thickness);
     switch (m_Color) {

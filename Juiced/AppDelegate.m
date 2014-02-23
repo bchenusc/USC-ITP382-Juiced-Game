@@ -132,6 +132,9 @@
 	
 	// set the Navigation Controller as the root view controller
 	[window_ setRootViewController:navController_];
+    
+    // Hide status bar
+    [UIApplication sharedApplication].statusBarHidden = YES;
 	
 	// make main window visible
 	[window_ makeKeyAndVisible];
