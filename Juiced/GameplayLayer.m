@@ -349,7 +349,8 @@
 -(void) gameStart{
     [[CCDirector sharedDirector].touchDispatcher addTargetedDelegate:self priority:INT_MIN+1 swallowsTouches:YES];
     i_Score = 0;
-    i_Time = 5;
+    i_DiskComboMultiplier = 0;
+    i_Time = 15;
     [self schedule:@selector(timeDecrease) interval:1.0f];
     [uiLayer showScoreLabel: i_Score];
     [uiLayer showTimeLabel: i_Time];
@@ -373,6 +374,8 @@
     // UnSchedule this layer for update
     [self unscheduleUpdate];
     [self unschedule:@selector(createDisks)];
+    [self unschedule:@selector(blinkQuadrants)];
+    [self unschedule:@selector(changeColorOfAllQuadrants)];
     
     // Remove all disks
     for(Disk* d in objects) {
