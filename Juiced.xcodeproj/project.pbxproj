@@ -1139,6 +1139,7 @@
 				GCC_PREFIX_HEADER = Juiced/Prefix.pch;
 				HEADER_SEARCH_PATHS = "\"Juiced/libs/kazmath/include\"";
 				INFOPLIST_FILE = Juiced/Resources/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				OTHER_LDFLAGS = (
 					"-lz",
 					"-lsqlite3",
@@ -1159,6 +1160,7 @@
 				GCC_PREFIX_HEADER = Juiced/Prefix.pch;
 				HEADER_SEARCH_PATHS = "\"Juiced/libs/kazmath/include\"";
 				INFOPLIST_FILE = Juiced/Resources/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				OTHER_LDFLAGS = (
 					"-lz",
 					"-lsqlite3",
