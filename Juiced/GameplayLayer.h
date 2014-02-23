@@ -41,6 +41,10 @@
 
 -(void)update:(ccTime)delta;
 
+// Updater calls this one to create disks in case we want to spawn more than one disk
+-(void)createDisks;
+
+// Spawns one disk at a random location
 -(void)spawnDisk;
 
 // Go through all the quadarnts and return the qudarnt at the given rect, if there is one

@@ -125,7 +125,7 @@
         
         // Schedule this layer for update
         [self scheduleUpdate];
-        [self schedule:@selector(spawnDisk) interval:.5];
+        [self schedule:@selector(createDisks) interval:1];
         
         // This layer can receive touches
         [[CCDirector sharedDirector].touchDispatcher addTargetedDelegate:self priority:INT_MIN+1 swallowsTouches:YES];
@@ -227,7 +227,22 @@
     return NULL;
 }
 
-// Spawns a new disk at a random position
+-(void)createDisks {
+    int timesToSpawnDisk = arc4random() % 3 + 1;
+    if(i_Time == 10) {
+        [self unschedule:@selector(createDisks)];
+        [self schedule:@selector(createDisks) interval:.25];
+    } else if(i_Time == 25) {
+        [self unschedule:@selector(createDisks)];
+        [self schedule:@selector(createDisks) interval:.5];
+    } else if(i_Time == 40) {
+        [self scheduleOnce:@selector(createDisks) delay:.75];
+    }
+    
+    for(int i = 0; i < timesToSpawnDisk; i++)
+        [self spawnDisk];
+}
+
 -(void)spawnDisk {
     CGSize winSize = [[CCDirector sharedDirector] winSize];
     Disk* newDisk = [Disk node];
