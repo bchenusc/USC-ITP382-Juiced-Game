@@ -40,6 +40,8 @@
 
 -(void)update:(ccTime)delta;
 
+-(void)spawnDisk;
+
 // Go through all the quadarnts and return the qudarnt at the given rect, if there is one
 -(CornerQuadrant*)getQuadrantAtRect:(CGRect)rect;
 

@@ -120,6 +120,7 @@
         
         // Schedule this layer for update
         [self scheduleUpdate];
+        [self schedule:@selector(spawnDisk) interval:5];
         
         // This layer can receive touches
         [[CCDirector sharedDirector].touchDispatcher addTargetedDelegate:self priority:INT_MIN+1 swallowsTouches:YES];
@@ -131,7 +132,7 @@
         
         //Gameplay Variable initialization
         [self gameStart];
-        
+        [uiLayer showScoreLabel:0];
         
         
 	}
@@ -193,8 +194,9 @@
                         selectedSprite = NULL;
                     [objects removeObject:d];
                     [self removeChild:d cleanup:YES];
-                    i_Score += i_DiskScore;
+                    i_Score += i_DiskScore * i_DiskComboMultiplier;
                     i_DiskComboMultiplier++;
+                    [uiLayer showScoreLabel:i_Score];
                     i--;
                 } else {
                     i_DiskComboMultiplier = 1;
@@ -220,6 +222,35 @@
     }
     return NULL;
 }
+
+// Spawns a new disk at a
+-(void)spawnDisk {
+    CGSize winSize = [[CCDirector sharedDirector] winSize];
+    Disk* newDisk = [Disk node];
+    newDisk.position = ccp(arc4random() % (int)(winSize.width - [newDisk rect].size.width) + [newDisk rect].size.width, arc4random() % (int)(winSize.height - [newDisk rect].size.height * 2) + [newDisk rect].size.height);
+    
+    switch (arc4random() % 4) {
+        case 0:
+            newDisk.color = red;
+            break;
+        case 1:
+            newDisk.color = yellow;
+            break;
+        case 2:
+            newDisk.color = green;
+            break;
+        case 3:
+            newDisk.color = blue;
+            break;
+        default:
+            newDisk.color = red;
+            break;
+    }
+    
+    [objects addObject:newDisk];
+    [self addChild:newDisk];
+}
+
 -(void) gameStart{
     i_Score = 0;
     i_Time = 60;
