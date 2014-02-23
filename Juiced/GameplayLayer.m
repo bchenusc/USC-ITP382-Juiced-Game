@@ -21,6 +21,8 @@
 // HelloWorldLayer implementation
 @implementation GameplayLayer
 
+@synthesize DiskScore = i_DiskScore;
+
 // Helper class method that creates a Scene with the HelloWorldLayer as the only child.
 +(CCScene *) scene
 {
@@ -44,6 +46,10 @@
 	// Apple recommends to re-assign "self" with the "super's" return value
 	if( (self=[super init]) ) {
         CGSize winSize = [[CCDirector sharedDirector] winSize];
+        
+        // Scoring Variables
+        i_DiskScore = 100;
+        i_DiskComboMultiplier = 1;
         
         // All user-interactable objects
         objects = [[NSMutableArray alloc] init];
@@ -175,18 +181,23 @@
     for(int i = 0; i < objects.count; i++) {
         Disk* d = objects[i];
         // Check if the disc goes to a corner
-        if((d.position.x < 20 && (d.position.y < 20 || d.position.y > winSize.height - 20))
-           || (d.position.x > winSize.width - 20 && (d.position.y < 20 || d.position.y > winSize.height - 20))) {
+        CGFloat radius = d.rect.size.width / 2;
+        if(d.position.x < radius || d.position.x > winSize.width - radius || d.position.y < radius || d.position.y > winSize.height - radius) {
             // Get the quadrant the disc is at, if there is one
             CornerQuadrant* intersectedCQ = [self getQuadrantAtRect:d.rect];
             if(intersectedCQ != NULL) {
                 // Check if the colors are the same, remove the disc if they are
                 if(intersectedCQ.color == d.color) {
+                    // If it's the selected sprite, make sure to set it to null or bad things will happen
                     if(d == selectedSprite)
                         selectedSprite = NULL;
                     [objects removeObject:d];
                     [self removeChild:d cleanup:YES];
+                    i_Score += i_DiskScore;
+                    i_DiskComboMultiplier++;
                     i--;
+                } else {
+                    i_DiskComboMultiplier = 1;
                 }
             }
         }
@@ -216,7 +227,7 @@
 }
 
 -(void) timeDecrease{
-    i_Time --;
+    i_Time -= 1;
     [uiLayer showTimeLabel:i_Time];
     if (i_Time <= 0){
         [self unschedule:@selector(timeDecrease)];
@@ -225,7 +236,13 @@
 }
 
 -(void) gameOver{
-    //Do something here
+    // Remove all disks
+    for(Disk* d in objects) {
+        [self removeChild:d];
+    }
+    [objects removeAllObjects];
+    
+    // UI Stuff
     [uiLayer showGameOver];
 }
 
