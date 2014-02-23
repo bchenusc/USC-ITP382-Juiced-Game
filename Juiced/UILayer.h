@@ -18,14 +18,17 @@
     CCLabelTTF* m_ScoreLabel;
     CCLabelTTF* m_TimeLabel;
     CCMenuItemLabel *m_itemNewGame;
+    CCMenu *m_Menu;
     
     GameplayLayer* m_GameplayLayer;
     
-    bool b_TitleCanTransition;
+    //Transition variables
+    CGPoint score_go_to;
+    CGSize  score_size_to;
     
 }
 
-- (void) showTitleLabel;
+- (void) showTitleLabel : (NSString*) text;
 - (void) hideTitleLabel;
 - (void) showScoreLabel : (int) score;
 - (void) hideScoreLabel;
