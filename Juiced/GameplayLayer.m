@@ -22,6 +22,7 @@
 @implementation GameplayLayer
 
 @synthesize DiskScore = i_DiskScore;
+@synthesize ParticleEmitter = emitter;
 
 // Helper class method that creates a Scene with the HelloWorldLayer as the only child.
 +(CCScene *) scene
@@ -136,6 +137,11 @@
         //[self gameStart];
         
         
+        
+        //Particle System Initialization
+        emitter = [CCParticleSystemQuad particleWithFile:@"Blue_Test.plist"];
+        emitter.position = ccp(winSize.width/2, winSize.height/2);
+        [self addChild:emitter];
         
 	}
 	return self;
