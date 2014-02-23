@@ -7,6 +7,7 @@
 //
 
 #import "CCSprite.h"
+#import "CCParticleSystemQuad.h"
 
 enum Color {
     red,
@@ -27,6 +28,7 @@ struct Touch {
     double iVelocity;
     CGPoint iDirection;
     struct Touch touchStart;
+    CCParticleSystemQuad* emitter;
 }
 
 @property enum Color color;

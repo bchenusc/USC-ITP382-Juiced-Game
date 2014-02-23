@@ -220,12 +220,15 @@
             if(intersectedCQ != NULL) {
                 // Check if the colors are the same, remove the disc if they are
                 if(intersectedCQ.color == d.color) {
+                    [self scoreParticlesAtLocation:d.position];
+                    
                     // If it's the selected sprite, make sure to set it to null or bad things will happen
                     if(d == selectedSprite) {
                         selectedSprite = NULL;
                     }
                     [objects removeObject:d];
                     [self removeChild:d cleanup:YES];
+                    
                     d = NULL;
                     // Scoring stuff
                     i_Score += i_DiskScore * i_DiskComboMultiplier;
@@ -263,6 +266,16 @@
         }
     }
     return NULL;
+}
+
+-(void) scoreParticlesAtLocation:(CGPoint) location {
+    emitter.position = location;
+    emitter.visible = YES;
+    [self scheduleOnce:@selector(makeParticlesInvisible) delay:1];
+}
+
+-(void) makeParticlesInvisible {
+    emitter.visible = NO;
 }
 
 -(void)createDisks {
