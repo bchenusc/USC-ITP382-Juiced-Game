@@ -195,12 +195,18 @@
                         selectedSprite = NULL;
                     [objects removeObject:d];
                     [self removeChild:d cleanup:YES];
+                    // Scoring stuff
                     i_Score += i_DiskScore * i_DiskComboMultiplier;
                     i_DiskComboMultiplier++;
                     [uiLayer showScoreLabel:i_Score];
                     i--;
                 } else {
                     i_DiskComboMultiplier = 1;
+                    if(d == selectedSprite)
+                        selectedSprite = NULL;
+                    [objects removeObject:d];
+                    [self removeChild:d cleanup:YES];
+                    i--;
                 }
             } else {
                 // Call update only AFTER collisions are checked for
@@ -295,6 +301,40 @@
     [self addChild:newDisk];
 }
 
+-(void)changeColorOfAllQuadrants {
+    // Create an array corresponding with the four colors
+    NSMutableArray* randomArray = [NSMutableArray new];
+    for(int i = 0; i < quadrants.count; i++) {
+        NSNumber* newNumber = [NSNumber numberWithInt:i];
+        [randomArray addObject:newNumber];
+    }
+    // Shuffle the array of random numbers
+    for(int i = 0; i < randomArray.count; i++) {
+        int randomIndex = i + arc4random() % (4 - i);
+        [randomArray exchangeObjectAtIndex:i withObjectAtIndex:randomIndex];
+    }
+    for(int i = 0; i < quadrants.count; i++) {
+        CornerQuadrant* cq = quadrants[i];
+        switch([randomArray[i] integerValue]) {
+            case 0:
+                cq.color = blue;
+                break;
+            case 1:
+                cq.color = red;
+                break;
+            case 2:
+                cq.color = yellow;
+                break;
+            case 3:
+                cq.color = green;
+                break;
+            default:
+                cq.color = blue;
+                break;
+        }
+    }
+}
+
 -(void) gameStart{
     [[CCDirector sharedDirector].touchDispatcher addTargetedDelegate:self priority:INT_MIN+1 swallowsTouches:YES];
     i_Score = 0;
@@ -305,6 +345,7 @@
     // Schedule this layer for update
     [self scheduleUpdate];
     [self schedule:@selector(createDisks) interval:1];
+    [self schedule:@selector(changeColorOfAllQuadrants) interval:10];
 }
 
 -(void) timeDecrease{
