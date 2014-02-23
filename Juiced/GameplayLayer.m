@@ -53,6 +53,7 @@
         
         // All user-interactable objects
         objects = [[NSMutableArray alloc] init];
+        diskZOrder = 0;
         
         // Quadrants
         quadrants = [[NSMutableArray alloc] init];
@@ -64,24 +65,28 @@
         Disk* disk1 = [Disk node];
         disk1.position = ccp(winSize.width/2 + 90, winSize.height/2);
         disk1.color = blue;
+        disk1.zOrder = diskZOrder++;
         [objects addObject:disk1];
         [self addChild:disk1];
         
         Disk* disk2 = [Disk node];
         disk2.position = ccp(winSize.width/2 - 90, winSize.height/2);
         disk2.color = red;
+        disk2.zOrder = diskZOrder++;
         [objects addObject:disk2];
         [self addChild:disk2];
         
         Disk* disk3 = [Disk node];
         disk3.position = ccp(winSize.width/2, winSize.height/2 + 90);
         disk3.color = yellow;
+        disk3.zOrder = diskZOrder++;
         [objects addObject:disk3];
         [self addChild:disk3];
         
         Disk* disk4 = [Disk node];
         disk4.position = ccp(winSize.width/2, winSize.height/2 - 90);
         disk4.color = green;
+        disk4.zOrder = diskZOrder++;
         [objects addObject:disk4];
         [self addChild:disk4];
         
@@ -120,7 +125,7 @@
         
         // Schedule this layer for update
         [self scheduleUpdate];
-        [self schedule:@selector(spawnDisk) interval:5];
+        [self schedule:@selector(spawnDisk) interval:.5];
         
         // This layer can receive touches
         [[CCDirector sharedDirector].touchDispatcher addTargetedDelegate:self priority:INT_MIN+1 swallowsTouches:YES];
@@ -143,7 +148,6 @@
     for (Disk *d in objects) {
         if (CGRectContainsPoint([d rect], touchLocation)) {
             selectedSprite = d;
-            break;
         }
     }
 }
@@ -223,11 +227,13 @@
     return NULL;
 }
 
-// Spawns a new disk at a
+// Spawns a new disk at a random position
 -(void)spawnDisk {
     CGSize winSize = [[CCDirector sharedDirector] winSize];
     Disk* newDisk = [Disk node];
-    newDisk.position = ccp(arc4random() % (int)(winSize.width - [newDisk rect].size.width) + [newDisk rect].size.width, arc4random() % (int)(winSize.height - [newDisk rect].size.height * 2) + [newDisk rect].size.height);
+    newDisk.zOrder = diskZOrder++;
+    CGRect newDiskRect = newDisk.rect;
+    newDisk.position = ccp(arc4random() % (int)(winSize.width - newDiskRect.size.width) + newDiskRect.size.width, arc4random() % (int)(winSize.height - newDiskRect.size.height * 2) + newDiskRect.size.height);
     
     switch (arc4random() % 4) {
         case 0:
@@ -246,6 +252,31 @@
             newDisk.color = red;
             break;
     }
+    
+    // Makes sure the new disk isn't too close to others
+    for(Disk* d in objects) {
+        if(abs(d.position.x - newDisk.position.x) <= newDiskRect.size.width / 10 && abs(d.position.y - newDisk.position.y) <= newDiskRect.size.height / 10) {
+            if(newDisk.position.x < d.position.x)
+                newDisk.position = ccp(newDisk.position.x - newDiskRect.size.width / 10, newDisk.position.y);
+            else
+                newDisk.position = ccp(newDisk.position.x + newDiskRect.size.width / 10, newDisk.position.y);
+            if(newDisk.position.y < d.position.y)
+                newDisk.position = ccp(newDisk.position.y, newDisk.position.y - newDiskRect.size.height / 10);
+            else
+                newDisk.position = ccp(newDisk.position.y, newDisk.position.y + newDiskRect.size.height / 10);
+        }
+    }
+    
+    // Makes sure the new disk isn't too close to borders
+    if(newDisk.position.x < newDiskRect.size.width)
+        newDisk.position = ccp(newDiskRect.size.width * 3 / 2, newDisk.position.y);
+    else if(newDisk.position.x > winSize.width - newDiskRect.size.width)
+        newDisk.position = ccp(winSize.width - newDiskRect.size.width * 3 / 2, newDisk.position.y);
+    
+    if(newDisk.position.y < newDiskRect.size.height)
+        newDisk.position = ccp(newDisk.position.x, newDiskRect.size.height * 3 / 2);
+    else if(newDisk.position.x > winSize.width - newDiskRect.size.width)
+        newDisk.position = ccp(newDisk.position.x, winSize.height - newDiskRect.size.height * 3 / 2);
     
     [objects addObject:newDisk];
     [self addChild:newDisk];

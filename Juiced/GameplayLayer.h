@@ -25,6 +25,7 @@
     int i_Time;
     int i_DiskScore;
     int i_DiskComboMultiplier;
+    int diskZOrder;
     
     UILayer* uiLayer;
 }
