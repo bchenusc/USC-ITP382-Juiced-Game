@@ -23,9 +23,13 @@
     
     int i_Score;
     int i_Time;
+    int i_DiskScore;
+    int i_DiskComboMultiplier;
     
     UILayer* uiLayer;
 }
+
+@property int DiskScore;
 
 // returns a CCScene that contains the HelloWorldLayer as the only child
 +(CCScene *) scene;
