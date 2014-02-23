@@ -9,6 +9,8 @@
 
 // When you import this file, you import all the cocos2d classes
 #import "cocos2d.h"
+#import "GameplayLayer.h"
+@class GameplayLayer;
 
 @interface UILayer : CCLayer
 {
@@ -25,6 +27,7 @@
 - (void) showTimeLabel: (int) time;
 - (void) hideTimeLabel;
 - (void) showGameOver;
+- (void) showDemoButton : (GameplayLayer*) game Size: (CGSize) size;
 @end
 
 

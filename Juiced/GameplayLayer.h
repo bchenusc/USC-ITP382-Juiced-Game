@@ -13,7 +13,9 @@
 #import "cocos2d.h"
 
 #import "CornerQuadrant.h"
+@class UILayer;
 #import "UILayer.h"
+
 
 // HelloWorldLayer
 @interface GameplayLayer : CCLayer {
@@ -37,5 +39,7 @@
 -(void)update:(ccTime)delta;
 
 -(CornerQuadrant*)getQuadrantAtRect:(CGRect)rect;
+
+- (void)gameStart;
 
 @end

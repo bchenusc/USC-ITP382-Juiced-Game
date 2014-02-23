@@ -12,10 +12,9 @@
 // Needed to obtain the Navigation Controller
 #import "AppDelegate.h"
 
-#pragma mark - UILayer
-
 // HelloWorldLayer implementation
 @implementation UILayer
+
 
 // on "init" you need to initialize your instance
 -(id) init
@@ -26,22 +25,35 @@
     if (self) {
         CGSize size = [[CCDirector sharedDirector] winSize];
         
+        
         m_TitleLabel = [CCLabelTTF labelWithString:@"JUICED" fontName: @"Marker Felt" fontSize:30];
-        m_TitleLabel.position = ccp(size.width/2, size.height/2);
+        m_TitleLabel.position = ccp(size.width/2, size.height/2 + 10);
         m_TitleLabel.visible = NO;
         [self addChild : m_TitleLabel];
         
-        m_ScoreLabel = [CCLabelTTF labelWithString:@"Score" fontName: @"Marker Felt" fontSize:30];
-        m_ScoreLabel.position = ccp(size.width/2, -size.height/2 + 10);
+        m_ScoreLabel = [CCLabelTTF labelWithString:@"Score" fontName: @"Marker Felt" fontSize:12];
+        m_ScoreLabel.position = ccp(size.width/2, size.height - 10);
         m_ScoreLabel.visible = NO;
         [self addChild:m_ScoreLabel];
         
-        m_TimeLabel =[CCLabelTTF labelWithString:@"Time: " fontName: @"Marker Felt" fontSize:26];
-        m_TimeLabel.position = ccp(size.width/2, size.height/2 + 10);
+        m_TimeLabel =[CCLabelTTF labelWithString:@"Time: " fontName: @"Marker Felt" fontSize:12];
+        m_TimeLabel.position = ccp(size.width/2, 10);
         m_TimeLabel.visible = NO;
         [self addChild : m_TimeLabel];
     }
     return self;
+}
+
+- (void) showDemoButton : (GameplayLayer*) game Size: (CGSize) size
+{
+    // Achievement Menu Item using blocks
+    CCMenuItem *itemNewGame = [CCMenuItemFont itemWithString:@"DEMO" block:^(id sender) {
+        [game gameStart];
+    }];
+    itemNewGame.position = ccp(size.width/2, size.height/2 -20);
+    
+    [self addChild:itemNewGame];
+    
 }
 
 - (void) showTitleLabel{
