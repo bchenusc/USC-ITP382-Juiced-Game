@@ -149,8 +149,10 @@
 
 -(void) selectObjectForTouch:(UITouch*)touch {
     CGPoint touchLocation = [self convertTouchToNodeSpace:touch];
-    for (Disk *d in objects) {
-        if (CGRectContainsPoint([d rect], touchLocation)) {
+    for(int i = objects.count - 1; i >= 0; i--) {
+        Disk* d = objects[i];
+        CGPoint distanceFromDisk = ccpSub(d.position, touchLocation);
+        if((pow(distanceFromDisk.x, 2) + pow(distanceFromDisk.y, 2)) <= pow([d rect].size.width / 2, 2)) {
             selectedSprite = d;
             [d setStartTouch:touchLocation Timestamp:touch.timestamp];
         }
@@ -264,7 +266,7 @@
 }
 
 -(void)createDisks {
-    int timesToSpawnDisk = arc4random() % 3 + 1;
+    int timesToSpawnDisk = arc4random() % (i_Time / 15 + 1) + 1;
     if(i_Time == 10) {
         [self unschedule:@selector(createDisks)];
         [self schedule:@selector(createDisks) interval:.25];
@@ -384,8 +386,8 @@
     [[CCDirector sharedDirector].touchDispatcher addTargetedDelegate:self priority:INT_MIN+1 swallowsTouches:YES];
     
     i_Score = 0;
-    i_DiskComboMultiplier = 0;
-    i_Time = 15;
+    i_DiskComboMultiplier = 1;
+    i_Time = 60;
     [self schedule:@selector(timeDecrease) interval:1.0f];
     [uiLayer showScoreLabel: i_Score];
     [uiLayer showTimeLabel: i_Time];
