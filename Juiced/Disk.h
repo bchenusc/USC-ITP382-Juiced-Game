@@ -15,18 +15,30 @@ enum Color {
     yellow
 };
 
+struct Touch {
+    CGPoint location;
+    NSTimeInterval timeStamp;
+};
+
 @interface Disk : CCSprite {
     enum Color iColor;
     float radius;
     CGSize winSize;
-    CGPoint iVelocity;
+    double iVelocity;
+    CGPoint iDirection;
+    struct Touch touchStart;
 }
 
 @property enum Color color;
-@property CGPoint velocity;
+@property double velocity;
+@property CGPoint direction;
 
-- (CGRect) rect;
+-(CGRect) rect;
 
--(void)update:(ccTime)delta;
+-(void) update:(ccTime)delta;
+
+-(void) setStartTouch:(CGPoint)loc Timestamp:(NSTimeInterval) time;
+
+-(struct Touch) getStartTouch;
 
 @end
