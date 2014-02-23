@@ -129,7 +129,7 @@
         //Layers
         uiLayer = [UILayer node];
         [self addChild:uiLayer];
-        [uiLayer showTitleLabel];
+        [uiLayer showTitleLabel: @"JUICED"];
         [uiLayer showDemoButton: self Size: winSize];
         
         //Gameplay Variable initialization
@@ -349,7 +349,7 @@
 -(void) gameStart{
     [[CCDirector sharedDirector].touchDispatcher addTargetedDelegate:self priority:INT_MIN+1 swallowsTouches:YES];
     i_Score = 0;
-    i_Time = 60;
+    i_Time = 5;
     [self schedule:@selector(timeDecrease) interval:1.0f];
     [uiLayer showScoreLabel: i_Score];
     [uiLayer showTimeLabel: i_Time];
@@ -370,6 +370,10 @@
 }
 
 -(void) gameOver{
+    // UnSchedule this layer for update
+    [self unscheduleUpdate];
+    [self unschedule:@selector(createDisks)];
+    
     // Remove all disks
     for(Disk* d in objects) {
         [self removeChild:d];
@@ -377,6 +381,7 @@
     [objects removeAllObjects];
     
     // UI Stuff
+    [[CCDirector sharedDirector].touchDispatcher removeDelegate:self];
     [uiLayer showGameOver];
 }
 
