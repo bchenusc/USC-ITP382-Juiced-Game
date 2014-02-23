@@ -17,6 +17,11 @@
     CCLabelTTF* m_TitleLabel;
     CCLabelTTF* m_ScoreLabel;
     CCLabelTTF* m_TimeLabel;
+    CCMenuItemLabel *m_itemNewGame;
+    
+    GameplayLayer* m_GameplayLayer;
+    
+    bool b_TitleCanTransition;
     
 }
 

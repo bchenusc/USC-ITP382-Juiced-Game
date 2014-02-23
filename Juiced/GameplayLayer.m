@@ -116,7 +116,7 @@
         [self scheduleUpdate];
         
         // This layer can receive touches
-        [[CCDirector sharedDirector].touchDispatcher addTargetedDelegate:self priority:INT_MIN+1 swallowsTouches:YES];
+        //[[CCDirector sharedDirector].touchDispatcher addTargetedDelegate:self priority:INT_MIN+2 swallowsTouches:YES];
         
         //Layers
         uiLayer = [UILayer node];
@@ -206,6 +206,7 @@
     return NULL;
 }
 -(void) gameStart{
+    [[CCDirector sharedDirector].touchDispatcher addTargetedDelegate:self priority:INT_MIN+1 swallowsTouches:YES];
     i_Score = 0;
     i_Time = 60;
     [self schedule:@selector(timeDecrease) interval:1.0f];

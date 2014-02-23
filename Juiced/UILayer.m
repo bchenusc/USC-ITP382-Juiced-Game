@@ -40,20 +40,85 @@
         m_TimeLabel.position = ccp(size.width/2, 10);
         m_TimeLabel.visible = NO;
         [self addChild : m_TimeLabel];
+        
+        b_TitleCanTransition = true;
+        
     }
     return self;
 }
 
 - (void) showDemoButton : (GameplayLayer*) game Size: (CGSize) size
 {
+    m_GameplayLayer = game;
+    
     // Achievement Menu Item using blocks
-    CCMenuItem *itemNewGame = [CCMenuItemFont itemWithString:@"DEMO" block:^(id sender) {
-        [game gameStart];
-    }];
-    itemNewGame.position = ccp(size.width/2, size.height/2 -20);
+    CCLabelTTF* mylabel = [CCLabelTTF labelWithString:@"Demo"  fontName:@"Marker Felt" fontSize:10];
     
-    [self addChild:itemNewGame];
+    m_itemNewGame = [CCMenuItemLabel itemWithLabel:mylabel target:self selector:@selector(StartAGame)];
     
+    //CCMenuItemLabel *itemNewGame = [CCMenuItemFont itemWithString:@"DEMO" block:^(id sender) {
+        
+    //}];
+    
+    m_itemNewGame.position = ccp(size.width/2, size.height/2 -20);
+    
+    
+    
+    CCMenu *menu = [CCMenu menuWithItems:m_itemNewGame, nil];
+    
+    [menu alignItemsVerticallyWithPadding:20];
+    if (size.height > size.width){
+        [menu setPosition:ccp( size.height/2, size.width/2 - 125)];
+    }
+    else
+    {
+        [menu setPosition:ccp(size.width/2, size.height/2 - 125 )];
+    }
+    
+    // Add the menu to the layer
+    [self addChild:menu];
+    
+}
+
+- (void) StartAGame{
+    
+    [m_itemNewGame runAction: [CCFadeOut actionWithDuration:0.1]];
+    
+    [m_TitleLabel runAction:
+     [CCSequence actions:
+      [CCFadeOut actionWithDuration:0.2],
+      [CCDelayTime actionWithDuration:0.1],
+      [CCCallFunc actionWithTarget:self selector:@selector(Ready)],
+      [CCFadeIn actionWithDuration:0.2],
+      [CCDelayTime actionWithDuration:0.5],
+      
+      [CCFadeOut actionWithDuration:0.2],
+      [CCDelayTime actionWithDuration:0.1],
+      [CCCallFunc actionWithTarget:self selector:@selector(Set)],
+      [CCFadeIn actionWithDuration:0.2],
+      [CCDelayTime actionWithDuration:0.5],
+      
+      
+      [CCFadeOut actionWithDuration:0.2],
+      [CCDelayTime actionWithDuration:0.1],
+      [CCCallFunc actionWithTarget:self selector:@selector(Begin)],
+      [CCFadeIn actionWithDuration:0.2],
+      [CCDelayTime actionWithDuration:0.5],
+      [CCFadeOut actionWithDuration:0.2],
+      [CCCallFunc actionWithTarget:m_GameplayLayer selector:@selector(gameStart)],
+      nil
+      ]
+     ];
+}
+
+- (void) Ready{
+    m_TitleLabel.string = @"Ready";
+}
+- (void) Set{
+    m_TitleLabel.string = @"Set";
+}
+- (void) Begin{
+    m_TitleLabel.string = @"Begin";
 }
 
 - (void) showTitleLabel{
