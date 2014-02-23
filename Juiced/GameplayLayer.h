@@ -30,14 +30,16 @@
     int diskZOrder;
     
     UILayer* uiLayer;
+    CCParticleSystemQuad* emitter;
 }
 
 @property int DiskScore;
+@property(nonatomic, retain) CCParticleSystemQuad* ParticleEmitter;
 
 // returns a CCScene that contains the HelloWorldLayer as the only child
 +(CCScene *) scene;
 
--(void)selectObjectForTouch:(CGPoint)touchLocation;
+-(void)selectObjectForTouch:(UITouch*)touch;
 
 -(void)panForTranslation:(CGPoint)translation;
 

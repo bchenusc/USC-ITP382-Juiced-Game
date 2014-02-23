@@ -22,6 +22,7 @@
 @implementation GameplayLayer
 
 @synthesize DiskScore = i_DiskScore;
+@synthesize ParticleEmitter = emitter;
 
 // Helper class method that creates a Scene with the HelloWorldLayer as the only child.
 +(CCScene *) scene
@@ -137,19 +138,26 @@
         
         
         
+        //Particle System Initialization
+        emitter = [CCParticleSystemQuad particleWithFile:@"Blue_Test.plist"];
+        emitter.position = ccp(winSize.width/2, winSize.height/2);
+        [self addChild:emitter];
+        
 	}
 	return self;
 }
 
--(void)selectObjectForTouch:(CGPoint)touchLocation {
+-(void) selectObjectForTouch:(UITouch*)touch {
+    CGPoint touchLocation = [self convertTouchToNodeSpace:touch];
     for (Disk *d in objects) {
         if (CGRectContainsPoint([d rect], touchLocation)) {
             selectedSprite = d;
+            [d setStartTouch:touchLocation Timestamp:touch.timestamp];
         }
     }
 }
 
--(void)panForTranslation:(CGPoint)translation {
+-(void) panForTranslation:(CGPoint)translation {
     if (selectedSprite) {
         CGPoint newPos = ccpAdd(selectedSprite.position, translation);
         selectedSprite.position = newPos;
@@ -157,8 +165,7 @@
 }
 
 - (BOOL) ccTouchBegan:(UITouch *)touch withEvent:(UIEvent *)event {
-    CGPoint touchLocation = [self convertTouchToNodeSpace:touch];
-    [self selectObjectForTouch:touchLocation];
+    [self selectObjectForTouch:touch];
     
     return YES;
 }
@@ -175,7 +182,28 @@
 }
 
 - (void) ccTouchEnded:(UITouch *)touch withEvent:(UIEvent *)event {
-    selectedSprite = NULL;
+    // If there's a selected sprite, and it's a disk
+    if (selectedSprite && [selectedSprite isKindOfClass:[Disk class]]) {
+        // Cast to a Disk
+        Disk* disk = (Disk*) selectedSprite;
+        
+        // Determine how long the touch/drag lasted on the disk
+        double dt = touch.timestamp - [disk getStartTouch].timeStamp;
+        
+        // Determine the vector of the touch and normalize it
+        CGPoint touchLocation = [self convertTouchToNodeSpace:touch];
+        CGPoint dir = ccp(touchLocation.x - [disk getStartTouch].location.x, touchLocation.y - [disk getStartTouch].location.y);
+        double dx = sqrt(dir.x * dir.x + dir.y * dir.y);
+        dir = ccp(dir.x / dx, dir.y / dx);
+        
+        // Determine the velocity
+        double velocity = dx/dt;
+        
+        disk.velocity = velocity;
+        disk.direction = dir;
+        
+        selectedSprite = NULL;
+    }
 }
 
 -(void)update:(ccTime)delta {
@@ -191,10 +219,12 @@
                 // Check if the colors are the same, remove the disc if they are
                 if(intersectedCQ.color == d.color) {
                     // If it's the selected sprite, make sure to set it to null or bad things will happen
-                    if(d == selectedSprite)
+                    if(d == selectedSprite) {
                         selectedSprite = NULL;
+                    }
                     [objects removeObject:d];
                     [self removeChild:d cleanup:YES];
+                    d = NULL;
                     // Scoring stuff
                     i_Score += i_DiskScore * i_DiskComboMultiplier;
                     i_DiskComboMultiplier++;
@@ -202,16 +232,19 @@
                     i--;
                 } else {
                     i_DiskComboMultiplier = 1;
-                    if(d == selectedSprite)
+                    if(d == selectedSprite) {
                         selectedSprite = NULL;
+                    }
                     [objects removeObject:d];
                     [self removeChild:d cleanup:YES];
+                    d = NULL;
                     i--;
                 }
-            } else {
-                // Call update only AFTER collisions are checked for
-                [d update:delta];
             }
+        }
+        
+        if (d) {
+            [d update:delta];
         }
     }
 }
@@ -347,7 +380,9 @@
 }
 
 -(void) gameStart{
+    //Enable touching
     [[CCDirector sharedDirector].touchDispatcher addTargetedDelegate:self priority:INT_MIN+1 swallowsTouches:YES];
+    
     i_Score = 0;
     i_DiskComboMultiplier = 0;
     i_Time = 15;
