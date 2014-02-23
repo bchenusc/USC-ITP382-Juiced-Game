@@ -13,7 +13,9 @@
 #import "cocos2d.h"
 
 #import "CornerQuadrant.h"
+@class UILayer;
 #import "UILayer.h"
+
 
 // HelloWorldLayer
 @interface GameplayLayer : CCLayer {
@@ -49,5 +51,7 @@
 
 // Go through all the quadarnts and return the qudarnt at the given rect, if there is one
 -(CornerQuadrant*)getQuadrantAtRect:(CGRect)rect;
+
+- (void)gameStart;
 
 @end

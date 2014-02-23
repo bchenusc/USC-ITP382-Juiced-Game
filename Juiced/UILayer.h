@@ -9,12 +9,19 @@
 
 // When you import this file, you import all the cocos2d classes
 #import "cocos2d.h"
+#import "GameplayLayer.h"
+@class GameplayLayer;
 
 @interface UILayer : CCLayer
 {
     CCLabelTTF* m_TitleLabel;
     CCLabelTTF* m_ScoreLabel;
     CCLabelTTF* m_TimeLabel;
+    CCMenuItemLabel *m_itemNewGame;
+    
+    GameplayLayer* m_GameplayLayer;
+    
+    bool b_TitleCanTransition;
     
 }
 
@@ -25,6 +32,7 @@
 - (void) showTimeLabel: (int) time;
 - (void) hideTimeLabel;
 - (void) showGameOver;
+- (void) showDemoButton : (GameplayLayer*) game Size: (CGSize) size;
 @end
 
 

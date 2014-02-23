@@ -128,16 +128,17 @@
         [self schedule:@selector(createDisks) interval:1];
         
         // This layer can receive touches
-        [[CCDirector sharedDirector].touchDispatcher addTargetedDelegate:self priority:INT_MIN+1 swallowsTouches:YES];
-        
+        //[[CCDirector sharedDirector].touchDispatcher addTargetedDelegate:self priority:INT_MIN+2 swallowsTouches:YES];
         
         //Layers
         uiLayer = [UILayer node];
         [self addChild:uiLayer];
+        [uiLayer showTitleLabel];
+        [uiLayer showDemoButton: self Size: winSize];
         
         //Gameplay Variable initialization
-        [self gameStart];
-        [uiLayer showScoreLabel:0];
+        //[self gameStart];
+        
         
         
 	}
@@ -298,10 +299,10 @@
 }
 
 -(void) gameStart{
+    [[CCDirector sharedDirector].touchDispatcher addTargetedDelegate:self priority:INT_MIN+1 swallowsTouches:YES];
     i_Score = 0;
     i_Time = 60;
     [self schedule:@selector(timeDecrease) interval:1.0f];
-    [uiLayer showTitleLabel];
     [uiLayer showScoreLabel: i_Score];
     [uiLayer showTimeLabel: i_Time];
 }
