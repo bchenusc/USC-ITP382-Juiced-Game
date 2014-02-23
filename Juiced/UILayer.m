@@ -71,6 +71,13 @@
 }
 
 - (void) StartAGame{
+    //Make sure to send the points system back down to where it belongs.
+    CGSize size = [[CCDirector sharedDirector] winSize];
+    score_go_to = ccp(size.width/2, 10);
+    if (ccpDistanceSQ(m_ScoreLabel.position, score_go_to) > 4){
+        [self schedule:@selector(SlideScoreDown) interval:0.01];
+    }
+    
     [m_itemNewGame setIsEnabled:FALSE];
     [m_itemNewGame runAction: [CCFadeOut actionWithDuration:0.1]];
     
@@ -137,10 +144,10 @@
 - (void) showGameOver{
     CGSize size = [[CCDirector sharedDirector] winSize];
     score_go_to= ccp(size.width/2, size.height/2 - 10);
-    [self schedule:@selector(SlideToEffect) interval:0.01];
+    [self schedule:@selector(SlideScoreUp) interval:0.01];
 }
 
-- (void) SlideToEffect
+- (void) SlideScoreUp
 {
     m_ScoreLabel.position = ccpAdd(m_ScoreLabel.position,
                                    ccpMult(ccpNormalize(ccpSub(score_go_to, m_ScoreLabel.position)),
@@ -148,7 +155,7 @@
     m_ScoreLabel.fontSize += 0.5;
     
     if (ccpDistanceSQ(m_ScoreLabel.position, score_go_to) <= 2){
-        [self unschedule:@selector(SlideToEffect)];
+        [self unschedule:@selector(SlideScoreUp)];
         
         //When the game is actually over:
         [self showTitleLabel:@"Your Score:"];
@@ -157,6 +164,22 @@
         CGSize size = [[CCDirector sharedDirector] winSize];
         m_Menu.position = ccp(size.width/2, size.height/2 - 40);
         [m_itemNewGame runAction: [CCFadeIn actionWithDuration: 2]];
+    }
+}
+
+- (void) SlideScoreDown
+{
+    
+    m_ScoreLabel.position = ccpAdd(m_ScoreLabel.position,
+                                   ccpMult(ccpNormalize(ccpSub(score_go_to, m_ScoreLabel.position)),
+                                           5));
+    m_ScoreLabel.fontSize -= 0.5;
+    
+    if (ccpDistanceSQ(m_ScoreLabel.position, score_go_to) <= 2){
+        CGSize size = [[CCDirector sharedDirector] winSize];
+        [self unschedule:@selector(SlideScoreDown)];
+        m_ScoreLabel.fontSize = 12;
+        m_ScoreLabel.position = ccp(size.width/2, 10);
     }
 }
 

@@ -336,8 +336,11 @@
 }
 
 -(void) gameStart{
+    //Enable touching
     [[CCDirector sharedDirector].touchDispatcher addTargetedDelegate:self priority:INT_MIN+1 swallowsTouches:YES];
+    
     i_Score = 0;
+    
     i_Time = 5;
     [self schedule:@selector(timeDecrease) interval:1.0f];
     [uiLayer showScoreLabel: i_Score];
@@ -346,6 +349,11 @@
     [self scheduleUpdate];
     [self schedule:@selector(createDisks) interval:1];
     [self schedule:@selector(changeColorOfAllQuadrants) interval:10];
+}
+
+- (void)animDecrementScore: float lerpFactor{
+    
+    
 }
 
 -(void) timeDecrease{
