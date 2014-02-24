@@ -57,6 +57,12 @@ enum GameState{
 // Spawns one disk at a random location
 -(void)spawnDisk;
 
+// Makes the disk expand by incrementing its radius
+-(void)expandDisk:(Disk*)d;
+
+// Makes a disk active
+-(void)activateDisk:(Disk*)d;
+
 // Switches the color of all quadrants
 -(void)changeColorOfAllQuadrants;
 

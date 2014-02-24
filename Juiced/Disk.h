@@ -23,7 +23,7 @@ struct Touch {
 
 @interface Disk : CCSprite {
     enum Color iColor;
-    float radius;
+    float iRadius;
     CGSize winSize;
     double iVelocity;
     CGPoint iDirection;
@@ -34,6 +34,7 @@ struct Touch {
 @property enum Color color;
 @property double velocity;
 @property CGPoint direction;
+@property float radius;
 
 -(CGRect) rect;
 

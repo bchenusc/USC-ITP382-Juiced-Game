@@ -321,6 +321,7 @@
 -(void)spawnDisk {
     CGSize winSize = [[CCDirector sharedDirector] winSize];
     Disk* newDisk = [Disk node];
+    newDisk.radius = 0;
     newDisk.zOrder = diskZOrder++;
     CGRect newDiskRect = newDisk.rect;
     newDisk.position = ccp(arc4random() % (int)(winSize.width - newDiskRect.size.width) + newDiskRect.size.width, arc4random() % (int)(winSize.height - newDiskRect.size.height * 2) + newDiskRect.size.height);
@@ -368,8 +369,22 @@
     else if(newDisk.position.x > winSize.width - newDiskRect.size.width)
         newDisk.position = ccp(newDisk.position.x, winSize.height - newDiskRect.size.height * 3 / 2);
     
-    [objects addObject:newDisk];
+    // Grow the disk to the requisite size of 60, in .5 seconds
+    [self performSelector:@selector(expandDisk:) withObject:newDisk afterDelay:.01];
+    
     [self addChild:newDisk];
+}
+
+-(void)expandDisk:(Disk *)d {
+    d.radius += 6;
+    if(d.radius < 30)
+        [self performSelector:@selector(expandDisk:) withObject:d afterDelay:.01];
+    else
+        [self activateDisk:d];
+}
+
+-(void)activateDisk:(Disk *)d {
+    [objects addObject:d];
 }
 
 -(void)changeColorOfAllQuadrants {
