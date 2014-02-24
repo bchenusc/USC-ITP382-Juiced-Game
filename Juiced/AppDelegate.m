@@ -10,6 +10,7 @@
 
 #import "AppDelegate.h"
 #import "IntroLayer.h"
+#import "SimpleAudioEngine.h"
 
 @implementation MyNavigationController
 
@@ -139,6 +140,9 @@
 	// make main window visible
 	[window_ makeKeyAndVisible];
 	
+    //preload sounds
+    [[SimpleAudioEngine sharedEngine] preloadEffect:@"error.mp3"];
+    [[SimpleAudioEngine sharedEngine] preloadEffect:@"score_goal.mp3"];
 	return YES;
 }
 

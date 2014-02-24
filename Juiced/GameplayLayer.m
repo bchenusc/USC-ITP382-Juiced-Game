@@ -16,6 +16,8 @@
 #import "Disk.h"
 #import "CornerQuadrant.h"
 
+#import "SimpleAudioEngine.h"
+
 #pragma mark - HelloWorldLayer
 
 // HelloWorldLayer implementation
@@ -47,6 +49,10 @@
 	// Apple recommends to re-assign "self" with the "super's" return value
 	if( (self=[super init]) ) {
         CGSize winSize = [[CCDirector sharedDirector] winSize];
+        
+        //Sound
+        [[SimpleAudioEngine sharedEngine] playBackgroundMusic:@"bgmusic.mp3" loop: YES];
+        
         
         // Scoring Variables
         i_DiskScore = 100;
@@ -234,7 +240,7 @@
                 
                 if(intersectedCQ.color == d.color) {
                     [self scoreParticlesAtLocation:d.position];
-                    
+                    [[SimpleAudioEngine sharedEngine] playEffect:@"score_goal.mp3"];
                     // If it's the selected sprite, make sure to set it to null or bad things will happen
                     if(d == selectedSprite) {
                         selectedSprite = NULL;
@@ -251,6 +257,7 @@
                     [uiLayer showScoreLabel:i_Score];
                     i--;
                 } else {
+                    [[SimpleAudioEngine sharedEngine] playEffect:@"error.mp3"];
                     i_DiskComboMultiplier = 1;
                     if(d == selectedSprite) {
                         selectedSprite = NULL;
@@ -483,7 +490,7 @@
     m_GameState = InGame;
     i_Score = 0;
     i_DiskComboMultiplier = 1;
-    i_Time = 5;
+    i_Time = 60;
     [self schedule:@selector(timeDecrease) interval:1.0f];
     [uiLayer showScoreLabel: i_Score];
     [uiLayer showTimeLabel: i_Time];
