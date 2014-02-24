@@ -72,6 +72,9 @@ enum GameState{
 // Go through all the quadarnts and return the qudarnt at the given rect, if there is one
 -(CornerQuadrant*)getQuadrantAtRect:(CGRect)rect;
 
+// Delete the first disk if there's too many disks on the screen
+-(void)deleteOverflowDisks;
+
 - (void)gameStart;
 
 @end
