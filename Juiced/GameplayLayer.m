@@ -147,15 +147,19 @@
 	return self;
 }
 
--(void)selectObjectForTouch:(CGPoint)touchLocation {
-    for (Disk *d in objects) {
-        if (CGRectContainsPoint([d rect], touchLocation)) {
+-(void) selectObjectForTouch:(UITouch*)touch {
+    CGPoint touchLocation = [self convertTouchToNodeSpace:touch];
+    for(int i = objects.count - 1; i >= 0; i--) {
+        Disk* d = objects[i];
+        CGPoint distanceFromDisk = ccpSub(d.position, touchLocation);
+        if((pow(distanceFromDisk.x, 2) + pow(distanceFromDisk.y, 2)) <= pow([d rect].size.width / 2, 2)) {
             selectedSprite = d;
+            [d setStartTouch:touchLocation Timestamp:touch.timestamp];
         }
     }
 }
 
--(void)panForTranslation:(CGPoint)translation {
+-(void) panForTranslation:(CGPoint)translation {
     if (selectedSprite) {
         CGPoint newPos = ccpAdd(selectedSprite.position, translation);
         selectedSprite.position = newPos;
@@ -163,8 +167,7 @@
 }
 
 - (BOOL) ccTouchBegan:(UITouch *)touch withEvent:(UIEvent *)event {
-    CGPoint touchLocation = [self convertTouchToNodeSpace:touch];
-    [self selectObjectForTouch:touchLocation];
+    [self selectObjectForTouch:touch];
     
     return YES;
 }
@@ -181,7 +184,28 @@
 }
 
 - (void) ccTouchEnded:(UITouch *)touch withEvent:(UIEvent *)event {
-    selectedSprite = NULL;
+    // If there's a selected sprite, and it's a disk
+    if (selectedSprite && [selectedSprite isKindOfClass:[Disk class]]) {
+        // Cast to a Disk
+        Disk* disk = (Disk*) selectedSprite;
+        
+        // Determine how long the touch/drag lasted on the disk
+        double dt = touch.timestamp - [disk getStartTouch].timeStamp;
+        
+        // Determine the vector of the touch and normalize it
+        CGPoint touchLocation = [self convertTouchToNodeSpace:touch];
+        CGPoint dir = ccp(touchLocation.x - [disk getStartTouch].location.x, touchLocation.y - [disk getStartTouch].location.y);
+        double dx = sqrt(dir.x * dir.x + dir.y * dir.y);
+        dir = ccp(dir.x / dx, dir.y / dx);
+        
+        // Determine the velocity
+        double velocity = dx/dt;
+        
+        disk.velocity = velocity;
+        disk.direction = dir;
+        
+        selectedSprite = NULL;
+    }
 }
 
 -(void)update:(ccTime)delta {
@@ -196,11 +220,16 @@
             if(intersectedCQ != NULL) {
                 // Check if the colors are the same, remove the disc if they are
                 if(intersectedCQ.color == d.color) {
+                    [self scoreParticlesAtLocation:d.position];
+                    
                     // If it's the selected sprite, make sure to set it to null or bad things will happen
-                    if(d == selectedSprite)
+                    if(d == selectedSprite) {
                         selectedSprite = NULL;
+                    }
                     [objects removeObject:d];
                     [self removeChild:d cleanup:YES];
+                    
+                    d = NULL;
                     // Scoring stuff
                     i_Score += i_DiskScore * i_DiskComboMultiplier;
                     i_DiskComboMultiplier++;
@@ -208,16 +237,19 @@
                     i--;
                 } else {
                     i_DiskComboMultiplier = 1;
-                    if(d == selectedSprite)
+                    if(d == selectedSprite) {
                         selectedSprite = NULL;
+                    }
                     [objects removeObject:d];
                     [self removeChild:d cleanup:YES];
+                    d = NULL;
                     i--;
                 }
-            } else {
-                // Call update only AFTER collisions are checked for
-                [d update:delta];
             }
+        }
+        
+        if (d) {
+            [d update:delta];
         }
     }
 }
@@ -236,8 +268,18 @@
     return NULL;
 }
 
+-(void) scoreParticlesAtLocation:(CGPoint) location {
+    emitter.position = location;
+    emitter.visible = YES;
+    [self scheduleOnce:@selector(makeParticlesInvisible) delay:1];
+}
+
+-(void) makeParticlesInvisible {
+    emitter.visible = NO;
+}
+
 -(void)createDisks {
-    int timesToSpawnDisk = arc4random() % 3 + 1;
+    int timesToSpawnDisk = arc4random() % (i_Time / 15 + 1) + 1;
     if(i_Time == 10) {
         [self unschedule:@selector(createDisks)];
         [self schedule:@selector(createDisks) interval:.25];
@@ -357,8 +399,8 @@
     [[CCDirector sharedDirector].touchDispatcher addTargetedDelegate:self priority:INT_MIN+1 swallowsTouches:YES];
     
     i_Score = 0;
-    
-    i_Time = 5;
+    i_DiskComboMultiplier = 1;
+    i_Time = 60;
     [self schedule:@selector(timeDecrease) interval:1.0f];
     [uiLayer showScoreLabel: i_Score];
     [uiLayer showTimeLabel: i_Time];
@@ -382,6 +424,8 @@
     // UnSchedule this layer for update
     [self unscheduleUpdate];
     [self unschedule:@selector(createDisks)];
+    [self unschedule:@selector(blinkQuadrants)];
+    [self unschedule:@selector(changeColorOfAllQuadrants)];
     
     // Remove all disks
     for(Disk* d in objects) {

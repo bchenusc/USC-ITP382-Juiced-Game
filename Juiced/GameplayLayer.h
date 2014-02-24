@@ -39,7 +39,7 @@
 // returns a CCScene that contains the HelloWorldLayer as the only child
 +(CCScene *) scene;
 
--(void)selectObjectForTouch:(CGPoint)touchLocation;
+-(void)selectObjectForTouch:(UITouch*)touch;
 
 -(void)panForTranslation:(CGPoint)translation;
 

@@ -15,6 +15,7 @@
 
 @synthesize color = iColor;
 @synthesize velocity = iVelocity;
+@synthesize direction = iDirection;
 
 - (id)init
 {
@@ -23,7 +24,11 @@
         winSize = [[CCDirector sharedDirector] winSize];
         
         self.position = ccp(winSize.width/2, winSize.height/2);
-        iVelocity = ccp(0, 0);
+        touchStart.location = ccp(0, 0);
+        touchStart.timeStamp = NSTimeIntervalSince1970;
+        
+        iDirection = ccp(0, 0);
+        iVelocity = 0;
         radius = 30;
         
         CGSize c_size;
@@ -33,6 +38,12 @@
         self.anchorPoint = ccp(0.5, 0.5);
         
         iColor = blue;
+        
+        
+        //TODO possible memory leak. no dealloc function
+        emitter = [CCParticleSystemQuad particleWithFile:@"Red_Sparks.plist"];
+        emitter.position = ccp(self.position.x, winSize.height-self.position.y);
+        [self addChild:emitter];
     }
     return self;
 }
@@ -44,8 +55,18 @@
                       self.contentSize.height);
 }
 
+-(void) setStartTouch:(CGPoint)loc Timestamp:(NSTimeInterval) time {
+    touchStart.location = loc;
+    touchStart.timeStamp = time;
+}
+
+-(struct Touch) getStartTouch {
+    return touchStart;
+}
+
 -(void)update:(ccTime)delta {
-    self.position = ccp(self.position.x + iVelocity.x * delta, self.position.y + iVelocity.y * delta);
+    self.position = ccp(self.position.x + iDirection.x * iVelocity * delta, self.position.y + iDirection.y * iVelocity * delta);
+    emitter.position = ccp(winSize.height-self.position.x, winSize.height-self.position.y);
 }
 
 - (void)draw {
