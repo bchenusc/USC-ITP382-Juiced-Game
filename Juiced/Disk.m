@@ -93,15 +93,27 @@
 }
 
 -(void)update:(ccTime)delta {
-    self.position = ccp(self.position.x + iDirection.x * iVelocity * delta, self.position.y + iDirection.y * iVelocity * delta);
+    CGPoint newPos = ccp(self.position.x + iDirection.x * iVelocity * delta, self.position.y + iDirection.y * iVelocity * delta);
     iVelocity *= (1 - 0.85 * delta);
     
-    if (self.position.x - iRadius < 0 || self.position.x + iRadius > winSize.width) {
+    if (newPos.x - iRadius <= 0 || newPos.x + iRadius >= winSize.width) {
         iDirection.x *= -1;
+        if (newPos.x - iRadius < 0) {
+            newPos.x = iRadius;
+        } else if (newPos.x + iRadius > winSize.width) {
+            newPos.x = winSize.width - iRadius;
+        }
     }
-    if (self.position.y - iRadius < 0 || self.position.y + iRadius > winSize.height) {
+    if (newPos.y - iRadius <= 0 || newPos.y + iRadius >= winSize.height) {
         iDirection.y *= -1;
+        if (newPos.y - iRadius < 0) {
+            newPos.y = iRadius;
+        } else if (newPos.y + iRadius > winSize.height) {
+            newPos.y = winSize.height - iRadius;
+        }
     }
+    
+    self.position = newPos;
 }
 
 @end

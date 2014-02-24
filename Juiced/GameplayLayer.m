@@ -173,6 +173,7 @@
         if((pow(distanceFromDisk.x, 2) + pow(distanceFromDisk.y, 2)) <= pow([d rect].size.width / 2, 2)) {
             selectedSprite = d;
             [d setStartTouch:touchLocation Timestamp:touch.timestamp];
+            d.velocity = 0;
             return;
         }
     }
@@ -236,59 +237,52 @@
         // Check if the disc goes to a corner
         CGFloat radius = d.rect.size.width / 2;
         if(d.position.x < radius || d.position.x > winSize.width - radius || d.position.y < radius || d.position.y > winSize.height - radius) {
+            
             // Get the quadrant the disc is at, if there is one
             CornerQuadrant* intersectedCQ = [self getQuadrantAtRect:d.rect];
             if(intersectedCQ != NULL) {
                 // Check if the colors are the same, remove the disc if they are
-                if ([self handleMenuSelection:d Quadrant:intersectedCQ]){
-                    return;
-                }
-                
-                if(intersectedCQ.color == d.color) {
-                    [self scoreParticlesAtLocation:d.position];
-                    [[SimpleAudioEngine sharedEngine] playEffect:@"score_goal.mp3"];
-                    // If it's the selected sprite, make sure to set it to null or bad things will happen
-                    if(d == selectedSprite) {
-                        selectedSprite = NULL;
+                if (![self handleMenuSelection:d Quadrant:intersectedCQ]){
+                    if(intersectedCQ.color == d.color) {
+                        [self scoreParticlesAtLocation:d.position];
+                        [[SimpleAudioEngine sharedEngine] playEffect:@"score_goal.mp3"];
+                        // If it's the selected sprite, make sure to set it to null or bad things will happen
+                        if(d == selectedSprite) {
+                            selectedSprite = NULL;
+                        }
+                        [objects removeObject:d];
+                        [self removeChild:d cleanup:YES];
+                        
+                        d = NULL;
+                        // Scoring stuff
+                        i_Score += i_DiskScore * i_DiskComboMultiplier;
+                        if (++i_DiskComboMultiplier > 5) {
+                            i_DiskComboMultiplier = 5;
+                        }
+                        [uiLayer showScoreLabel:i_Score];
+                        i--;
+                    } else {
+                        [[SimpleAudioEngine sharedEngine] playEffect:@"error.mp3"];
+                        i_DiskComboMultiplier = 1;
+                        if(d == selectedSprite) {
+                            selectedSprite = NULL;
+                        }
+                        i_Score -= 50;
+                        [uiLayer showScoreLabel:i_Score];
+                        [objects removeObject:d];
+                        [self removeChild:d cleanup:YES];
+                        d = NULL;
+                        i--;
                     }
-                    [objects removeObject:d];
-                    [self removeChild:d cleanup:YES];
-                    
-                    d = NULL;
-                    // Scoring stuff
-                    i_Score += i_DiskScore * i_DiskComboMultiplier;
-                    if (++i_DiskComboMultiplier > 5) {
-                        i_DiskComboMultiplier = 5;
-                    }
-                    [uiLayer showScoreLabel:i_Score];
-                    i--;
-                } else {
-                    [[SimpleAudioEngine sharedEngine] playEffect:@"error.mp3"];
-                    i_DiskComboMultiplier = 1;
-                    if(d == selectedSprite) {
-                        selectedSprite = NULL;
-                    }
-                    i_Score -= 50;
-                    [uiLayer showScoreLabel:i_Score];
-                    [objects removeObject:d];
-                    [self removeChild:d cleanup:YES];
-                    d = NULL;
-                    i--;
                 }
-            } else if(d.position.x <= radius * -2 || d.position.x >= winSize.width + radius * 2 || d.position.y <= radius * -2 || d.position.y >= winSize.height + radius * 2) {
-                i_DiskComboMultiplier = 1;
-                if(d == selectedSprite) {
-                    selectedSprite = NULL;
-                }
-                [objects removeObject:d];
-                [self removeChild:d cleanup:YES];
-                d = NULL;
-                i--;
             }
         }
         
-        if (d) {
+        @try {
             [d update:delta];
+        }
+        @catch (NSException *exception) {
+            // do nothing
         }
     }
 }
@@ -299,8 +293,10 @@
         if(quad.color == disk.color) {
             [objects removeObject:disk];
             [self removeChild:disk cleanup:YES];
+            if (disk == selectedSprite) {
+                selectedSprite = NULL;
+            }
             disk = NULL;
-            selectedSprite = NULL;
             //[self scoreParticlesAtLocation:disk.position];
             [uiLayer StartAGame];
             
@@ -470,13 +466,15 @@
 
 -(void)deleteOverflowDisks {
     while(objects.count > 10) {
+        if(objects[0] == selectedSprite) {
+            selectedSprite = NULL;
+        }
         [self removeChild:objects[0]];
         [objects removeObjectAtIndex:0];
-        if(objects[0] == selectedSprite)
-            selectedSprite = NULL;
         i_Score -= 20;
-        if(i_Score < 0)
+        if(i_Score < 0) {
             i_Score = 0;
+        }
         [uiLayer showScoreLabel:i_Score];
     }
 }
@@ -484,7 +482,7 @@
 - (void) selectionModeSelected{
     // Remove all disks
     for(Disk* d in objects) {
-        [self removeChild:d];
+        [self removeChild:d cleanup:YES];
     }
     [objects removeAllObjects];
 }
