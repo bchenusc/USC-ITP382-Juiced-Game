@@ -479,7 +479,7 @@
     m_GameState = InGame;
     i_Score = 0;
     i_DiskComboMultiplier = 1;
-    i_Time = 5;
+    i_Time = 60;
     [self schedule:@selector(timeDecrease) interval:1.0f];
     [uiLayer showScoreLabel: i_Score];
     [uiLayer showTimeLabel: i_Time];

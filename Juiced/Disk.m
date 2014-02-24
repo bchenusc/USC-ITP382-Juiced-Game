@@ -42,9 +42,9 @@
         
         
         //TODO possible memory leak. no dealloc function
-        emitter = [CCParticleSystemQuad particleWithFile:@"Red_Sparks.plist"];
-        emitter.position = ccp(self.position.x, winSize.height-self.position.y);
-        [self addChild:emitter];
+        //emitter = [CCParticleSystemQuad particleWithFile:@"Red_Sparks.plist"];
+        //emitter.position = ccp(self.contentSize.width/2, self.contentSize.height/2);
+        //[self addChild:emitter];
     }
     return self;
 }
@@ -67,27 +67,36 @@
 
 -(void)update:(ccTime)delta {
     self.position = ccp(self.position.x + iDirection.x * iVelocity * delta, self.position.y + iDirection.y * iVelocity * delta);
-    emitter.position = ccp(winSize.height-self.position.x, winSize.height-self.position.y);
+    //emitter.position = ccp(0,0);
 }
 
 - (void)draw {
+    //Need to initialize particle emitter here because this is where iColor is set
+    
     glLineWidth(4);
     switch (iColor) {
         case blue:
             ccDrawColor4B(0, 0, 255, 255);
+            emitter = [CCParticleSystemQuad particleWithFile:@"Blue_Sparks.plist"];
             break;
         case red:
             ccDrawColor4B(255, 0, 0, 255);
+            emitter = [CCParticleSystemQuad particleWithFile:@"Red_Sparks.plist"];
             break;
         case green:
             ccDrawColor4B(52, 199, 52, 255);
+            emitter = [CCParticleSystemQuad particleWithFile:@"Green_Sparks.plist"];
             break;
         case yellow:
             ccDrawColor4B(255, 255, 0, 255);
+            emitter = [CCParticleSystemQuad particleWithFile:@"Yellow_Sparks.plist"];
             break;
         default:
             break;
     }
+    
+    emitter.position = ccp(self.contentSize.width/2, self.contentSize.height/2);
+    [self addChild:emitter];
     
     // Next line is really hacky, I dont't know why the translation is opposite in the y direction....
     CGPoint toDraw = ccp(self.position.x, winSize.height-self.position.y);
