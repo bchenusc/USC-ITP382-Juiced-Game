@@ -29,6 +29,9 @@ struct Touch {
     CGPoint iDirection;
     struct Touch touchStart;
     CCParticleSystemQuad* emitter;
+    
+    NSString* particleColor;
+    BOOL particle_set;
 }
 
 @property enum Color color;
