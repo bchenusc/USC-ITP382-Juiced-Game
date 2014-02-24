@@ -245,7 +245,9 @@
                     d = NULL;
                     // Scoring stuff
                     i_Score += i_DiskScore * i_DiskComboMultiplier;
-                    i_DiskComboMultiplier++;
+                    if (++i_DiskComboMultiplier > 5) {
+                        i_DiskComboMultiplier = 5;
+                    }
                     [uiLayer showScoreLabel:i_Score];
                     i--;
                 } else {
@@ -319,16 +321,16 @@
 }
 
 -(void)createDisks {
-    int timesToSpawnDisk = arc4random() % (i_Time / 15 + 1) + 1;
+    int timesToSpawnDisk = arc4random() % (i_Time / 30 + 1) + 1;
     if(i_Time == 10) {
         [self unschedule:@selector(createDisks)];
-        [self schedule:@selector(createDisks) interval:.25];
+        [self schedule:@selector(createDisks) interval:0.5];
     } else if(i_Time == 25) {
         [self unschedule:@selector(createDisks)];
-        [self schedule:@selector(createDisks) interval:.5];
+        [self schedule:@selector(createDisks) interval:0.75];
     } else if(i_Time == 40) {
         [self unschedule:@selector(createDisks)];
-        [self schedule:@selector(createDisks) interval:.75];
+        [self schedule:@selector(createDisks) interval:1.00];
     }
     
     for(int i = 0; i < timesToSpawnDisk; i++)
@@ -452,7 +454,7 @@
 }
 
 -(void)deleteOverflowDisks {
-    while(objects.count > 20) {
+    while(objects.count > 10) {
         [self removeChild:objects[0]];
         [objects removeObjectAtIndex:0];
         if(objects[0] == selectedSprite)
