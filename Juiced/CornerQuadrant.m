@@ -32,8 +32,8 @@
 
 -(NSMutableArray*)getCollidableArea {
     NSMutableArray* returnArray = [NSMutableArray new];
-    CGRect firstRect = CGRectMake(m_Position.x, m_Position.y, m_Width, m_Thickness + 4);
-    CGRect secondRect = CGRectMake(m_Position.x, m_Position.y, m_Thickness + 4, m_Height);
+    CGRect firstRect = CGRectMake(m_Position.x, m_Position.y, m_Width, m_Thickness * ((self.height > 0) ? 1 : -1));
+    CGRect secondRect = CGRectMake(m_Position.x, m_Position.y, m_Thickness * ((self.width > 0) ? 1 : -1), m_Height);
     [returnArray addObject:[NSValue valueWithCGRect:firstRect]];
     [returnArray addObject:[NSValue valueWithCGRect:secondRect]];
     return returnArray;
