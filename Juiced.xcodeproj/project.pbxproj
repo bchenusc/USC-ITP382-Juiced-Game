@@ -554,6 +554,8 @@
 		D10FD50718A9DE4F00328D09 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				D1D2BEF718BB3F2E0029CC0C /* Disk.png */,
+				D1D2BEF818BB3F2E0029CC0C /* Disk@2x.png */,
 				3B8324E018BB3EF20024937B /* score_goal.mp3 */,
 				3B8324DE18BB3EC00024937B /* error.mp3 */,
 				3B8324DC18BB385C0024937B /* bgmusic.mp3 */,
