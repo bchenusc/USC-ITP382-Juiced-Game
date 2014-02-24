@@ -16,6 +16,7 @@
 @synthesize color = iColor;
 @synthesize velocity = iVelocity;
 @synthesize direction = iDirection;
+@synthesize radius = iRadius;
 
 - (id)init
 {
@@ -29,11 +30,11 @@
         
         iDirection = ccp(0, 0);
         iVelocity = 0;
-        radius = 30;
+        iRadius = 30;
         
         CGSize c_size;
-        c_size.width = 2 * radius;
-        c_size.height = 2 * radius;
+        c_size.width = 2 * iRadius;
+        c_size.height = 2 * iRadius;
         self.contentSize = c_size;
         self.anchorPoint = ccp(0.5, 0.5);
         
@@ -83,7 +84,7 @@
     
     // Next line is really hacky, I dont't know why the translation is opposite in the y direction....
     CGPoint toDraw = ccp(self.position.x, winSize.height-self.position.y);
-    ccDrawSolidCircle([[CCDirector sharedDirector] convertToGL:toDraw], radius, 256);
+    ccDrawSolidCircle([[CCDirector sharedDirector] convertToGL:toDraw], iRadius, 256);
 }
 
 @end
