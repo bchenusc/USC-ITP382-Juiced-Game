@@ -231,80 +231,101 @@
 -(void)update:(ccTime)delta {
     CGSize winSize = [[CCDirector sharedDirector] winSize];
     
+    switch (m_GameState) {
+        case SelectMode:
+            [self updateMainMenu:delta withWindowSize:winSize];
+            break;
+        case InGame:
+            [self updateGameplay:delta withWindowSize:winSize];
+            break;
+        default:
+            break;
+    }
+}
+
+-(void) updateMainMenu:(ccTime)delta withWindowSize:(CGSize)winSize {
     for(int i = 0; i < objects.count; i++) {
         Disk* d = objects[i];
         
         // Check if the disc goes to a corner
         CGFloat radius = d.rect.size.width / 2;
-        if(d.position.x < radius || d.position.x > winSize.width - radius || d.position.y < radius || d.position.y > winSize.height - radius) {
+        if(d.position.x <= radius || d.position.x >= winSize.width - radius || d.position.y <= radius || d.position.y >= winSize.height - radius) {
+            
+            // Get the quadrant the disc is at, if there is one
+            CornerQuadrant* intersectedCQ = [self getQuadrantAtRect:d.rect];
+            if(intersectedCQ != NULL) {
+                // Handle menu selection
+                [self handleMenuSelection:d Quadrant:intersectedCQ];
+            }
+        }
+        
+        if (d != NULL) {
+            [d update:delta];
+        }
+    }
+
+}
+
+-(void) updateGameplay:(ccTime)delta withWindowSize:(CGSize)winSize {
+    for(int i = 0; i < objects.count; i++) {
+        Disk* d = objects[i];
+        
+        // Check if the disc goes to a corner
+        CGFloat radius = d.rect.size.width / 2;
+        if(d.position.x <= radius || d.position.x >= winSize.width - radius || d.position.y <= radius || d.position.y >= winSize.height - radius) {
             
             // Get the quadrant the disc is at, if there is one
             CornerQuadrant* intersectedCQ = [self getQuadrantAtRect:d.rect];
             if(intersectedCQ != NULL) {
                 // Check if the colors are the same, remove the disc if they are
-                if (![self handleMenuSelection:d Quadrant:intersectedCQ]){
-                    if(intersectedCQ.color == d.color) {
-                        [self scoreParticlesAtLocation:d.position];
-                        [[SimpleAudioEngine sharedEngine] playEffect:@"score_goal.mp3"];
-                        // If it's the selected sprite, make sure to set it to null or bad things will happen
-                        if(d == selectedSprite) {
-                            selectedSprite = NULL;
-                        }
-                        [objects removeObject:d];
-                        [self removeChild:d cleanup:YES];
-                        
-                        d = NULL;
-                        // Scoring stuff
-                        i_Score += i_DiskScore * i_DiskComboMultiplier;
-                        if (++i_DiskComboMultiplier > 5) {
-                            i_DiskComboMultiplier = 5;
-                        }
-                        [uiLayer showScoreLabel:i_Score];
-                        i--;
-                    } else {
-                        [[SimpleAudioEngine sharedEngine] playEffect:@"error.mp3"];
-                        i_DiskComboMultiplier = 1;
-                        if(d == selectedSprite) {
-                            selectedSprite = NULL;
-                        }
-                        i_Score -= 50;
-                        [uiLayer showScoreLabel:i_Score];
-                        [objects removeObject:d];
-                        [self removeChild:d cleanup:YES];
-                        d = NULL;
-                        i--;
+                if(intersectedCQ.color == d.color) {
+                    [self scoreParticlesAtLocation:d.position];
+                    [[SimpleAudioEngine sharedEngine] playEffect:@"score_goal.mp3"];
+                    // If it's the selected sprite, make sure to set it to null or bad things will happen
+                    if(d == selectedSprite) {
+                        selectedSprite = NULL;
                     }
+                    [objects removeObject:d];
+                    [self removeChild:d cleanup:YES];
+                    d = NULL;
+                    
+                    // Scoring stuff
+                    i_Score += i_DiskScore * i_DiskComboMultiplier;
+                    if (++i_DiskComboMultiplier > 5) {
+                        i_DiskComboMultiplier = 5;
+                    }
+                    [uiLayer showScoreLabel:i_Score];
+                    i--;
+                } else {
+                    [[SimpleAudioEngine sharedEngine] playEffect:@"error.mp3"];
+                    i_DiskComboMultiplier = 1;
+                    if(d == selectedSprite) {
+                        selectedSprite = NULL;
+                    }
+                    i_Score -= 50;
+                    [uiLayer showScoreLabel:i_Score];
+                    [objects removeObject:d];
+                    [self removeChild:d cleanup:YES];
+                    d = NULL;
+                    i--;
                 }
             }
         }
         
-        @try {
+        if (d != NULL) {
             [d update:delta];
         }
-        @catch (NSException *exception) {
-            // do nothing
-        }
     }
+
 }
 
--(bool) handleMenuSelection : (Disk*) disk Quadrant : (CornerQuadrant*) quad{
-    if (m_GameState == SelectMode){
-        //Handle collisions here.
-        if(quad.color == disk.color) {
-            [objects removeObject:disk];
-            [self removeChild:disk cleanup:YES];
-            if (disk == selectedSprite) {
-                selectedSprite = NULL;
-            }
-            disk = NULL;
-            //[self scoreParticlesAtLocation:disk.position];
-            [uiLayer StartAGame];
-            
-        }
-        return TRUE;
+-(void) handleMenuSelection : (Disk*) disk Quadrant : (CornerQuadrant*) quad{
+    //Handle collisions here.
+    if(quad.color == disk.color) {
+        disk.velocity = 0;
+        //[self scoreParticlesAtLocation:disk.position];
+        [uiLayer StartAGame];
     }
-    return FALSE;
-    
 }
 
 -(CornerQuadrant*)getQuadrantAtRect:(CGRect)rect {
@@ -469,7 +490,7 @@
         if(objects[0] == selectedSprite) {
             selectedSprite = NULL;
         }
-        [self removeChild:objects[0]];
+        [self removeChild:objects[0] cleanup:YES];
         [objects removeObjectAtIndex:0];
         i_Score -= 20;
         if(i_Score < 0) {
@@ -483,8 +504,10 @@
     // Remove all disks
     for(Disk* d in objects) {
         [self removeChild:d cleanup:YES];
+        d = NULL;
     }
     [objects removeAllObjects];
+    selectedSprite = NULL;
 }
 
 -(void) gameStart{
@@ -516,15 +539,13 @@
 
 -(void) gameOver{
     m_GameState = SelectMode;
-    // UnSchedule this layer for update
-    //[self unscheduleUpdate];
     [self unschedule:@selector(createDisks)];
     [self unschedule:@selector(blinkQuadrants)];
     [self unschedule:@selector(changeColorOfAllQuadrants)];
     
     // Remove all disks
     for(Disk* d in objects) {
-        [self removeChild:d];
+        [self removeChild:d cleanup:YES];
     }
     [objects removeAllObjects];
     
