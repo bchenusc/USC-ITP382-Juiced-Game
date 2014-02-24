@@ -369,11 +369,6 @@
     
 }
 
-- (void)animDecrementScore: float lerpFactor{
-    
-    
-}
-
 -(void) timeDecrease{
     i_Time -= 1;
     [uiLayer showTimeLabel:i_Time];
