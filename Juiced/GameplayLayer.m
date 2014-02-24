@@ -155,6 +155,7 @@
         if((pow(distanceFromDisk.x, 2) + pow(distanceFromDisk.y, 2)) <= pow([d rect].size.width / 2, 2)) {
             selectedSprite = d;
             [d setStartTouch:touchLocation Timestamp:touch.timestamp];
+            return;
         }
     }
 }
@@ -245,6 +246,15 @@
                     d = NULL;
                     i--;
                 }
+            } else if(d.position.x <= radius * -2 || d.position.x >= winSize.width + radius * 2 || d.position.y <= radius * -2 || d.position.y >= winSize.height + radius * 2) {
+                i_DiskComboMultiplier = 1;
+                if(d == selectedSprite) {
+                    selectedSprite = NULL;
+                }
+                [objects removeObject:d];
+                [self removeChild:d cleanup:YES];
+                d = NULL;
+                i--;
             }
         }
         
@@ -350,6 +360,8 @@
     [self performSelector:@selector(expandDisk:) withObject:newDisk afterDelay:.01];
     
     [self addChild:newDisk];
+    
+    [self deleteOverflowDisks];
 }
 
 -(void)expandDisk:(Disk *)d {
@@ -407,6 +419,17 @@
         [cq runAction:blink];
     }
     [self scheduleOnce:@selector(changeColorOfAllQuadrants) delay:2];
+}
+
+-(void)deleteOverflowDisks {
+    while(objects.count > 20) {
+        [self removeChild:objects[0]];
+        [objects removeObjectAtIndex:0];
+        i_Score -= 20;
+        if(i_Score < 0)
+            i_Score = 0;
+        [uiLayer showScoreLabel:i_Score];
+    }
 }
 
 -(void) gameStart{

@@ -92,6 +92,8 @@
     // Next line is really hacky, I dont't know why the translation is opposite in the y direction....
     CGPoint toDraw = ccp(self.position.x, winSize.height-self.position.y);
     ccDrawSolidCircle([[CCDirector sharedDirector] convertToGL:toDraw], iRadius, 256);
+    ccDrawColor4B(255, 255, 255, 255);
+    ccDrawCircle([[CCDirector sharedDirector] convertToGL:toDraw], iRadius, 360, 360, false);
 }
 
 @end
