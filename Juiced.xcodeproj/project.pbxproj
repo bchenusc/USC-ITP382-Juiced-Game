@@ -153,6 +153,8 @@
 		D10FD69C18A9DE5100328D09 /* GameplayLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = D10FD69B18A9DE5100328D09 /* GameplayLayer.m */; };
 		D10FD69F18A9DE5100328D09 /* IntroLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = D10FD69E18A9DE5100328D09 /* IntroLayer.m */; };
 		D16FA8D218AB461F0092EE7F /* Disk.m in Sources */ = {isa = PBXBuildFile; fileRef = D16FA8D118AB461F0092EE7F /* Disk.m */; };
+		D1D2BEF918BB3F2E0029CC0C /* Disk.png in Resources */ = {isa = PBXBuildFile; fileRef = D1D2BEF718BB3F2E0029CC0C /* Disk.png */; };
+		D1D2BEFA18BB3F2E0029CC0C /* Disk@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D1D2BEF818BB3F2E0029CC0C /* Disk@2x.png */; };
 		D1DAC47F18B48FB400E29848 /* CornerQuadrant.m in Sources */ = {isa = PBXBuildFile; fileRef = D1DAC47E18B48FB400E29848 /* CornerQuadrant.m */; };
 /* End PBXBuildFile section */
 
@@ -452,6 +454,8 @@
 		D10FD69E18A9DE5100328D09 /* IntroLayer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IntroLayer.m; sourceTree = "<group>"; };
 		D16FA8D018AB461F0092EE7F /* Disk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Disk.h; sourceTree = "<group>"; };
 		D16FA8D118AB461F0092EE7F /* Disk.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Disk.m; sourceTree = "<group>"; };
+		D1D2BEF718BB3F2E0029CC0C /* Disk.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Disk.png; sourceTree = "<group>"; };
+		D1D2BEF818BB3F2E0029CC0C /* Disk@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Disk@2x.png"; sourceTree = "<group>"; };
 		D1DAC47D18B48FB400E29848 /* CornerQuadrant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CornerQuadrant.h; sourceTree = "<group>"; };
 		D1DAC47E18B48FB400E29848 /* CornerQuadrant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CornerQuadrant.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -992,7 +996,9 @@
 			files = (
 				00DC624918BB012000D9EA85 /* Yellow_Sparks.plist in Resources */,
 				D10FD51918A9DE5000328D09 /* Icon.png in Resources */,
+				D1D2BEF918BB3F2E0029CC0C /* Disk.png in Resources */,
 				D10FD67718A9DE5100328D09 /* ChangeLog in Resources */,
+				D1D2BEFA18BB3F2E0029CC0C /* Disk@2x.png in Resources */,
 				00DC624818BB012000D9EA85 /* Green_Sparks.plist in Resources */,
 				00DC623F18BA624300D9EA85 /* Blue_Test.plist in Resources */,
 				3B8324DF18BB3EC00024937B /* error.mp3 in Resources */,
