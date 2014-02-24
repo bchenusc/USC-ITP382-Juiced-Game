@@ -216,10 +216,19 @@
         CGPoint touchLocation = [self convertTouchToNodeSpace:touch];
         CGPoint dir = ccp(touchLocation.x - [disk getStartTouch].location.x, touchLocation.y - [disk getStartTouch].location.y);
         double dx = sqrt(dir.x * dir.x + dir.y * dir.y);
-        dir = ccp(dir.x / dx, dir.y / dx);
+        if (dx == 0) {
+            dir = ccp(0, 0);
+        } else {
+            dir = ccp(dir.x / dx, dir.y / dx);
+        }
         
         // Determine the velocity
         double velocity = dx/dt;
+        
+        // Cap max velocity
+        if (velocity > 3000) {
+            velocity = 3000;
+        }
         
         disk.velocity = velocity;
         disk.direction = dir;
@@ -259,7 +268,7 @@
             }
         }
         
-        if (d != NULL) {
+        if (d) {
             [d update:delta];
         }
     }
@@ -317,7 +326,7 @@
             }
         }
         
-        if (d != NULL) {
+        if (d) {
             [d update:delta];
         }
     }
