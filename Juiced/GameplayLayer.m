@@ -219,8 +219,10 @@
 
 -(void)update:(ccTime)delta {
     CGSize winSize = [[CCDirector sharedDirector] winSize];
+    
     for(int i = 0; i < objects.count; i++) {
         Disk* d = objects[i];
+        
         // Check if the disc goes to a corner
         CGFloat radius = d.rect.size.width / 2;
         if(d.position.x < radius || d.position.x > winSize.width - radius || d.position.y < radius || d.position.y > winSize.height - radius) {
@@ -342,7 +344,7 @@
 -(void)spawnDisk {
     CGSize winSize = [[CCDirector sharedDirector] winSize];
     Disk* newDisk = [Disk node];
-    newDisk.radius = 0;
+    newDisk.scale = 0;
     newDisk.zOrder = diskZOrder++;
     CGRect newDiskRect = newDisk.rect;
     newDisk.position = ccp(arc4random() % (int)(winSize.width - newDiskRect.size.width) + newDiskRect.size.width, arc4random() % (int)(winSize.height - newDiskRect.size.height * 2) + newDiskRect.size.height);
@@ -399,8 +401,8 @@
 }
 
 -(void)expandDisk:(Disk *)d {
-    d.radius += 6;
-    if(d.radius < 30)
+    d.scale += 1/6.0;
+    if(d.scale < 1)
         [self performSelector:@selector(expandDisk:) withObject:d afterDelay:.01];
     else
         [self activateDisk:d];

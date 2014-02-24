@@ -20,7 +20,7 @@
 
 - (id)init
 {
-    self = [super init];
+    self = [super initWithFile:@"Disk.png"];
     if (self) {
         winSize = [[CCDirector sharedDirector] winSize];
         
@@ -88,18 +88,22 @@
         case blue:
             ccDrawColor4B(0, 0, 255, 255);
             particleColor = @"Blue_Sparks.plist";
+            super.color = ccc3(0, 0, 255);
             break;
         case red:
             ccDrawColor4B(255, 0, 0, 255);
             particleColor = @"Red_Sparks.plist";
+            super.color = ccc3(255, 0, 0);
             break;
         case green:
             ccDrawColor4B(52, 199, 52, 255);
             particleColor = @"Green_Sparks.plist";
+            super.color = ccc3(52, 199, 52);
             break;
         case yellow:
             ccDrawColor4B(255, 255, 0, 255);
             particleColor = @"Yellow_Sparks.plist";
+            super.color = ccc3(255, 255, 0);
             break;
         default:
             break;
@@ -114,10 +118,12 @@
     }
     
     // Next line is really hacky, I dont't know why the translation is opposite in the y direction....
-    CGPoint toDraw = ccp(self.position.x, winSize.height-self.position.y);
-    ccDrawSolidCircle([[CCDirector sharedDirector] convertToGL:toDraw], iRadius, 256);
-    ccDrawColor4B(255, 255, 255, 255);
-    ccDrawCircle([[CCDirector sharedDirector] convertToGL:toDraw], iRadius, 360, 360, false);
+    //CGPoint toDraw = ccp(self.position.x, winSize.height-self.position.y);
+    //ccDrawSolidCircle([[CCDirector sharedDirector] convertToGL:toDraw], iRadius, 256);
+    //ccDrawColor4B(255, 255, 255, 255);
+    //ccDrawCircle([[CCDirector sharedDirector] convertToGL:toDraw], iRadius, 360, 360, false);
+    
+    [super draw];
 }
 
 @end
