@@ -125,7 +125,8 @@
         [self addChild:quad4];
         
         // This layer can receive touches
-        //[[CCDirector sharedDirector].touchDispatcher addTargetedDelegate:self priority:INT_MIN+2 swallowsTouches:YES];
+        [[CCDirector sharedDirector].touchDispatcher addTargetedDelegate:self priority:INT_MIN+2 swallowsTouches:YES];
+        [self scheduleUpdate];
         
         //Layers
         uiLayer = [UILayer node];
@@ -134,7 +135,7 @@
         [uiLayer showDemoButton: self Size: winSize];
         
         //Gameplay Variable initialization
-        //[self gameStart];
+        m_GameState = SelectMode;
         
         
         
@@ -220,6 +221,10 @@
             CornerQuadrant* intersectedCQ = [self getQuadrantAtRect:d.rect];
             if(intersectedCQ != NULL) {
                 // Check if the colors are the same, remove the disc if they are
+                if ([self handleMenuSelection:d Quadrant:intersectedCQ]){
+                    return;
+                }
+                
                 if(intersectedCQ.color == d.color) {
                     [self scoreParticlesAtLocation:d.position];
                     
@@ -262,6 +267,24 @@
             [d update:delta];
         }
     }
+}
+
+-(bool) handleMenuSelection : (Disk*) disk Quadrant : (CornerQuadrant*) quad{
+    if (m_GameState == SelectMode){
+        //Handle collisions here.
+        if(quad.color == disk.color) {
+            [objects removeObject:disk];
+            [self removeChild:disk cleanup:YES];
+            disk = NULL;
+            selectedSprite = NULL;
+            //[self scoreParticlesAtLocation:disk.position];
+            [uiLayer StartAGame];
+            
+        }
+        return TRUE;
+    }
+    return FALSE;
+    
 }
 
 -(CornerQuadrant*)getQuadrantAtRect:(CGRect)rect {
@@ -434,8 +457,8 @@
 
 -(void) gameStart{
     //Enable touching
-    [[CCDirector sharedDirector].touchDispatcher addTargetedDelegate:self priority:INT_MIN+1 swallowsTouches:YES];
-    
+    //[[CCDirector sharedDirector].touchDispatcher addTargetedDelegate:self priority:INT_MIN+1 swallowsTouches:YES];
+    m_GameState = InGame;
     i_Score = 0;
     i_DiskComboMultiplier = 1;
     i_Time = 60;
@@ -443,7 +466,7 @@
     [uiLayer showScoreLabel: i_Score];
     [uiLayer showTimeLabel: i_Time];
     // Schedule this layer for update
-    [self scheduleUpdate];
+    //[self scheduleUpdate];
     [self schedule:@selector(createDisks) interval:1];
     [self scheduleOnce:@selector(blinkQuadrants) delay:8];
     
@@ -459,6 +482,7 @@
 }
 
 -(void) gameOver{
+    m_GameState = SelectMode;
     // UnSchedule this layer for update
     [self unscheduleUpdate];
     [self unschedule:@selector(createDisks)];

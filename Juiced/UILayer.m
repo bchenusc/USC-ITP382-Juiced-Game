@@ -51,7 +51,7 @@
 {
     m_GameplayLayer = game;
     
-    //Menu Items
+    /*//Menu Items
     CCLabelTTF* mylabel = [CCLabelTTF labelWithString:@"Play Demo"  fontName:@"Marker Felt" fontSize:10];
     m_itemNewGame = [CCMenuItemLabel itemWithLabel:mylabel target:self selector:@selector(StartAGame)];
     m_Menu = [CCMenu menuWithItems:m_itemNewGame, nil];
@@ -66,7 +66,7 @@
     }
     
     // Add the menu to the layer
-    [self addChild: m_Menu];
+    [self addChild: m_Menu];*/
     
 }
 
@@ -77,9 +77,9 @@
     if (ccpDistanceSQ(m_ScoreLabel.position, score_go_to) > 4){
         [self schedule:@selector(SlideScoreDown) interval:0.01];
     }
-    
-    [m_itemNewGame setIsEnabled:FALSE];
-    [m_itemNewGame runAction: [CCFadeOut actionWithDuration:0.1]];
+    //<!--New Game Button -->
+    //[m_itemNewGame setIsEnabled:FALSE];
+    //[m_itemNewGame runAction: [CCFadeOut actionWithDuration:0.1]];
     
     [m_TitleLabel runAction:
      [CCSequence actions:
@@ -161,9 +161,10 @@
         [self showTitleLabel:@"Your Score:"];
         [m_TitleLabel runAction:[CCFadeIn actionWithDuration:0.2]];
         [m_itemNewGame setIsEnabled:TRUE];
+        /*<!--New Game Button -->
         CGSize size = [[CCDirector sharedDirector] winSize];
         m_Menu.position = ccp(size.width/2, size.height/2 - 40);
-        [m_itemNewGame runAction: [CCFadeIn actionWithDuration: 2]];
+        [m_itemNewGame runAction: [CCFadeIn actionWithDuration: 2]];*/
     }
 }
 
