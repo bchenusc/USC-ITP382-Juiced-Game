@@ -37,6 +37,8 @@
 - (void) showTimeLabel: (int) time;
 - (void) hideTimeLabel;
 - (void) showGameOver;
+- (void) AssignGameplayLayer : (GameplayLayer*) layer;
+
 //- (void) showDemoButton : (GameplayLayer*) game Size: (CGSize) size;
 @end
 

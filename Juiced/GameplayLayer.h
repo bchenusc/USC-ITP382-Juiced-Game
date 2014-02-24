@@ -45,11 +45,15 @@ enum GameState{
 // returns a CCScene that contains the HelloWorldLayer as the only child
 +(CCScene *) scene;
 
+- (void) SpawnFourDisks;
+
 -(void)selectObjectForTouch:(UITouch*)touch;
 
 -(void)panForTranslation:(CGPoint)translation;
 
 -(void)update:(ccTime)delta;
+
+- (void) selectionModeSelected;
 
 // Updater calls this one to create disks in case we want to spawn more than one disk
 -(void)createDisks;

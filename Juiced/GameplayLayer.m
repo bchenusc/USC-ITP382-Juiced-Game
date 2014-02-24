@@ -62,34 +62,7 @@
         // No selected sprite initially
         selectedSprite = NULL;
         
-        // Add a some disks for testing
-        Disk* disk1 = [Disk node];
-        disk1.position = ccp(winSize.width/2 + 90, winSize.height/2);
-        disk1.color = blue;
-        disk1.zOrder = diskZOrder++;
-        [objects addObject:disk1];
-        [self addChild:disk1];
-        
-        Disk* disk2 = [Disk node];
-        disk2.position = ccp(winSize.width/2 - 90, winSize.height/2);
-        disk2.color = red;
-        disk2.zOrder = diskZOrder++;
-        [objects addObject:disk2];
-        [self addChild:disk2];
-        
-        Disk* disk3 = [Disk node];
-        disk3.position = ccp(winSize.width/2, winSize.height/2 + 90);
-        disk3.color = yellow;
-        disk3.zOrder = diskZOrder++;
-        [objects addObject:disk3];
-        [self addChild:disk3];
-        
-        Disk* disk4 = [Disk node];
-        disk4.position = ccp(winSize.width/2, winSize.height/2 - 90);
-        disk4.color = green;
-        disk4.zOrder = diskZOrder++;
-        [objects addObject:disk4];
-        [self addChild:disk4];
+        [self SpawnFourDisks];
         
         // Add some corner quadrants for testing
         CornerQuadrant* quad1 = [CornerQuadrant node];
@@ -132,6 +105,7 @@
         uiLayer = [UILayer node];
         [self addChild:uiLayer];
         [uiLayer showTitleLabel: @"JUICED"];
+        [uiLayer AssignGameplayLayer:self];
         //[uiLayer showDemoButton: self Size: winSize];
         
         //Gameplay Variable initialization
@@ -146,6 +120,38 @@
         
 	}
 	return self;
+}
+
+-(void) SpawnFourDisks{
+    CGSize winSize = [[CCDirector sharedDirector] winSize];
+    // Add a some disks for testing
+    Disk* disk1 = [Disk node];
+    disk1.position = ccp(winSize.width/2 + 90, winSize.height/2);
+    disk1.color = blue;
+    disk1.zOrder = diskZOrder++;
+    [objects addObject:disk1];
+    [self addChild:disk1];
+    
+    Disk* disk2 = [Disk node];
+    disk2.position = ccp(winSize.width/2 - 90, winSize.height/2);
+    disk2.color = red;
+    disk2.zOrder = diskZOrder++;
+    [objects addObject:disk2];
+    [self addChild:disk2];
+    
+    Disk* disk3 = [Disk node];
+    disk3.position = ccp(winSize.width/2, winSize.height/2 + 90);
+    disk3.color = yellow;
+    disk3.zOrder = diskZOrder++;
+    [objects addObject:disk3];
+    [self addChild:disk3];
+    
+    Disk* disk4 = [Disk node];
+    disk4.position = ccp(winSize.width/2, winSize.height/2 - 90);
+    disk4.color = green;
+    disk4.zOrder = diskZOrder++;
+    [objects addObject:disk4];
+    [self addChild:disk4];
 }
 
 -(void) selectObjectForTouch:(UITouch*)touch {
@@ -448,6 +454,8 @@
     while(objects.count > 20) {
         [self removeChild:objects[0]];
         [objects removeObjectAtIndex:0];
+        if(objects[0] == selectedSprite)
+            selectedSprite = NULL;
         i_Score -= 20;
         if(i_Score < 0)
             i_Score = 0;
@@ -455,13 +463,22 @@
     }
 }
 
+- (void) selectionModeSelected{
+    // Remove all disks
+    for(Disk* d in objects) {
+        [self removeChild:d];
+    }
+    [objects removeAllObjects];
+}
+
 -(void) gameStart{
+    
     //Enable touching
     //[[CCDirector sharedDirector].touchDispatcher addTargetedDelegate:self priority:INT_MIN+1 swallowsTouches:YES];
     m_GameState = InGame;
     i_Score = 0;
     i_DiskComboMultiplier = 1;
-    i_Time = 60;
+    i_Time = 5;
     [self schedule:@selector(timeDecrease) interval:1.0f];
     [uiLayer showScoreLabel: i_Score];
     [uiLayer showTimeLabel: i_Time];
@@ -484,7 +501,7 @@
 -(void) gameOver{
     m_GameState = SelectMode;
     // UnSchedule this layer for update
-    [self unscheduleUpdate];
+    //[self unscheduleUpdate];
     [self unschedule:@selector(createDisks)];
     [self unschedule:@selector(blinkQuadrants)];
     [self unschedule:@selector(changeColorOfAllQuadrants)];
@@ -496,7 +513,7 @@
     [objects removeAllObjects];
     
     // UI Stuff
-    [[CCDirector sharedDirector].touchDispatcher removeDelegate:self];
+    //[[CCDirector sharedDirector].touchDispatcher removeDelegate:self];
     [uiLayer showGameOver];
 }
 

@@ -54,6 +54,10 @@
     return self;
 }
 
+-(void) AssignGameplayLayer : (GameplayLayer* ) layer{
+    m_GameplayLayer = layer;
+}
+
 -(void)FlashALabel : (CCLabelTTF*) label{
     if (label.opacity == 0){
         [label runAction:[CCFadeIn actionWithDuration:0.1]];
@@ -65,11 +69,14 @@
 
 - (void) StartAGame{
     //Make sure to send the points system back down to where it belongs.
+    [m_GameplayLayer selectionModeSelected];
+    
     CGSize size = [[CCDirector sharedDirector] winSize];
     score_go_to = ccp(size.width/2, 10);
     if (ccpDistanceSQ(m_ScoreLabel.position, score_go_to) > 4){
         [self schedule:@selector(SlideScoreDown) interval:0.01];
     }
+    [m_IntroLabel runAction:[CCFadeOut actionWithDuration:0.1]];
     //<!--New Game Button -->
     //[m_itemNewGame setIsEnabled:FALSE];
     //[m_itemNewGame runAction: [CCFadeOut actionWithDuration:0.1]];
@@ -100,6 +107,10 @@
       nil
       ]
      ];
+}
+
+- (void) hideIntroLabel{
+    m_IntroLabel.visible = NO;
 }
 
 - (void) Ready{
@@ -138,6 +149,7 @@
     CGSize size = [[CCDirector sharedDirector] winSize];
     score_go_to= ccp(size.width/2, size.height/2 - 10);
     [self schedule:@selector(SlideScoreUp) interval:0.01];
+    [m_GameplayLayer SpawnFourDisks];
 }
 
 - (void) SlideScoreUp
@@ -149,10 +161,15 @@
     
     if (ccpDistanceSQ(m_ScoreLabel.position, score_go_to) <= 2){
         [self unschedule:@selector(SlideScoreUp)];
+        CGSize size = [[CCDirector sharedDirector] winSize];
         
         //When the game is actually over:
         [self showTitleLabel:@"Your Score:"];
         [m_TitleLabel runAction:[CCFadeIn actionWithDuration:0.2]];
+        m_IntroLabel.position = ccp(size.width/2, size.height/2 - 40);
+        [m_IntroLabel runAction:[CCFadeIn actionWithDuration:0.1]];
+        
+        
         //[m_itemNewGame setIsEnabled:TRUE];
         /*<!--New Game Button -->
         CGSize size = [[CCDirector sharedDirector] winSize];
