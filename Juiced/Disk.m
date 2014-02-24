@@ -13,7 +13,7 @@
 
 @implementation Disk
 
-@synthesize color = iColor;
+//@synthesize color = iColor;
 @synthesize velocity = iVelocity;
 @synthesize direction = iDirection;
 @synthesize radius = iRadius;
@@ -55,6 +55,33 @@
                       self.position.y - self.contentSize.height * self.anchorPoint.y,
                       self.contentSize.width,
                       self.contentSize.height);
+}
+
+-(void) setInitialColor:(enum Color)i_color {
+    switch (i_color) {
+        case blue:
+            iColor = blue;
+            emitter = [CCParticleSystemQuad particleWithFile:@"Blue_Sparks.plist"];
+            break;
+        case red:
+            iColor = red;
+            emitter = [CCParticleSystemQuad particleWithFile:@"Red_Sparks.plist"];
+            break;
+        case green:
+            iColor = green;
+            emitter = [CCParticleSystemQuad particleWithFile:@"Green_Sparks.plist"];
+            break;
+        case yellow:
+            iColor = yellow;
+            emitter = [CCParticleSystemQuad particleWithFile:@"Yellow_Sparks.plist"];
+            break;
+    }
+    emitter.position = ccp(self.contentSize.width/2, self.contentSize.height/2);
+    [self addChild:emitter];
+}
+
+-(enum Color) getColor {
+    return iColor;
 }
 
 -(void) setStartTouch:(CGPoint)loc Timestamp:(NSTimeInterval) time {
@@ -110,12 +137,12 @@
     }
     
     //Super hacky but no other way to set particle atm
-    if (!particle_set) {
-        particle_set = YES;
-        emitter = [CCParticleSystemQuad particleWithFile:particleColor];
-        emitter.position = ccp(self.contentSize.width/2, self.contentSize.height/2);
-        [self addChild:emitter];
-    }
+//    if (!particle_set) {
+//        particle_set = YES;
+//        emitter = [CCParticleSystemQuad particleWithFile:particleColor];
+//        emitter.position = ccp(self.contentSize.width/2, self.contentSize.height/2);
+//        [self addChild:emitter];
+//    }
     
     // Next line is really hacky, I dont't know why the translation is opposite in the y direction....
     //CGPoint toDraw = ccp(self.position.x, winSize.height-self.position.y);
