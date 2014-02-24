@@ -246,6 +246,7 @@
                     // Scoring stuff
                     i_Score += i_DiskScore * i_DiskComboMultiplier;
                     i_DiskComboMultiplier++;
+                    
                     [uiLayer showScoreLabel:i_Score];
                     i--;
                 } else {
@@ -253,6 +254,7 @@
                     if(d == selectedSprite) {
                         selectedSprite = NULL;
                     }
+                    i_Score -= 50;
                     [objects removeObject:d];
                     [self removeChild:d cleanup:YES];
                     d = NULL;
