@@ -449,10 +449,10 @@
 
 -(void) blinkQuadrants {
     for(CornerQuadrant *cq in quadrants) {
-        CCBlink* blink = [CCBlink actionWithDuration:2 blinks:10];
+        CCBlink* blink = [CCBlink actionWithDuration:1 blinks:5];
         [cq runAction:blink];
     }
-    [self scheduleOnce:@selector(changeColorOfAllQuadrants) delay:2];
+    [self scheduleOnce:@selector(changeColorOfAllQuadrants) delay:1];
 }
 
 -(void)deleteOverflowDisks {
@@ -483,7 +483,7 @@
     m_GameState = InGame;
     i_Score = 0;
     i_DiskComboMultiplier = 1;
-    i_Time = 5;
+    i_Time = 30;
     [self schedule:@selector(timeDecrease) interval:1.0f];
     [uiLayer showScoreLabel: i_Score];
     [uiLayer showTimeLabel: i_Time];
