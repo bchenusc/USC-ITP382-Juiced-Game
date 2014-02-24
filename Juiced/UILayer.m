@@ -43,31 +43,24 @@
         m_TimeLabel.visible = NO;
         [self addChild : m_TimeLabel];
         
+        //Instructions label
+        m_IntroLabel =[CCLabelTTF labelWithString:@"Slide A Disk To Play " fontName: @"Marker Felt" fontSize:12];
+        //[self performSelector:@selector(FlashALabel) withObject:m_IntroLabel];
+        m_IntroLabel.position = ccp(size.width/2, size.height/2 - 10);
+        m_IntroLabel.visible = YES;
+        [self addChild : m_IntroLabel];
+        
     }
     return self;
 }
 
-- (void) showDemoButton : (GameplayLayer*) game Size: (CGSize) size
-{
-    m_GameplayLayer = game;
-    
-    /*//Menu Items
-    CCLabelTTF* mylabel = [CCLabelTTF labelWithString:@"Play Demo"  fontName:@"Marker Felt" fontSize:10];
-    m_itemNewGame = [CCMenuItemLabel itemWithLabel:mylabel target:self selector:@selector(StartAGame)];
-    m_Menu = [CCMenu menuWithItems:m_itemNewGame, nil];
-    
-    [m_Menu alignItemsVerticallyWithPadding:20];
-    if (size.height > size.width){
-        [m_Menu setPosition:ccp( size.height/2, size.width/2-5)];
+-(void)FlashALabel : (CCLabelTTF*) label{
+    if (label.opacity == 0){
+        [label runAction:[CCFadeIn actionWithDuration:0.1]];
     }
-    else
-    {
-        [m_Menu setPosition:ccp(size.width/2, size.height/2 -5)];
+    else{
+        [label runAction:[CCFadeOut actionWithDuration:0.1]];
     }
-    
-    // Add the menu to the layer
-    [self addChild: m_Menu];*/
-    
 }
 
 - (void) StartAGame{
@@ -160,7 +153,7 @@
         //When the game is actually over:
         [self showTitleLabel:@"Your Score:"];
         [m_TitleLabel runAction:[CCFadeIn actionWithDuration:0.2]];
-        [m_itemNewGame setIsEnabled:TRUE];
+        //[m_itemNewGame setIsEnabled:TRUE];
         /*<!--New Game Button -->
         CGSize size = [[CCDirector sharedDirector] winSize];
         m_Menu.position = ccp(size.width/2, size.height/2 - 40);

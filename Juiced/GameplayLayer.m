@@ -132,7 +132,7 @@
         uiLayer = [UILayer node];
         [self addChild:uiLayer];
         [uiLayer showTitleLabel: @"JUICED"];
-        [uiLayer showDemoButton: self Size: winSize];
+        //[uiLayer showDemoButton: self Size: winSize];
         
         //Gameplay Variable initialization
         m_GameState = SelectMode;
