@@ -67,6 +67,12 @@ enum GameState{
 // Makes a disk active
 -(void)activateDisk:(Disk*)d;
 
+// Shrinks a disk
+-(void)shrinkDisk:(Disk*)d;
+
+// Destroys a disk
+-(void)deleteDisk:(Disk*)d;
+
 // Switches the color of all quadrants
 -(void)changeColorOfAllQuadrants;
 

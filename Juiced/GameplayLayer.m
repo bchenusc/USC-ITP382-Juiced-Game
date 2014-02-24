@@ -283,11 +283,12 @@
                     [[SimpleAudioEngine sharedEngine] playEffect:@"score_goal.mp3"];
                     // If it's the selected sprite, make sure to set it to null or bad things will happen
                     if(d == selectedSprite) {
-                        selectedSprite = NULL;
+                        selectedSprite = nil;
                     }
                     [objects removeObject:d];
-                    [self removeChild:d cleanup:YES];
-                    d = NULL;
+                    //[self removeChild:d cleanup:YES];
+                    [self shrinkDisk:d];
+                    d = nil;
                     
                     // Scoring stuff
                     i_Score += i_DiskScore * i_DiskComboMultiplier;
@@ -296,16 +297,20 @@
                     }
                     [uiLayer showScoreLabel:i_Score];
                     i--;
-                } else {
+                } else { // Wrong color quadrant, delete the disk and decrement score
                     [[SimpleAudioEngine sharedEngine] playEffect:@"error.mp3"];
                     i_DiskComboMultiplier = 1;
                     if(d == selectedSprite) {
                         selectedSprite = NULL;
                     }
                     i_Score -= 50;
+                    if(i_Score < 0) {
+                        i_Score = 0;
+                    }
                     [uiLayer showScoreLabel:i_Score];
                     [objects removeObject:d];
-                    [self removeChild:d cleanup:YES];
+                    //[self removeChild:d cleanup:YES];
+                    [self shrinkDisk:d];
                     d = NULL;
                     i--;
                 }
@@ -440,6 +445,27 @@
     [objects addObject:d];
 }
 
+-(void)shrinkDisk:(Disk *)d {
+    if(d != nil) {
+        d.scale -= 1/6.0;
+        if(d.scale > 0) {
+            [self performSelector:@selector(shrinkDisk:) withObject:d afterDelay:.01];
+        } else {
+            [self deleteDisk:d];
+        }
+    }
+}
+
+-(void)deleteDisk:(Disk *)d {
+    if(d != nil) {
+        if(d == selectedSprite) {
+            selectedSprite = nil;
+        }
+        [self removeChild:d cleanup:YES];
+        [objects removeObject:d];
+    }
+}
+           
 -(void)changeColorOfAllQuadrants {
     // Create an array corresponding with the four colors
     NSMutableArray* randomArray = [NSMutableArray new];
