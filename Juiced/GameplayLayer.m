@@ -116,6 +116,7 @@
         //Particle System Initialization
         emitter = [CCParticleSystemQuad particleWithFile:@"Blue_Test.plist"];
         emitter.position = ccp(winSize.width/2, winSize.height/2);
+        emitter.visible = NO;
         [self addChild:emitter];
         
 	}
