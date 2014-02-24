@@ -129,7 +129,7 @@
     Disk* disk1 = [Disk node];
     disk1.position = ccp(winSize.width/4, winSize.height/4);
     //disk1.color = blue;
-    [disk1 setInitialColor:blue];
+    [disk1 setColor:blue];
     disk1.zOrder = diskZOrder++;
     [objects addObject:disk1];
     [self addChild:disk1];
@@ -137,7 +137,7 @@
     Disk* disk2 = [Disk node];
     disk2.position = ccp(winSize.width*3/4, winSize.height/4);
     //disk2.color = red;
-    [disk2 setInitialColor:red];
+    [disk2 setColor:red];
     disk2.zOrder = diskZOrder++;
     [objects addObject:disk2];
     [self addChild:disk2];
@@ -145,7 +145,7 @@
     Disk* disk3 = [Disk node];
     disk3.position = ccp(winSize.width/4, winSize.height*3/4);
     //disk3.color = yellow;
-    [disk3 setInitialColor:yellow];
+    [disk3 setColor:yellow];
     disk3.zOrder = diskZOrder++;
     [objects addObject:disk3];
     [self addChild:disk3];
@@ -153,7 +153,7 @@
     Disk* disk4 = [Disk node];
     disk4.position = ccp(winSize.width*3/4, winSize.height*3/4);
     //disk4.color = green;
-    [disk4 setInitialColor:green];
+    [disk4 setColor:green];
     disk4.zOrder = diskZOrder++;
     [objects addObject:disk4];
     [self addChild:disk4];
@@ -238,7 +238,7 @@
                     return;
                 }
                 
-                if(intersectedCQ.color == [d getColor]) {
+                if(intersectedCQ.color == d.color) {
                     [self scoreParticlesAtLocation:d.position];
                     
                     // If it's the selected sprite, make sure to set it to null or bad things will happen
@@ -289,7 +289,7 @@
 -(bool) handleMenuSelection : (Disk*) disk Quadrant : (CornerQuadrant*) quad{
     if (m_GameState == SelectMode){
         //Handle collisions here.
-        if(quad.color == [disk getColor]) {
+        if(quad.color == disk.color) {
             [objects removeObject:disk];
             [self removeChild:disk cleanup:YES];
             disk = NULL;
@@ -355,19 +355,19 @@
     
     switch (arc4random() % 4) {
         case 0:
-            [newDisk setInitialColor:red];
+            [newDisk setColor:red];
             break;
         case 1:
-            [newDisk setInitialColor:yellow];
+            [newDisk setColor:yellow];
             break;
         case 2:
-            [newDisk setInitialColor:green];
+            [newDisk setColor:green];
             break;
         case 3:
-            [newDisk setInitialColor:blue];
+            [newDisk setColor:blue];
             break;
         default:
-            [newDisk setInitialColor:red];
+            [newDisk setColor:red];
             break;
     }
     

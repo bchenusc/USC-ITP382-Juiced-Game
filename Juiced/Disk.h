@@ -29,12 +29,9 @@ struct Touch {
     CGPoint iDirection;
     struct Touch touchStart;
     CCParticleSystemQuad* emitter;
-    
-    NSString* particleColor;
-    BOOL particle_set;
 }
 
-//@property enum Color color;
+@property (readonly) enum Color color;
 @property double velocity;
 @property CGPoint direction;
 @property float radius;
@@ -43,9 +40,7 @@ struct Touch {
 
 -(void) update:(ccTime)delta;
 
--(void) setInitialColor:(enum Color)i_color;
-
--(enum Color) getColor;
+-(void) setColor:(enum Color)color;
 
 -(void) setStartTouch:(CGPoint)loc Timestamp:(NSTimeInterval) time;
 
