@@ -268,7 +268,7 @@
             }
         }
         
-        if (d) {
+        if (objects.count != 0) {
             [d update:delta];
         }
     }
