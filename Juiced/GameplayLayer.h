@@ -16,6 +16,10 @@
 @class UILayer;
 #import "UILayer.h"
 
+enum GameState{
+    SelectMode,
+    InGame
+};
 
 // HelloWorldLayer
 @interface GameplayLayer : CCLayer {
@@ -28,6 +32,8 @@
     int i_DiskScore;
     int i_DiskComboMultiplier;
     int diskZOrder;
+    
+    enum GameState m_GameState;
     
     UILayer* uiLayer;
     CCParticleSystemQuad* emitter;

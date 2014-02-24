@@ -28,6 +28,7 @@
     
 }
 
+- (void) StartAGame;
 - (void) showTitleLabel : (NSString*) text;
 - (void) hideTitleLabel;
 - (void) showScoreLabel : (int) score;
