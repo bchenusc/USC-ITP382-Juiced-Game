@@ -127,28 +127,28 @@
     CGSize winSize = [[CCDirector sharedDirector] winSize];
     // Add a some disks for testing
     Disk* disk1 = [Disk node];
-    disk1.position = ccp(winSize.width/2 + 90, winSize.height/2);
+    disk1.position = ccp(winSize.width/4, winSize.height/4);
     disk1.color = blue;
     disk1.zOrder = diskZOrder++;
     [objects addObject:disk1];
     [self addChild:disk1];
     
     Disk* disk2 = [Disk node];
-    disk2.position = ccp(winSize.width/2 - 90, winSize.height/2);
+    disk2.position = ccp(winSize.width*3/4, winSize.height/4);
     disk2.color = red;
     disk2.zOrder = diskZOrder++;
     [objects addObject:disk2];
     [self addChild:disk2];
     
     Disk* disk3 = [Disk node];
-    disk3.position = ccp(winSize.width/2, winSize.height/2 + 90);
+    disk3.position = ccp(winSize.width/4, winSize.height*3/4);
     disk3.color = yellow;
     disk3.zOrder = diskZOrder++;
     [objects addObject:disk3];
     [self addChild:disk3];
     
     Disk* disk4 = [Disk node];
-    disk4.position = ccp(winSize.width/2, winSize.height/2 - 90);
+    disk4.position = ccp(winSize.width*3/4, winSize.height*3/4);
     disk4.color = green;
     disk4.zOrder = diskZOrder++;
     [objects addObject:disk4];
@@ -245,8 +245,9 @@
                     d = NULL;
                     // Scoring stuff
                     i_Score += i_DiskScore * i_DiskComboMultiplier;
-                    i_DiskComboMultiplier++;
-                    
+                    if (++i_DiskComboMultiplier > 5) {
+                        i_DiskComboMultiplier = 5;
+                    }
                     [uiLayer showScoreLabel:i_Score];
                     i--;
                 } else {
@@ -255,6 +256,7 @@
                         selectedSprite = NULL;
                     }
                     i_Score -= 50;
+                    [uiLayer showScoreLabel:i_Score];
                     [objects removeObject:d];
                     [self removeChild:d cleanup:YES];
                     d = NULL;
@@ -481,7 +483,7 @@
     m_GameState = InGame;
     i_Score = 0;
     i_DiskComboMultiplier = 1;
-    i_Time = 60;
+    i_Time = 5;
     [self schedule:@selector(timeDecrease) interval:1.0f];
     [uiLayer showScoreLabel: i_Score];
     [uiLayer showTimeLabel: i_Time];

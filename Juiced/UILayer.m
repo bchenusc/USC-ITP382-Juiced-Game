@@ -142,7 +142,7 @@
     m_TimeLabel.visible = YES;
 }
 - (void) hideTimeLabel{
-    m_TimeLabel.visible = YES;
+    m_TimeLabel.visible = NO;
 }
 
 - (void) showGameOver{
@@ -168,7 +168,7 @@
         [m_TitleLabel runAction:[CCFadeIn actionWithDuration:0.2]];
         m_IntroLabel.position = ccp(size.width/2, size.height/2 - 40);
         [m_IntroLabel runAction:[CCFadeIn actionWithDuration:0.1]];
-        
+        [self hideTimeLabel];
         
         //[m_itemNewGame setIsEnabled:TRUE];
         /*<!--New Game Button -->
