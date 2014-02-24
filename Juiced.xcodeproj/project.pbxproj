@@ -480,6 +480,13 @@
 		00DC623D18B9A82300D9EA85 /* Particles */ = {
 			isa = PBXGroup;
 			children = (
+				00DC623E18BA624300D9EA85 /* Blue_Test.plist */,
+				00DC624418BB012000D9EA85 /* Blue_Sparks.plist */,
+				00DC624518BB012000D9EA85 /* Green_Sparks.plist */,
+				00DC624618BB012000D9EA85 /* Yellow_Sparks.plist */,
+				00DC623B18B9A7F500D9EA85 /* Red_Explode.plist */,
+				00DC624218BABA7600D9EA85 /* Red_Sparks.plist */,
+				00DC624018BAB9E700D9EA85 /* White_Starburst.plist */,
 			);
 			name = Particles;
 			sourceTree = "<group>";

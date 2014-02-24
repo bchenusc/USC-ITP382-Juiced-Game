@@ -68,7 +68,14 @@
 
 -(void)update:(ccTime)delta {
     self.position = ccp(self.position.x + iDirection.x * iVelocity * delta, self.position.y + iDirection.y * iVelocity * delta);
-    //emitter.position = ccp(0,0);
+    iVelocity *= (1 - 0.85 * delta);
+    
+    if (self.position.x - iRadius < 0 || self.position.x + iRadius > winSize.width) {
+        iDirection.x *= -1;
+    }
+    if (self.position.y - iRadius < 0 || self.position.y + iRadius > winSize.height) {
+        iDirection.y *= -1;
+    }
 }
 
 - (void)draw {

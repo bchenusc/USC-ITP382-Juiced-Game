@@ -456,10 +456,10 @@
 
 -(void) blinkQuadrants {
     for(CornerQuadrant *cq in quadrants) {
-        CCBlink* blink = [CCBlink actionWithDuration:2 blinks:10];
+        CCBlink* blink = [CCBlink actionWithDuration:1 blinks:5];
         [cq runAction:blink];
     }
-    [self scheduleOnce:@selector(changeColorOfAllQuadrants) delay:2];
+    [self scheduleOnce:@selector(changeColorOfAllQuadrants) delay:1];
 }
 
 -(void)deleteOverflowDisks {
