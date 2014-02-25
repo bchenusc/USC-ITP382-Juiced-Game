@@ -466,9 +466,9 @@
 }
 
 -(void)deleteDisk:(Disk *)d {
-    if(d != nil) {
+    if(d != NULL) {
         if(d == selectedSprite) {
-            selectedSprite = nil;
+            selectedSprite = NULL;
         }
         [self removeChild:d cleanup:YES];
         [objects removeObject:d];
@@ -521,10 +521,19 @@
 }
 
 -(void)deleteOverflowDisks {
-    while(objects.count > 10) {
-        if(objects[0] == selectedSprite) {
-            selectedSprite = NULL;
+    // Always move the selected disk to the back of the objects list so it won't be deleted
+    if (selectedSprite != NULL) {
+        for (int i = objects.count - 1; i >= 0; i--) {
+            if ([objects objectAtIndex:i] == selectedSprite) {
+                Disk* temp = [objects objectAtIndex:i];
+                [objects removeObjectAtIndex:i];
+                [objects addObject:temp];
+                break;
+            }
         }
+    }
+    
+    while(objects.count > 10) {
         [self removeChild:objects[0] cleanup:YES];
         [objects removeObjectAtIndex:0];
         i_Score -= 20;
