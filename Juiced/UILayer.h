@@ -15,6 +15,7 @@
 @interface UILayer : CCLayer
 {
     CCLabelTTF* m_TitleLabel;
+    CCSprite* m_TitleSprite;
     CCLabelTTF* m_ScoreLabel;
     CCLabelTTF* m_TimeLabel;
     CCLabelTTF* m_IntroLabel;

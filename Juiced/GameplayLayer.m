@@ -110,7 +110,7 @@
         //Layers
         uiLayer = [UILayer node];
         [self addChild:uiLayer];
-        [uiLayer showTitleLabel: @"JUICED"];
+        [uiLayer showTitleLabel: @""];
         [uiLayer AssignGameplayLayer:self];
         //[uiLayer showDemoButton: self Size: winSize];
         
@@ -134,23 +134,20 @@
     // Add a some disks for testing
     Disk* disk1 = [Disk node];
     disk1.position = ccp(winSize.width/4, winSize.height/4);
-    //disk1.color = blue;
-    [disk1 setColor:blue];
+    [disk1 setColor:red];
     disk1.zOrder = diskZOrder++;
     [objects addObject:disk1];
     [self addChild:disk1];
     
     Disk* disk2 = [Disk node];
     disk2.position = ccp(winSize.width*3/4, winSize.height/4);
-    //disk2.color = red;
-    [disk2 setColor:red];
+    [disk2 setColor:blue];
     disk2.zOrder = diskZOrder++;
     [objects addObject:disk2];
     [self addChild:disk2];
     
     Disk* disk3 = [Disk node];
     disk3.position = ccp(winSize.width/4, winSize.height*3/4);
-    //disk3.color = yellow;
     [disk3 setColor:yellow];
     disk3.zOrder = diskZOrder++;
     [objects addObject:disk3];
@@ -158,7 +155,6 @@
     
     Disk* disk4 = [Disk node];
     disk4.position = ccp(winSize.width*3/4, winSize.height*3/4);
-    //disk4.color = green;
     [disk4 setColor:green];
     disk4.zOrder = diskZOrder++;
     [objects addObject:disk4];

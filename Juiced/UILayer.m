@@ -26,10 +26,14 @@
         CGSize size = [[CCDirector sharedDirector] winSize];
         
         //Title
-        m_TitleLabel = [CCLabelTTF labelWithString:@"JUICED" fontName: @"Marker Felt" fontSize:30];
+        m_TitleLabel = [CCLabelTTF labelWithString:@"" fontName: @"Marker Felt" fontSize:30];
         m_TitleLabel.position = ccp(size.width/2, size.height/2 + 20);
         m_TitleLabel.visible = NO;
         [self addChild : m_TitleLabel];
+        
+        m_TitleSprite = [CCSprite spriteWithFile:@"juiced.png"];
+        m_TitleSprite.position = ccp(size.width/2, size.height/2 + 20);
+        [self addChild:m_TitleSprite];
         
         //Score
         m_ScoreLabel = [CCLabelTTF labelWithString:@"Score" fontName: @"Marker Felt" fontSize:12];
@@ -77,6 +81,11 @@
         [self schedule:@selector(SlideScoreDown) interval:0.01];
     }
     [m_IntroLabel runAction:[CCFadeOut actionWithDuration:0.1]];
+    if (m_TitleSprite.opacity != 0) {
+        [m_TitleSprite runAction:[CCFadeOut actionWithDuration:0.1]];
+    } else {
+        m_TitleSprite.visible = NO;
+    }
     //<!--New Game Button -->
     //[m_itemNewGame setIsEnabled:FALSE];
     //[m_itemNewGame runAction: [CCFadeOut actionWithDuration:0.1]];
