@@ -201,6 +201,13 @@
     
     CGPoint translation = ccpSub(touchLocation, oldTouchLocation);
     [self panForTranslation:translation];
+    
+    if(selectedSprite != nil) {
+        if([selectedSprite isKindOfClass:[Disk class]]) {
+            Disk *d = (Disk*)selectedSprite;
+            [d setStartTouch:oldTouchLocation Timestamp:touch.timestamp];
+        }
+    }
 }
 
 - (void) ccTouchEnded:(UITouch *)touch withEvent:(UIEvent *)event {
