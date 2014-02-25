@@ -601,9 +601,10 @@
     
     // Remove all disks
     for(Disk* d in objects) {
-        [self removeChild:d cleanup:YES];
+        [self shrinkDisk:d];
     }
-    [objects removeAllObjects];
+    //[objects removeAllObjects];
+    //selectedSprite = NULL;
     
     // UI Stuff
     //[[CCDirector sharedDirector].touchDispatcher removeDelegate:self];
