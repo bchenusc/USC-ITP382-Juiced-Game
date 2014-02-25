@@ -52,7 +52,7 @@
         
         //Sound
         [[SimpleAudioEngine sharedEngine] playBackgroundMusic:@"bgmusic.mp3" loop: YES];
-        
+        [[SimpleAudioEngine sharedEngine] setBackgroundMusicVolume:0.25f];
         
         // Scoring Variables
         i_DiskScore = 100;

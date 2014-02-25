@@ -25,7 +25,7 @@
         self.color = blue;
         self.width = winSize.width / 4;
         self.height = winSize.height / 2;
-        self.thickness = 20;
+        self.thickness = round(0.025 * winSize.height);
     }
     return self;
 }
@@ -40,26 +40,26 @@
 }
 
 - (void)draw {
-    glLineWidth(m_Thickness);
+    ccColor4F color;
     switch (m_Color) {
         case blue:
-            ccDrawColor4B(0, 0, 255, 255);
+            color = ccc4FFromccc3B(ccc3(0, 0, 255));
             break;
         case red:
-            ccDrawColor4B(255, 0, 0, 255);
+            color = ccc4FFromccc3B(ccc3(255, 0, 0));
             break;
         case green:
-            ccDrawColor4B(52, 199, 52, 255);
+            color = ccc4FFromccc3B(ccc3(52, 199, 52));
             break;
         case yellow:
-            ccDrawColor4B(255, 255, 0, 255);
+            color = ccc4FFromccc3B(ccc3(255, 255, 0));
             break;
         default:
-            break;
+            return;
     }
     
-    ccDrawLine(m_Position, ccp(m_Position.x + m_Width, m_Position.y));
-    ccDrawLine(m_Position, ccp(m_Position.x, m_Position.y + m_Height));
+    ccDrawSolidRect(m_Position, ccp(m_Position.x + m_Width, m_Position.y + m_Thickness * ((self.height > 0) ? 1 : -1)), color);
+    ccDrawSolidRect(m_Position, ccp(m_Position.x + m_Thickness * ((self.width > 0) ? 1 : -1), m_Position.y + m_Height), color);
 }
 
 @end
