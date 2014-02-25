@@ -116,4 +116,15 @@
     self.position = newPos;
 }
 
+// Uncomment this if you want to see hitboxes for disks
+/*- (void)draw {
+    ccDrawColor4B(255, 255, 255, 255);
+    CGPoint origin = ccp(0, 0);
+    CGPoint destination = ccp(iRadius * 2, iRadius * 2);
+    
+    ccDrawRect(origin, destination);
+    
+    [super draw];
+}*/
+
 @end

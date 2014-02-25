@@ -17,95 +17,95 @@
 	<key>emitterType</key>
 	<integer>0</integer>
 	<key>finishColorAlpha</key>
-	<real>0.0</real>
+	<real>0</real>
 	<key>finishColorBlue</key>
-	<real>0.0</real>
+	<real>0</real>
 	<key>finishColorGreen</key>
-	<real>0.0</real>
+	<real>0</real>
 	<key>finishColorRed</key>
-	<real>0.0</real>
+	<real>0</real>
 	<key>finishColorVarianceAlpha</key>
-	<real>0.0</real>
+	<real>0</real>
 	<key>finishColorVarianceBlue</key>
-	<real>0.0</real>
+	<real>0</real>
 	<key>finishColorVarianceGreen</key>
-	<real>0.0</real>
+	<real>0</real>
 	<key>finishColorVarianceRed</key>
-	<real>0.0</real>
+	<real>0</real>
 	<key>finishParticleSize</key>
-	<real>0.0</real>
+	<real>0</real>
 	<key>finishParticleSizeVariance</key>
-	<real>0.0</real>
+	<real>0</real>
 	<key>gravityx</key>
-	<real>0.0</real>
+	<real>0</real>
 	<key>gravityy</key>
-	<real>-581.4246826171875</real>
+	<integer>0</integer>
 	<key>maxParticles</key>
-	<real>8</real>
+	<integer>10</integer>
 	<key>maxRadius</key>
 	<integer>0</integer>
 	<key>maxRadiusVariance</key>
-	<real>0.0</real>
+	<real>0</real>
 	<key>minRadius</key>
 	<integer>300</integer>
 	<key>minRadiusVariance</key>
-	<real>0.0</real>
+	<real>0</real>
 	<key>particleLifespan</key>
 	<integer>1</integer>
 	<key>particleLifespanVariance</key>
-	<real>0.0</real>
+	<real>0</real>
 	<key>radialAccelVariance</key>
-	<real>0.0</real>
+	<real>0</real>
 	<key>radialAcceleration</key>
-	<real>0.0</real>
+	<real>0</real>
 	<key>rotatePerSecond</key>
-	<integer>360</integer>
+	<integer>0</integer>
 	<key>rotatePerSecondVariance</key>
-	<real>0.0</real>
+	<real>0</real>
 	<key>rotationEnd</key>
-	<real>0.0</real>
+	<real>0</real>
 	<key>rotationEndVariance</key>
-	<real>0.0</real>
+	<real>0</real>
 	<key>rotationStart</key>
-	<real>0.0</real>
+	<real>0</real>
 	<key>rotationStartVariance</key>
-	<real>0.0</real>
+	<real>0</real>
 	<key>sourcePositionVariancex</key>
-	<real>7</real>
+	<integer>0</integer>
 	<key>sourcePositionVariancey</key>
-	<real>7</real>
+	<integer>0</integer>
 	<key>sourcePositionx</key>
-	<real>160</real>
+	<integer>160</integer>
 	<key>sourcePositiony</key>
 	<real>240</real>
 	<key>speed</key>
-	<real>120</real>
+	<integer>0</integer>
 	<key>speedVariance</key>
-	<real>30</real>
+	<integer>0</integer>
 	<key>startColorAlpha</key>
 	<real>0.5</real>
 	<key>startColorBlue</key>
-	<real>0.0</real>
+	<real>0</real>
 	<key>startColorGreen</key>
-	<real>0.1491314172744751</real>
+	<integer>0</integer>
 	<key>startColorRed</key>
-	<real>1</real>
+	<integer>1</integer>
 	<key>startColorVarianceAlpha</key>
-	<real>0.0</real>
+	<real>0</real>
 	<key>startColorVarianceBlue</key>
-	<real>0.0</real>
+	<real>0</real>
 	<key>startColorVarianceGreen</key>
-	<real>0.0</real>
+	<real>0</real>
 	<key>startColorVarianceRed</key>
-	<real>0.0</real>
+	<real>0</real>
 	<key>startParticleSize</key>
 	<real>50</real>
 	<key>startParticleSizeVariance</key>
 	<real>5</real>
 	<key>tangentialAccelVariance</key>
-	<real>0.0</real>
+	<real>0</real>
 	<key>tangentialAcceleration</key>
-	<real>0.0</real>
+	<real>0</real>
 	<key>textureFileName</key>
 	<string>Red_Sparks.png</string>
 	<key>textureImageData</key>
