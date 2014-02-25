@@ -357,6 +357,7 @@
 }
 
 -(void) scoreParticlesAtLocation:(CGPoint) location {
+    [emitter resetSystem];
     emitter.position = location;
     emitter.visible = YES;
     [self scheduleOnce:@selector(makeParticlesInvisible) delay:1];
