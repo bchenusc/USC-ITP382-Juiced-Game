@@ -193,6 +193,10 @@
 }
 
 - (void) ccTouchMoved:(UITouch *)touch withEvent:(UIEvent *)event {
+    if (selectedSprite == NULL) {
+        [self selectObjectForTouch:touch];
+    }
+    
     CGPoint touchLocation = [self convertTouchToNodeSpace:touch];
     
     CGPoint oldTouchLocation = [touch previousLocationInView:touch.view];
@@ -287,7 +291,7 @@
         Disk* d = objects[i];
         
         // Check if the disc goes to a corner
-        CGFloat radius = d.rect.size.width / 2;
+        CGFloat radius = d.rect.size.width / 2 * 1.1;
         if(d.position.x <= radius || d.position.x >= winSize.width - radius || d.position.y <= radius || d.position.y >= winSize.height - radius) {
             
             // Get the quadrant the disc is at, if there is one
