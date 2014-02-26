@@ -158,6 +158,7 @@
 		D1CC7C4018BC162600032656 /* Disk@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D1CC7C3E18BC162600032656 /* Disk@2x.png */; };
 		D1CC7C4118BC162600032656 /* Disk.png in Resources */ = {isa = PBXBuildFile; fileRef = D1CC7C3F18BC162600032656 /* Disk.png */; };
 		D1DAC47F18B48FB400E29848 /* CornerQuadrant.m in Sources */ = {isa = PBXBuildFile; fileRef = D1DAC47E18B48FB400E29848 /* CornerQuadrant.m */; };
+		D1EB77E118BDE9DD00FB4D09 /* Fatsans.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D1EB77E018BDE9B900FB4D09 /* Fatsans.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -462,6 +463,7 @@
 		D1CC7C3F18BC162600032656 /* Disk.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Disk.png; sourceTree = "<group>"; };
 		D1DAC47D18B48FB400E29848 /* CornerQuadrant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CornerQuadrant.h; sourceTree = "<group>"; };
 		D1DAC47E18B48FB400E29848 /* CornerQuadrant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CornerQuadrant.m; sourceTree = "<group>"; };
+		D1EB77E018BDE9B900FB4D09 /* Fatsans.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Fatsans.ttf; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -558,6 +560,7 @@
 		D10FD50718A9DE4F00328D09 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				D1EB77E018BDE9B900FB4D09 /* Fatsans.ttf */,
 				D105ADAC18BC465A0036509E /* juiced.png */,
 				D105ADAD18BC465A0036509E /* juiced@2x.png */,
 				D1CC7C3E18BC162600032656 /* Disk@2x.png */,
@@ -1017,6 +1020,7 @@
 				3B8324E118BB3EF20024937B /* score_goal.mp3 in Resources */,
 				D10FD51118A9DE4F00328D09 /* Icon-72.png in Resources */,
 				D10FD50918A9DE4F00328D09 /* Default.png in Resources */,
+				D1EB77E118BDE9DD00FB4D09 /* Fatsans.ttf in Resources */,
 				D105ADAE18BC465A0036509E /* juiced.png in Resources */,
 				D10FD51318A9DE4F00328D09 /* Icon-Small-50.png in Resources */,
 				00DC624318BABA7600D9EA85 /* Red_Sparks.plist in Resources */,

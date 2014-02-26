@@ -26,7 +26,7 @@
         CGSize size = [[CCDirector sharedDirector] winSize];
         
         //Title
-        m_TitleLabel = [CCLabelTTF labelWithString:@"" fontName: @"Marker Felt" fontSize:30];
+        m_TitleLabel = [CCLabelTTF labelWithString:@"" fontName: @"Fatsans" fontSize:30];
         m_TitleLabel.position = ccp(size.width/2, size.height/2 + 20);
         m_TitleLabel.visible = NO;
         [self addChild : m_TitleLabel];
@@ -36,19 +36,19 @@
         [self addChild:m_TitleSprite];
         
         //Score
-        m_ScoreLabel = [CCLabelTTF labelWithString:@"Score" fontName: @"Marker Felt" fontSize:12];
+        m_ScoreLabel = [CCLabelTTF labelWithString:@"Score" fontName: @"Fatsans" fontSize:12];
         m_ScoreLabel.position = ccp(size.width/2, 10);
         m_ScoreLabel.visible = NO;
         [self addChild:m_ScoreLabel];
         
         //Timer
-        m_TimeLabel =[CCLabelTTF labelWithString:@"Time: " fontName: @"Marker Felt" fontSize:12];
+        m_TimeLabel =[CCLabelTTF labelWithString:@"Time: " fontName: @"Fatsans" fontSize:12];
         m_TimeLabel.position = ccp(size.width/2, size.height - 10);
         m_TimeLabel.visible = NO;
         [self addChild : m_TimeLabel];
         
         //Instructions label
-        m_IntroLabel =[CCLabelTTF labelWithString:@"Slide A Disk To Play " fontName: @"Marker Felt" fontSize:12];
+        m_IntroLabel =[CCLabelTTF labelWithString:@"Slide A Disk To Play " fontName: @"Fatsans" fontSize:12];
         //[self performSelector:@selector(FlashALabel) withObject:m_IntroLabel];
         m_IntroLabel.position = ccp(size.width/2, size.height/2 - 10);
         m_IntroLabel.visible = YES;
