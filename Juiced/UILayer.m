@@ -158,7 +158,7 @@
     CGSize size = [[CCDirector sharedDirector] winSize];
     score_go_to= ccp(size.width/2, size.height/2 - 10);
     [self schedule:@selector(SlideScoreUp) interval:0.01];
-    [m_GameplayLayer SpawnFourDisks];
+    [m_GameplayLayer scheduleOnce:@selector(SpawnFourDisks) delay:2.0];
 }
 
 - (void) SlideScoreUp

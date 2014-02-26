@@ -133,28 +133,36 @@
     Disk* disk1 = [Disk node];
     disk1.position = ccp(winSize.width/4, winSize.height/4);
     [disk1 setColor:red];
+    disk1.scale = 0;
     disk1.zOrder = diskZOrder++;
+    [self performSelector:@selector(expandDisk:) withObject:disk1 afterDelay:.01];
     [objects addObject:disk1];
     [self addChild:disk1];
     
     Disk* disk2 = [Disk node];
     disk2.position = ccp(winSize.width*3/4, winSize.height/4);
     [disk2 setColor:blue];
+    disk2.scale = 0;
     disk2.zOrder = diskZOrder++;
+    [self performSelector:@selector(expandDisk:) withObject:disk2 afterDelay:.01];
     [objects addObject:disk2];
     [self addChild:disk2];
     
     Disk* disk3 = [Disk node];
     disk3.position = ccp(winSize.width/4, winSize.height*3/4);
     [disk3 setColor:yellow];
+    disk3.scale = 0;
     disk3.zOrder = diskZOrder++;
+    [self performSelector:@selector(expandDisk:) withObject:disk3 afterDelay:.01];
     [objects addObject:disk3];
     [self addChild:disk3];
     
     Disk* disk4 = [Disk node];
     disk4.position = ccp(winSize.width*3/4, winSize.height*3/4);
     [disk4 setColor:green];
+    disk4.scale = 0;
     disk4.zOrder = diskZOrder++;
+    [self performSelector:@selector(expandDisk:) withObject:disk4 afterDelay:.01];
     [objects addObject:disk4];
     [self addChild:disk4];
 }
@@ -567,7 +575,7 @@
     m_GameState = InGame;
     i_Score = 0;
     i_DiskComboMultiplier = 1;
-    i_Time = 60;
+    i_Time = 5;
     [self schedule:@selector(timeDecrease) interval:1.0f];
     [uiLayer showScoreLabel: i_Score];
     [uiLayer showTimeLabel: i_Time];
