@@ -14,15 +14,15 @@
 @synthesize manager = m_manager;
 
 -(void) update:(ccTime)delta {
-    [NSException raise:NSInternalInconsistencyException format:@"You must override %@ in a subclass", NSStringFromSelector(_cmd)];
+    __MUST_OVERRIDE;
 }
 
 -(void) enter {
-    [NSException raise:NSInternalInconsistencyException format:@"You must override %@ in a subclass", NSStringFromSelector(_cmd)];
+    __MUST_OVERRIDE;
 }
 
 -(void) exit {
-    [NSException raise:NSInternalInconsistencyException format:@"You must override %@ in a subclass", NSStringFromSelector(_cmd)];
+    __MUST_OVERRIDE;
 }
 
 @end

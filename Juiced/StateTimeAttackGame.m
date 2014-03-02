@@ -109,7 +109,7 @@
     [m_manager.UI showTimeLabel:i_Time];
     if (i_Time <= 0){
         [self unschedule:@selector(timeDecrease)];
-        [self gameOver];
+        [m_manager SetGameState:[[StateMainMenu alloc] init]];
     }
 }
 
@@ -163,7 +163,13 @@
 }
 
 -(void) exit {
+    [self unschedule:@selector(createDisks)];
+    [m_manager unschedule:@selector(blinkQuadrants)];
+    [m_manager unschedule:@selector(changeColorOfAllQuadrants)];
     
+    [m_manager clearAllDisks];
+    
+    [m_manager.UI showGameOver];
 }
 
 @end

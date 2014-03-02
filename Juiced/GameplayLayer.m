@@ -298,7 +298,7 @@
     [emitter resetSystem];
     emitter.position = location;
     emitter.visible = YES;
-    [self scheduleOnce:@selector(makeParticlesInvisible) delay:1];
+    [self scheduleOnce:@selector(makeParticlesInvisible) delay:0.3f];
 }
 
 -(void) makeParticlesInvisible {

@@ -15,6 +15,4 @@
 
 -(void) startGame;
 
--(void) gameOver;
-
 @end
