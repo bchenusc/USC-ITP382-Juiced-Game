@@ -18,16 +18,25 @@
 
 #import "SimpleAudioEngine.h"
 
+// Lots of States
+#import "StateMainMenu.h"
+#import "GameMode.h"
+
 #pragma mark - HelloWorldLayer
 
 // HelloWorldLayer implementation
 @implementation GameplayLayer
 
-@synthesize DiskScore = i_DiskScore;
+@synthesize score = i_Score;
+@synthesize UI = uiLayer;
+@synthesize disks = objects;
+@synthesize quads = quadrants;
+@synthesize selectedDisk = selectedSprite;
+
 @synthesize ParticleEmitter = emitter;
 
 // Helper class method that creates a Scene with the HelloWorldLayer as the only child.
-+(CCScene *) scene
++(CCScene*) scene
 {
 	// 'scene' is an autorelease object.
 	CCScene *scene = [CCScene node];
@@ -54,10 +63,6 @@
         [[SimpleAudioEngine sharedEngine] playBackgroundMusic:@"bgmusic.mp3" loop: YES];
         [[SimpleAudioEngine sharedEngine] setBackgroundMusicVolume:0.25f];
         
-        // Scoring Variables
-        i_DiskScore = 100;
-        i_DiskComboMultiplier = 1;
-        
         // All user-interactable objects
         objects = [[NSMutableArray alloc] init];
         diskZOrder = 0;
@@ -67,8 +72,6 @@
         
         // No selected sprite initially
         selectedSprite = NULL;
-        
-        [self SpawnFourDisks];
         
         // Add some corner quadrants for testing
         CornerQuadrant* quad1 = [CornerQuadrant node];
@@ -103,7 +106,7 @@
         [quadrants addObject:quad4];
         [self addChild:quad4];
         
-        // This layer can receive touches
+        // This layer can receive touches and is updated
         [[CCDirector sharedDirector].touchDispatcher addTargetedDelegate:self priority:INT_MIN+2 swallowsTouches:YES];
         [self scheduleUpdate];
         
@@ -112,11 +115,9 @@
         [self addChild:uiLayer];
         [uiLayer showTitleLabel: @""];
         [uiLayer AssignGameplayLayer:self];
-        //[uiLayer showDemoButton: self Size: winSize];
         
         //Gameplay Variable initialization
-        m_GameState = SelectMode;
-        
+        [self SetGameState:[[StateMainMenu alloc] init]];
         
         //Particle System Initialization
         emitter = [CCParticleSystemQuad particleWithFile:@"White_Starburst.plist"];
@@ -136,7 +137,6 @@
     disk1.scale = 0;
     disk1.zOrder = diskZOrder++;
     [self performSelector:@selector(expandDisk:) withObject:disk1 afterDelay:.01];
-    [objects addObject:disk1];
     [self addChild:disk1];
     
     Disk* disk2 = [Disk node];
@@ -145,7 +145,6 @@
     disk2.scale = 0;
     disk2.zOrder = diskZOrder++;
     [self performSelector:@selector(expandDisk:) withObject:disk2 afterDelay:.01];
-    [objects addObject:disk2];
     [self addChild:disk2];
     
     Disk* disk3 = [Disk node];
@@ -154,7 +153,6 @@
     disk3.scale = 0;
     disk3.zOrder = diskZOrder++;
     [self performSelector:@selector(expandDisk:) withObject:disk3 afterDelay:.01];
-    [objects addObject:disk3];
     [self addChild:disk3];
     
     Disk* disk4 = [Disk node];
@@ -163,8 +161,11 @@
     disk4.scale = 0;
     disk4.zOrder = diskZOrder++;
     [self performSelector:@selector(expandDisk:) withObject:disk4 afterDelay:.01];
-    [objects addObject:disk4];
     [self addChild:disk4];
+}
+
+-(void) clearSelectedDisk {
+    selectedSprite = NULL;
 }
 
 -(void) selectObjectForTouch:(UITouch*)touch {
@@ -250,109 +251,33 @@
     }
 }
 
--(void)update:(ccTime)delta {
-    CGSize winSize = [[CCDirector sharedDirector] winSize];
+-(void) SetGameState:(GameState*)newState {
+    m_NextGameState = newState;
+}
+
+-(void) ChangeState:(GameState*)newState {
+    NSLog(@"----STATE TRANSITION----");
     
-    switch (m_GameState) {
-        case SelectMode:
-            [self updateMainMenu:delta withWindowSize:winSize];
-            break;
-        case InGame:
-            [self updateGameplay:delta withWindowSize:winSize];
-            break;
-        default:
-            break;
+    if (m_GameState != NULL) {
+        NSLog(@"From: %@", [m_GameState class]);
+        [m_GameState exit];
+        [self removeChild:m_GameState];
+        [m_GameState dealloc];
     }
+    m_GameState = newState;
+    NSLog(@"To: %@", [m_GameState class]);
+    newState.manager = self;
+    [self addChild:m_GameState];
+    [m_GameState enter];
 }
 
--(void) updateMainMenu:(ccTime)delta withWindowSize:(CGSize)winSize {
-    for(int i = 0; i < objects.count; i++) {
-        Disk* d = objects[i];
-        
-        // Check if the disc goes to a corner
-        CGFloat radius = d.rect.size.width / 2;
-        if(d.position.x <= radius || d.position.x >= winSize.width - radius || d.position.y <= radius || d.position.y >= winSize.height - radius) {
-            
-            // Get the quadrant the disc is at, if there is one
-            CornerQuadrant* intersectedCQ = [self getQuadrantAtRect:d.rect];
-            if(intersectedCQ != NULL) {
-                // Handle menu selection
-                [self handleMenuSelection:d Quadrant:intersectedCQ];
-            }
-        }
-        
-        if (objects.count != 0) {
-            [d update:delta];
-        }
+-(void)update:(ccTime)delta {
+    if (m_NextGameState != NULL) {
+        [self ChangeState:m_NextGameState];
+        m_NextGameState = NULL;
     }
-
-}
-
--(void) updateGameplay:(ccTime)delta withWindowSize:(CGSize)winSize {
-    for(int i = 0; i < objects.count; i++) {
-        Disk* d = objects[i];
-        
-        // Check if the disc goes to a corner
-        CGFloat radius = d.rect.size.width / 2 * 1.1;
-        if(d.position.x <= radius || d.position.x >= winSize.width - radius || d.position.y <= radius || d.position.y >= winSize.height - radius) {
-            
-            // Get the quadrant the disc is at, if there is one
-            CornerQuadrant* intersectedCQ = [self getQuadrantAtRect:d.rect];
-            if(intersectedCQ != NULL) {
-                // Check if the colors are the same, remove the disc if they are
-                if(intersectedCQ.color == d.color) {
-                    [self scoreParticlesAtLocation:d.position];
-                    [[SimpleAudioEngine sharedEngine] playEffect:@"score_goal.mp3"];
-                    // If it's the selected sprite, make sure to set it to null or bad things will happen
-                    if(d == selectedSprite) {
-                        selectedSprite = nil;
-                    }
-                    [objects removeObject:d];
-                    //[self removeChild:d cleanup:YES];
-                    [self shrinkDisk:d];
-                    d = nil;
-                    
-                    // Scoring stuff
-                    i_Score += i_DiskScore * i_DiskComboMultiplier;
-                    if (++i_DiskComboMultiplier > 5) {
-                        i_DiskComboMultiplier = 5;
-                    }
-                    [uiLayer showScoreLabel:i_Score];
-                    i--;
-                } else { // Wrong color quadrant, delete the disk and decrement score
-                    [[SimpleAudioEngine sharedEngine] playEffect:@"error.mp3"];
-                    i_DiskComboMultiplier = 1;
-                    if(d == selectedSprite) {
-                        selectedSprite = NULL;
-                    }
-                    i_Score -= 50;
-                    if(i_Score < 0) {
-                        i_Score = 0;
-                    }
-                    [uiLayer showScoreLabel:i_Score];
-                    [objects removeObject:d];
-                    //[self removeChild:d cleanup:YES];
-                    [self shrinkDisk:d];
-                    d = NULL;
-                    i--;
-                }
-            }
-        }
-        
-        if (d) {
-            [d update:delta];
-        }
-    }
-
-}
-
--(void) handleMenuSelection : (Disk*) disk Quadrant : (CornerQuadrant*) quad{
-    //Handle collisions here.
-    if(quad.color == disk.color) {
-        disk.velocity = 0;
-        //[self scoreParticlesAtLocation:disk.position];
-        [uiLayer StartAGame];
-    }
+    
+    [m_GameState update:delta];
 }
 
 -(CornerQuadrant*)getQuadrantAtRect:(CGRect)rect {
@@ -380,24 +305,7 @@
     emitter.visible = NO;
 }
 
--(void)createDisks {
-    int timesToSpawnDisk = arc4random() % (i_Time / 30 + 1) + 1;
-    if(i_Time == 10) {
-        [self unschedule:@selector(createDisks)];
-        [self schedule:@selector(createDisks) interval:0.5];
-    } else if(i_Time == 25) {
-        [self unschedule:@selector(createDisks)];
-        [self schedule:@selector(createDisks) interval:0.75];
-    } else if(i_Time == 40) {
-        [self unschedule:@selector(createDisks)];
-        [self schedule:@selector(createDisks) interval:1.00];
-    }
-    
-    for(int i = 0; i < timesToSpawnDisk; i++)
-        [self spawnDisk];
-}
-
--(void)spawnDisk {
+-(void)spawnDiskAtRandomLocation {
     CGSize winSize = [[CCDirector sharedDirector] winSize];
     Disk* newDisk = [Disk node];
     newDisk.scale = 0;
@@ -452,8 +360,6 @@
     [self performSelector:@selector(expandDisk:) withObject:newDisk afterDelay:.01];
     
     [self addChild:newDisk];
-    
-    [self deleteOverflowDisks];
 }
 
 -(void)expandDisk:(Disk *)d {
@@ -534,87 +440,26 @@
     [self scheduleOnce:@selector(changeColorOfAllQuadrants) delay:1];
 }
 
--(void)deleteOverflowDisks {
-    // Always move the selected disk to the back of the objects list so it won't be deleted
-    if (selectedSprite != NULL) {
-        for (int i = objects.count - 1; i >= 0; i--) {
-            if ([objects objectAtIndex:i] == selectedSprite) {
-                Disk* temp = [objects objectAtIndex:i];
-                [objects removeObjectAtIndex:i];
-                [objects addObject:temp];
-                break;
-            }
-        }
-    }
-    
-    while(objects.count > 10) {
-        [self removeChild:objects[0] cleanup:YES];
-        [objects removeObjectAtIndex:0];
-        i_Score -= 20;
-        if(i_Score < 0) {
-            i_Score = 0;
-        }
-        [uiLayer showScoreLabel:i_Score];
-    }
-}
-
-- (void) selectionModeSelected{
+- (void) clearAllDisks{
     // Remove all disks
     for(Disk* d in objects) {
-        [self removeChild:d cleanup:YES];
-        d = NULL;
+        [self shrinkDisk:d];
     }
     [objects removeAllObjects];
     selectedSprite = NULL;
 }
 
 -(void) gameStart{
-    
-    //Enable touching
-    //[[CCDirector sharedDirector].touchDispatcher addTargetedDelegate:self priority:INT_MIN+1 swallowsTouches:YES];
-    m_GameState = InGame;
-    i_Score = 0;
-    i_DiskComboMultiplier = 1;
-    i_Time = 5;
-    [self schedule:@selector(timeDecrease) interval:1.0f];
-    [uiLayer showScoreLabel: i_Score];
-    [uiLayer showTimeLabel: i_Time];
-    // Schedule this layer for update
-    //[self scheduleUpdate];
-    [self schedule:@selector(createDisks) interval:1];
-    [self scheduleOnce:@selector(blinkQuadrants) delay:8];
-    
-}
-
--(void) timeDecrease{
-    i_Time -= 1;
-    [uiLayer showTimeLabel:i_Time];
-    if (i_Time <= 0){
-        [self unschedule:@selector(timeDecrease)];
-        [self gameOver];
+    // Double check to make sure the current GameState is actually a GameMode
+    if ([m_GameState isKindOfClass:[GameMode class]]) {
+        GameMode* gm = (GameMode*)m_GameState;
+        [gm startGame];
     }
-}
-
--(void) gameOver{
-    m_GameState = SelectMode;
-    [self unschedule:@selector(createDisks)];
-    [self unschedule:@selector(blinkQuadrants)];
-    [self unschedule:@selector(changeColorOfAllQuadrants)];
     
-    // Remove all disks
-    for(Disk* d in objects) {
-        [self shrinkDisk:d];
-    }
-    //[objects removeAllObjects];
-    //selectedSprite = NULL;
-    
-    // UI Stuff
-    //[[CCDirector sharedDirector].touchDispatcher removeDelegate:self];
-    [uiLayer showGameOver];
 }
 
 // on "dealloc" you need to release all your retained objects
-- (void) dealloc
+-(void) dealloc
 {
 	// in case you have something to dealloc, do it in this method
 	// in this particular example nothing needs to be released.

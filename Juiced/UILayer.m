@@ -73,7 +73,6 @@
 
 - (void) StartAGame{
     //Make sure to send the points system back down to where it belongs.
-    [m_GameplayLayer selectionModeSelected];
     
     CGSize size = [[CCDirector sharedDirector] winSize];
     score_go_to = ccp(size.width/2, 10);
@@ -158,7 +157,6 @@
     CGSize size = [[CCDirector sharedDirector] winSize];
     score_go_to= ccp(size.width/2, size.height/2 - 10);
     [self schedule:@selector(SlideScoreUp) interval:0.01];
-    [m_GameplayLayer scheduleOnce:@selector(SpawnFourDisks) delay:2.0];
 }
 
 - (void) SlideScoreUp

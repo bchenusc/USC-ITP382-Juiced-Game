@@ -154,6 +154,10 @@
 		D10FD69918A9DE5100328D09 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D10FD69818A9DE5100328D09 /* AppDelegate.m */; };
 		D10FD69C18A9DE5100328D09 /* GameplayLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = D10FD69B18A9DE5100328D09 /* GameplayLayer.m */; };
 		D10FD69F18A9DE5100328D09 /* IntroLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = D10FD69E18A9DE5100328D09 /* IntroLayer.m */; };
+		D16F6A0B18C2CDE800AD8241 /* GameState.m in Sources */ = {isa = PBXBuildFile; fileRef = D16F6A0A18C2CDE800AD8241 /* GameState.m */; };
+		D16F6A0E18C2CE7500AD8241 /* StateMainMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = D16F6A0D18C2CE7500AD8241 /* StateMainMenu.m */; };
+		D16F6A1118C2D4D200AD8241 /* StateTimeAttackGame.m in Sources */ = {isa = PBXBuildFile; fileRef = D16F6A1018C2D4D200AD8241 /* StateTimeAttackGame.m */; };
+		D16F6A1518C2D71400AD8241 /* GameMode.m in Sources */ = {isa = PBXBuildFile; fileRef = D16F6A1418C2D71400AD8241 /* GameMode.m */; };
 		D16FA8D218AB461F0092EE7F /* Disk.m in Sources */ = {isa = PBXBuildFile; fileRef = D16FA8D118AB461F0092EE7F /* Disk.m */; };
 		D189EEEE18BE6F8800D3F560 /* Disk.png in Resources */ = {isa = PBXBuildFile; fileRef = D189EEEC18BE6F8800D3F560 /* Disk.png */; };
 		D189EEEF18BE6F8800D3F560 /* Disk@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D189EEED18BE6F8800D3F560 /* Disk@2x.png */; };
@@ -464,6 +468,14 @@
 		D10FD69B18A9DE5100328D09 /* GameplayLayer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GameplayLayer.m; sourceTree = "<group>"; };
 		D10FD69D18A9DE5100328D09 /* IntroLayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IntroLayer.h; sourceTree = "<group>"; };
 		D10FD69E18A9DE5100328D09 /* IntroLayer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IntroLayer.m; sourceTree = "<group>"; };
+		D16F6A0918C2CDE800AD8241 /* GameState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameState.h; sourceTree = "<group>"; };
+		D16F6A0A18C2CDE800AD8241 /* GameState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameState.m; sourceTree = "<group>"; };
+		D16F6A0C18C2CE7500AD8241 /* StateMainMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StateMainMenu.h; sourceTree = "<group>"; };
+		D16F6A0D18C2CE7500AD8241 /* StateMainMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StateMainMenu.m; sourceTree = "<group>"; };
+		D16F6A0F18C2D4D200AD8241 /* StateTimeAttackGame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StateTimeAttackGame.h; sourceTree = "<group>"; };
+		D16F6A1018C2D4D200AD8241 /* StateTimeAttackGame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StateTimeAttackGame.m; sourceTree = "<group>"; };
+		D16F6A1318C2D71400AD8241 /* GameMode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameMode.h; sourceTree = "<group>"; };
+		D16F6A1418C2D71400AD8241 /* GameMode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameMode.m; sourceTree = "<group>"; };
 		D16FA8D018AB461F0092EE7F /* Disk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Disk.h; sourceTree = "<group>"; };
 		D16FA8D118AB461F0092EE7F /* Disk.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Disk.m; sourceTree = "<group>"; };
 		D189EEEC18BE6F8800D3F560 /* Disk.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Disk.png; sourceTree = "<group>"; };
@@ -552,6 +564,7 @@
 		D10FD50618A9DE4F00328D09 /* Juiced */ = {
 			isa = PBXGroup;
 			children = (
+				D16F6A0218C2C77400AD8241 /* GameStates */,
 				3B083A7118B96B0A002ADD91 /* UILayer.h */,
 				3B083A7218B96B0A002ADD91 /* UILayer.m */,
 				D1DAC47D18B48FB400E29848 /* CornerQuadrant.h */,
@@ -969,6 +982,29 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		D16F6A0218C2C77400AD8241 /* GameStates */ = {
+			isa = PBXGroup;
+			children = (
+				D16F6A1218C2D6F800AD8241 /* GameModes */,
+				D16F6A0918C2CDE800AD8241 /* GameState.h */,
+				D16F6A0A18C2CDE800AD8241 /* GameState.m */,
+				D16F6A0C18C2CE7500AD8241 /* StateMainMenu.h */,
+				D16F6A0D18C2CE7500AD8241 /* StateMainMenu.m */,
+			);
+			name = GameStates;
+			sourceTree = "<group>";
+		};
+		D16F6A1218C2D6F800AD8241 /* GameModes */ = {
+			isa = PBXGroup;
+			children = (
+				D16F6A1318C2D71400AD8241 /* GameMode.h */,
+				D16F6A1418C2D71400AD8241 /* GameMode.m */,
+				D16F6A0F18C2D4D200AD8241 /* StateTimeAttackGame.h */,
+				D16F6A1018C2D4D200AD8241 /* StateTimeAttackGame.m */,
+			);
+			name = GameModes;
+			sourceTree = "<group>";
+		};
 		D189EEF018BE765300D3F560 /* Icons */ = {
 			isa = PBXGroup;
 			children = (
@@ -1111,6 +1147,7 @@
 				D10FD5DD18A9DE5000328D09 /* CCTextureAtlas.m in Sources */,
 				D10FD68B18A9DE5100328D09 /* utility.c in Sources */,
 				D10FD63718A9DE5100328D09 /* CCVertex.m in Sources */,
+				D16F6A0B18C2CDE800AD8241 /* GameState.m in Sources */,
 				D10FD63D18A9DE5100328D09 /* NSThread+performBlock.m in Sources */,
 				D10FD54418A9DE5000328D09 /* CCActionTiledGrid.m in Sources */,
 				D10FD58B18A9DE5000328D09 /* CCMenuItem.m in Sources */,
@@ -1133,6 +1170,7 @@
 				D10FD68718A9DE5100328D09 /* quaternion.c in Sources */,
 				D10FD5D418A9DE5000328D09 /* CCSpriteFrame.m in Sources */,
 				D10FD54118A9DE5000328D09 /* CCActionProgressTimer.m in Sources */,
+				D16F6A1518C2D71400AD8241 /* GameMode.m in Sources */,
 				D10FD52318A9DE5000328D09 /* CCAction.m in Sources */,
 				D10FD65B18A9DE5100328D09 /* CocosDenshion.m in Sources */,
 				D10FD5E018A9DE5000328D09 /* CCTextureCache.m in Sources */,
@@ -1147,6 +1185,7 @@
 				D10FD61418A9DE5100328D09 /* CCTouchHandler.m in Sources */,
 				D10FD58E18A9DE5000328D09 /* CCMotionStreak.m in Sources */,
 				D10FD60D18A9DE5100328D09 /* CCGLView.m in Sources */,
+				D16F6A1118C2D4D200AD8241 /* StateTimeAttackGame.m in Sources */,
 				D10FD63A18A9DE5100328D09 /* CGPointExtension.m in Sources */,
 				D1DAC47F18B48FB400E29848 /* CornerQuadrant.m in Sources */,
 				D10FD53E18A9DE5000328D09 /* CCActionPageTurn3D.m in Sources */,
@@ -1175,6 +1214,7 @@
 				D10FD56318A9DE5000328D09 /* CCDrawingPrimitives.m in Sources */,
 				D10FD5CB18A9DE5000328D09 /* ccShaders.m in Sources */,
 				D10FD69C18A9DE5100328D09 /* GameplayLayer.m in Sources */,
+				D16F6A0E18C2CE7500AD8241 /* StateMainMenu.m in Sources */,
 				D10FD62118A9DE5100328D09 /* CCWindow.m in Sources */,
 				D10FD5FF18A9DE5000328D09 /* cocos2d.m in Sources */,
 				D10FD5AC18A9DE5000328D09 /* CCProgressTimer.m in Sources */,
