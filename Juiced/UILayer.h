@@ -29,6 +29,10 @@
     CGPoint score_go_to;
     CGSize  score_size_to;
     
+    //Particle Systems
+    CCParticleSystemQuad* m_MultParticleL;
+    CCParticleSystemQuad* m_MultParticleR;
+    
 }
 
 - (void) StartAGame;

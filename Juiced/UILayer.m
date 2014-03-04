@@ -60,6 +60,17 @@
         m_MultLabel.visible = NO;
         [self addChild:m_MultLabel];
         
+        //Particle Systems
+        m_MultParticleL = [CCParticleSystemQuad particleWithFile:@"Score_Mult_L.plist"];
+        m_MultParticleL.position = ccp(size.width/2 - 100, 3*size.height/4);
+        m_MultParticleL.visible = NO;
+        [self addChild:m_MultParticleL];
+        
+        m_MultParticleR = [CCParticleSystemQuad particleWithFile:@"Score_Mult_R.plist"];
+        m_MultParticleR.position = ccp(size.width/2 + 100, 3*size.height/4);
+        m_MultParticleR.visible = NO;
+        [self addChild:m_MultParticleR];
+        
     }
     return self;
 }
@@ -161,6 +172,10 @@
 - (void) showMultiplierLabel: (int) multiplier{
     m_MultLabel.string = [NSString stringWithFormat:@"x%d!!", multiplier];
     m_MultLabel.visible = YES;
+    m_MultParticleL.visible = YES;
+    [m_MultParticleL resetSystem];
+    m_MultParticleR.visible = YES;
+    [m_MultParticleR resetSystem];
 }
 - (void) hideMultiplierLabel {
     m_MultLabel.visible = NO;
