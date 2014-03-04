@@ -25,22 +25,23 @@
             CornerQuadrant* intersectedCQ = [m_manager getQuadrantAtRect:d.rect];
             if(intersectedCQ != NULL) {
                 // Handle menu selection
-                [self handleMenuSelection:d Quadrant:intersectedCQ];
+                if ([self handleMenuSelection:d Quadrant:intersectedCQ]) {
+                    d = NULL;
+                }
             }
-        }
-        
-        if (m_manager.disks.count != 0) {
-            [d update:delta];
         }
     }
 }
 
--(void) handleMenuSelection : (Disk*) disk Quadrant : (CornerQuadrant*) quad{
+-(BOOL) handleMenuSelection : (Disk*) disk Quadrant : (CornerQuadrant*) quad{
     //Handle collisions here.
     if(quad.color == disk.color) {
         disk.velocity = 0;
         [m_manager SetGameState:[[StateTimeAttackGame alloc] init]];
+        return YES;
     }
+    
+    return NO;
 }
 
 -(void) enter {

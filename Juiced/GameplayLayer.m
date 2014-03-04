@@ -264,20 +264,29 @@
         [self removeChild:m_GameState];
         [m_GameState release];
     }
+    
     m_GameState = newState;
     NSLog(@"To: %@", [m_GameState class]);
     newState.manager = self;
+    
     [self addChild:m_GameState];
     [m_GameState enter];
 }
 
 -(void)update:(ccTime)delta {
+    // Update to a new state if state should change
     if (m_NextGameState != NULL) {
         [self ChangeState:m_NextGameState];
         m_NextGameState = NULL;
     }
     
+    // Update the current state
     [m_GameState update:delta];
+    
+    // Update all objects that need updating
+    for (int i = 0; i < objects.count; i++) {
+        [objects[i] update:delta];
+    }
 }
 
 -(CornerQuadrant*)getQuadrantAtRect:(CGRect)rect {
@@ -469,8 +478,6 @@
     [objects release];
     
     [quadrants release];
-    
-    [m_GameState release];
 	
 	// don't forget to call "super dealloc"
 	[super dealloc];

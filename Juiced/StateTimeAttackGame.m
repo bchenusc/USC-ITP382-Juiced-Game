@@ -59,48 +59,36 @@
             // Get the quadrant the disc is at, if there is one
             CornerQuadrant* intersectedCQ = [m_manager getQuadrantAtRect:d.rect];
             if(intersectedCQ != NULL) {
-                // Check if the colors are the same, remove the disc if they are
+                // Check if the colors are the same
                 if(intersectedCQ.color == d.color) {
                     [m_manager scoreParticlesAtLocation:d.position];
                     [[SimpleAudioEngine sharedEngine] playEffect:@"score_goal.mp3"];
-                    // If it's the selected sprite, make sure to set it to null or bad things will happen
-                    if(d == m_manager.selectedDisk) {
-                        [m_manager clearSelectedDisk];
-                    }
-                    [m_manager.disks removeObject:d];
-                    [m_manager shrinkDisk:d];
-                    d.velocity = 0;
-                    d = NULL;
                     
                     // Scoring stuff
                     m_manager.score += i_DiskScore * i_DiskComboMultiplier;
                     if (++i_DiskComboMultiplier > 5) {
                         i_DiskComboMultiplier = 5;
                     }
-                    [m_manager.UI showScoreLabel:m_manager.score];
-                    i--;
-                } else { // Wrong color quadrant, delete the disk and decrement score
+                } else { // Wrong color quadrant
                     [[SimpleAudioEngine sharedEngine] playEffect:@"error.mp3"];
                     i_DiskComboMultiplier = 1;
-                    if(d == m_manager.selectedDisk) {
-                        [m_manager clearSelectedDisk];
-                    }
+                    
                     m_manager.score -= 50;
                     if(m_manager.score < 0) {
                         m_manager.score = 0;
                     }
-                    [m_manager.UI showScoreLabel:m_manager.score];
-                    [m_manager.disks removeObject:d];
-                    [m_manager shrinkDisk:d];
-                    d.velocity = 0;
-                    d = NULL;
-                    i--;
                 }
+                
+                if(d == m_manager.selectedDisk) {
+                    [m_manager clearSelectedDisk];
+                }
+                [m_manager.disks removeObject:d];
+                [m_manager shrinkDisk:d];
+                d.velocity = 0;
+                d = NULL;
+                [m_manager.UI showScoreLabel:m_manager.score];
+                i--;
             }
-        }
-        
-        if (d) {
-            [d update:delta];
         }
     }
 }
