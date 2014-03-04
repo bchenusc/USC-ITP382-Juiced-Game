@@ -69,6 +69,7 @@
                     }
                     [m_manager.disks removeObject:d];
                     [m_manager shrinkDisk:d];
+                    d.velocity = 0;
                     d = NULL;
                     
                     // Scoring stuff
@@ -91,15 +92,16 @@
                     [m_manager.UI showScoreLabel:m_manager.score];
                     [m_manager.disks removeObject:d];
                     [m_manager shrinkDisk:d];
+                    d.velocity = 0;
                     d = NULL;
                     i--;
                 }
             }
         }
         
-        if (d) {
+        /*if (d) {
             [d update:delta];
-        }
+        }*/
     }
 }
 

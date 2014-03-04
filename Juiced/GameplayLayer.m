@@ -209,7 +209,7 @@
     CGPoint translation = ccpSub(touchLocation, oldTouchLocation);
     [self panForTranslation:translation];
     
-    if(selectedSprite != nil) {
+    if(selectedSprite != NULL) {
         if([selectedSprite isKindOfClass:[Disk class]]) {
             Disk *d = (Disk*)selectedSprite;
             [d setStartTouch:oldTouchLocation Timestamp:touch.timestamp];
@@ -262,7 +262,7 @@
         NSLog(@"From: %@", [m_GameState class]);
         [m_GameState exit];
         [self removeChild:m_GameState];
-        [m_GameState dealloc];
+        [m_GameState release];
     }
     m_GameState = newState;
     NSLog(@"To: %@", [m_GameState class]);
@@ -444,6 +444,7 @@
     // Remove all disks
     for(Disk* d in objects) {
         [self shrinkDisk:d];
+        d.velocity = 0;
     }
     [objects removeAllObjects];
     selectedSprite = NULL;
@@ -465,9 +466,11 @@
 	// in this particular example nothing needs to be released.
 	// cocos2d will automatically release all the children (Label)
     
-    [objects dealloc];
+    [objects release];
     
-    [quadrants dealloc];
+    [quadrants release];
+    
+    [m_GameState release];
 	
 	// don't forget to call "super dealloc"
 	[super dealloc];

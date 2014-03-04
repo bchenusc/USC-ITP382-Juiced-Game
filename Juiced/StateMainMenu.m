@@ -29,9 +29,9 @@
             }
         }
         
-        if (m_manager.disks.count != 0) {
+        /*if (m_manager.disks.count != 0) {
             [d update:delta];
-        }
+        }*/
     }
 }
 

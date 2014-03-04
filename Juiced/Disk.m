@@ -41,6 +41,8 @@
         iColor = blue;
         emitter = [CCParticleSystemQuad particleWithFile:@"Blue_Sparks.plist"];
         [self addChild:emitter];
+        
+        [self scheduleUpdate];
     }
     return self;
 }
