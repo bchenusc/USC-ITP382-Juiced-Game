@@ -19,6 +19,7 @@
     CCLabelTTF* m_ScoreLabel;
     CCLabelTTF* m_TimeLabel;
     CCLabelTTF* m_IntroLabel;
+    CCLabelTTF* m_MultLabel;
     //CCMenuItemLabel *m_itemNewGame;
     //CCMenu *m_Menu;
     
@@ -27,6 +28,10 @@
     //Transition variables
     CGPoint score_go_to;
     CGSize  score_size_to;
+    
+    //Particle Systems
+    CCParticleSystemQuad* m_MultParticleL;
+    CCParticleSystemQuad* m_MultParticleR;
     
 }
 
@@ -37,6 +42,8 @@
 - (void) hideScoreLabel;
 - (void) showTimeLabel: (int) time;
 - (void) hideTimeLabel;
+- (void) showMultiplierLabel: (int) multiplier;
+- (void) hideMultiplierLabel;
 - (void) showGameOver;
 - (void) AssignGameplayLayer : (GameplayLayer*) layer;
 
