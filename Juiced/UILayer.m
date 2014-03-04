@@ -54,6 +54,12 @@
         m_IntroLabel.visible = YES;
         [self addChild : m_IntroLabel];
         
+        //Score Multiplier
+        m_MultLabel = [CCLabelTTF labelWithString:@"Placeholder" fontName:@"Fatsans" fontSize:72];
+        m_MultLabel.position = ccp(size.width/2, size.height/2);
+        m_MultLabel.visible = NO;
+        [self addChild:m_MultLabel];
+        
     }
     return self;
 }
@@ -151,6 +157,13 @@
 }
 - (void) hideTimeLabel{
     m_TimeLabel.visible = NO;
+}
+- (void) showMultiplierLabel: (int) multiplier{
+    m_MultLabel.string = [NSString stringWithFormat:@"x%d!!", multiplier];
+    m_MultLabel.visible = YES;
+}
+- (void) hideMultiplierLabel {
+    m_MultLabel.visible = NO;
 }
 
 - (void) showGameOver{

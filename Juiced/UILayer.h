@@ -19,6 +19,7 @@
     CCLabelTTF* m_ScoreLabel;
     CCLabelTTF* m_TimeLabel;
     CCLabelTTF* m_IntroLabel;
+    CCLabelTTF* m_MultLabel;
     //CCMenuItemLabel *m_itemNewGame;
     //CCMenu *m_Menu;
     
@@ -37,6 +38,8 @@
 - (void) hideScoreLabel;
 - (void) showTimeLabel: (int) time;
 - (void) hideTimeLabel;
+- (void) showMultiplierLabel: (int) multiplier;
+- (void) hideMultiplierLabel;
 - (void) showGameOver;
 - (void) AssignGameplayLayer : (GameplayLayer*) layer;
 
