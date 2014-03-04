@@ -33,6 +33,7 @@ struct Touch {
     struct Touch touchStart;
     CCParticleSystemQuad* emitter;
     GameplayLayer* iGameplayLayer;
+    BOOL iIsSelected;
 }
 
 @property (readonly) enum Color color;
@@ -40,6 +41,7 @@ struct Touch {
 @property double velocity;
 @property CGPoint direction;
 @property float radius;
+@property BOOL isSelected;
 
 -(CGRect) rect;
 

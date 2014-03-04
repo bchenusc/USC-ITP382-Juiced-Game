@@ -19,9 +19,9 @@
 @synthesize direction = iDirection;
 @synthesize radius = iRadius;
 @synthesize gameplayLayer = iGameplayLayer;
+@synthesize isSelected = iIsSelected;
 
-- (id)init
-{
+- (id) init {
     self = [super initWithFile:@"Disk.png"];
     if (self) {
         winSize = [[CCDirector sharedDirector] winSize];
@@ -85,7 +85,7 @@
     [self addChild:emitter];
 }
 
--(void)update:(ccTime)delta {
+-(void) update:(ccTime)delta {
     CGPoint newPos = ccp(self.position.x + iDirection.x * iVelocity * delta, self.position.y + iDirection.y * iVelocity * delta);
     iVelocity *= (1 - 0.85 * delta);
     
@@ -114,14 +114,30 @@
     CGPoint layerLocation = [iGameplayLayer convertTouchToNodeSpace:touch];
     
     if ((pow(touchLocation.x, 2) + pow(touchLocation.y, 2)) <= pow(iRadius, 2)) {
-        [iGameplayLayer.selectedDisks addObject:self];
         touchStart.location = layerLocation;
         touchStart.timeStamp = touch.timestamp;
         self.velocity = 0;
+        self.isSelected = YES;
         return YES;
     }
     
     return NO;
+}
+
+- (void) ccTouchMoved:(UITouch *)touch withEvent:(UIEvent *)event {
+    CGPoint touchLocation = [iGameplayLayer convertTouchToNodeSpace:touch];
+    CGPoint oldTouchLocation = [touch previousLocationInView:touch.view];
+    
+    oldTouchLocation = [[CCDirector sharedDirector] convertToGL:oldTouchLocation];
+    oldTouchLocation = [iGameplayLayer convertToNodeSpace:oldTouchLocation];
+    
+    CGPoint translation = ccpSub(touchLocation, oldTouchLocation);
+    CGPoint newPos = ccpAdd(self.position, translation);
+    
+    self.position = newPos;
+    
+    touchStart.location = oldTouchLocation;
+    touchStart.timeStamp = touch.timestamp;
 }
 
 - (void) ccTouchEnded:(UITouch *)touch withEvent:(UIEvent *)event {
@@ -149,32 +165,15 @@
     self.velocity = velocity;
     self.direction = dir;
     
-    [iGameplayLayer.selectedDisks removeObject:self];
+    self.isSelected = NO;
 }
 
-- (void) ccTouchMoved:(UITouch *)touch withEvent:(UIEvent *)event {
-    CGPoint touchLocation = [iGameplayLayer convertTouchToNodeSpace:touch];
-    CGPoint oldTouchLocation = [touch previousLocationInView:touch.view];
-    
-    oldTouchLocation = [[CCDirector sharedDirector] convertToGL:oldTouchLocation];
-    oldTouchLocation = [iGameplayLayer convertToNodeSpace:oldTouchLocation];
-    
-    CGPoint translation = ccpSub(touchLocation, oldTouchLocation);
-    CGPoint newPos = ccpAdd(self.position, translation);
-    self.position = newPos;
-    
-    touchStart.location = oldTouchLocation;
-    touchStart.timeStamp = touch.timestamp;
-}
-
-- (void)onEnter
-{
+- (void) onEnter {
 	[[[CCDirector sharedDirector] touchDispatcher] addTargetedDelegate:self priority:0 swallowsTouches:YES];
 	[super onEnter];
 }
 
-- (void)onExit
-{
+- (void) onExit {
 	[[[CCDirector sharedDirector] touchDispatcher] removeDelegate:self];
 	[super onExit];
 }

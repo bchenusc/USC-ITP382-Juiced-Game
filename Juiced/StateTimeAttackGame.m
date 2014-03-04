@@ -11,8 +11,7 @@
 
 @implementation StateTimeAttackGame
 
-- (id)init
-{
+- (id)init {
     self = [super init];
     if (self) {
         // Scoring Variables
@@ -43,7 +42,7 @@
     
     [m_manager.UI showGameOver];
     
-    [m_manager SetGameState:[[StateMainMenu alloc] init]];
+    [m_manager setGameState:[[StateMainMenu alloc] init]];
 }
 
 -(void) update:(ccTime)delta {
@@ -79,12 +78,7 @@
                     }
                 }
                 
-                if(d == m_manager.selectedDisk) {
-                    [m_manager clearSelectedDisk];
-                }
-                [m_manager.disks removeObject:d];
-                [m_manager shrinkDisk:d];
-                d.velocity = 0;
+                [m_manager removeDisk:d retainVelocity:NO];
                 d = NULL;
                 [m_manager.UI showScoreLabel:m_manager.score];
                 i--;
@@ -99,12 +93,12 @@
     [m_manager.UI showTimeLabel:i_Time];
     if (i_Time <= 0){
         [self unschedule:@selector(timeDecrease)];
-        [m_manager SetGameState:[[StateMainMenu alloc] init]];
+        [m_manager setGameState:[[StateMainMenu alloc] init]];
     }
 }
 
 
--(void)createDisks {
+-(void) createDisks {
     int timesToSpawnDisk = arc4random() % (i_Time / 30 + 1) + 1;
     if(i_Time == 10) {
         [self unschedule:@selector(createDisks)];
@@ -124,22 +118,20 @@
     [self deleteOverflowDisks];
 }
 
--(void)deleteOverflowDisks {
-    // Always move the selected disk to the back of the objects list so it won't be deleted
-    if (m_manager.selectedDisk != NULL) {
-        for (int i = m_manager.disks.count - 1; i >= 0; i--) {
-            if ([m_manager.disks objectAtIndex:i] == m_manager.selectedDisk) {
-                Disk* temp = [m_manager.disks objectAtIndex:i];
-                [m_manager.disks removeObjectAtIndex:i];
-                [m_manager.disks addObject:temp];
-                break;
-            }
+-(void) deleteOverflowDisks {
+    // Always move selected disks to the back of the objects list so they won't be deleted
+    for (int i = m_manager.disks.count - 1; i >= 0; i--) {
+        Disk* d = [m_manager.disks objectAtIndex:i];
+        
+        if (d.isSelected) {
+            [m_manager.disks removeObjectAtIndex:i];
+            [m_manager.disks addObject:d];
         }
     }
     
+    // Delete overflow
     while(m_manager.disks.count > 10) {
-        [m_manager shrinkDisk:[m_manager.disks objectAtIndex:0]];
-        [m_manager.disks removeObjectAtIndex:0];
+        [m_manager removeDisk:[m_manager.disks objectAtIndex:0] retainVelocity: YES];
         m_manager.score -= 20;
         if(m_manager.score < 0) {
             m_manager.score = 0;
@@ -149,7 +141,7 @@
 }
 
 -(void) enter {
-    [m_manager.UI StartAGame];
+    [m_manager.UI startAGame];
 }
 
 -(void) exit {

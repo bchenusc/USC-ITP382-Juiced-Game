@@ -21,7 +21,7 @@
 }
 
 // Returns an array with two rects that make up this cornerquadrant
--(NSMutableArray*)getCollidableArea;
+-(NSMutableArray*) getCollidableArea;
 
 @property enum Color color;
 @property CGFloat width;

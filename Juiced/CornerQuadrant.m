@@ -16,8 +16,7 @@
 @synthesize position = m_Position;
 @synthesize thickness = m_Thickness;
 
-- (id)init
-{
+- (id)init {
     self = [super init];
     if (self) {
         winSize = [[CCDirector sharedDirector] winSize];
@@ -30,7 +29,7 @@
     return self;
 }
 
--(NSMutableArray*)getCollidableArea {
+-(NSMutableArray*) getCollidableArea {
     NSMutableArray* returnArray = [NSMutableArray new];
     CGRect firstRect = CGRectMake(m_Position.x, m_Position.y, m_Width, m_Thickness * ((self.height > 0) ? 1 : -1));
     CGRect secondRect = CGRectMake(m_Position.x, m_Position.y, m_Thickness * ((self.width > 0) ? 1 : -1), m_Height);
@@ -39,7 +38,7 @@
     return returnArray;
 }
 
-- (void)draw {
+- (void) draw {
     ccColor4F color;
     switch (m_Color) {
         case blue:

@@ -23,8 +23,6 @@
 @interface GameplayLayer : CCLayer {
     NSMutableArray* objects;
     NSMutableArray* quadrants;
-    CCSprite* selectedSprite;
-    NSMutableArray* iSelectedDisks;
     
     int i_Score;
     int diskZOrder;
@@ -40,26 +38,29 @@
 @property (readonly) UILayer* UI;
 @property (readonly) NSMutableArray* disks;
 @property (readonly) NSMutableArray* quads;
-@property (readonly) NSMutableArray* selectedDisks;
-@property (readonly) CCSprite* selectedDisk;
 
 @property(nonatomic, retain) CCParticleSystemQuad* ParticleEmitter;
 
-// returns a CCScene that contains the HelloWorldLayer as the only child
+// Returns a CCScene that contains the HelloWorldLayer as the only child
 +(CCScene*) scene;
 
--(void) clearSelectedDisk;
+// Spawns four disks in the corners, i.e. for a menu
+-(void) spawnFourDisks;
 
--(void) SpawnFourDisks;
+// Sets the game state to a new state
+-(void) setGameState:(GameState*)newState;
 
--(void) SetGameState:(GameState*)newState;
-
+// Update the layer
 -(void) update:(ccTime)delta;
 
+// Clears all active disks by shrinking them
 -(void) clearAllDisks;
 
 // Spawns one disk at a random location
 -(void) spawnDiskAtRandomLocation;
+
+// Remove a given disk
+-(void) removeDisk:(Disk*)d retainVelocity:(BOOL)rv;
 
 // Makes the disk expand by incrementing its radius
 -(void) expandDisk:(Disk*)d;
@@ -67,11 +68,8 @@
 // Makes a disk active
 -(void) activateDisk:(Disk*)d;
 
-// Shrinks a disk
+// Shrinks a disk and deletes it
 -(void) shrinkDisk:(Disk*)d;
-
-// Destroys a disk
--(void) deleteDisk:(Disk*)d;
 
 // Switches the color of all quadrants
 -(void) changeColorOfAllQuadrants;
@@ -79,11 +77,13 @@
 // Blinks all quadrants
 -(void) blinkQuadrants;
 
-// Go through all the quadarnts and return the qudarnt at the given rect, if there is one
+// Go through all the quadrants and returns the quadrant at the given rect, if there is one
 -(CornerQuadrant*) getQuadrantAtRect:(CGRect)rect;
 
+// Spawns score particles at a given location
 -(void) scoreParticlesAtLocation:(CGPoint)location;
 
+// Starts a game
 -(void) gameStart;
 
 @end

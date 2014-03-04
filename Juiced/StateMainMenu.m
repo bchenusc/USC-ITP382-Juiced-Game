@@ -33,11 +33,11 @@
     }
 }
 
--(BOOL) handleMenuSelection : (Disk*) disk Quadrant : (CornerQuadrant*) quad{
+-(BOOL) handleMenuSelection : (Disk*) disk Quadrant : (CornerQuadrant*) quad {
     //Handle collisions here.
     if(quad.color == disk.color) {
         disk.velocity = 0;
-        [m_manager SetGameState:[[StateTimeAttackGame alloc] init]];
+        [m_manager setGameState:[[StateTimeAttackGame alloc] init]];
         return YES;
     }
     
@@ -45,7 +45,7 @@
 }
 
 -(void) enter {
-    [m_manager scheduleOnce:@selector(SpawnFourDisks) delay:2.0];
+    [m_manager scheduleOnce:@selector(spawnFourDisks) delay:2.0];
 }
 
 -(void) exit {

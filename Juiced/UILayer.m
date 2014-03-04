@@ -12,13 +12,14 @@
 // Needed to obtain the Navigation Controller
 #import "AppDelegate.h"
 
+#import "GameplayLayer.h"
+
 // HelloWorldLayer implementation
 @implementation UILayer
 
 
 // on "init" you need to initialize your instance
--(id) init
-{
+-(id) init {
     self = [super init];
     
     
@@ -49,7 +50,6 @@
         
         //Instructions label
         m_IntroLabel =[CCLabelTTF labelWithString:@"Slide A Disk To Play " fontName: @"Fatsans" fontSize:12];
-        //[self performSelector:@selector(FlashALabel) withObject:m_IntroLabel];
         m_IntroLabel.position = ccp(size.width/2, size.height/2 - 10);
         m_IntroLabel.visible = YES;
         [self addChild : m_IntroLabel];
@@ -75,11 +75,11 @@
     return self;
 }
 
--(void) AssignGameplayLayer : (GameplayLayer* ) layer{
+-(void) assignGameplayLayer : (GameplayLayer* ) layer {
     m_GameplayLayer = layer;
 }
 
--(void)FlashALabel : (CCLabelTTF*) label{
+-(void) flashALabel : (CCLabelTTF*) label {
     if (label.opacity == 0){
         [label runAction:[CCFadeIn actionWithDuration:0.1]];
     }
@@ -88,13 +88,13 @@
     }
 }
 
-- (void) StartAGame{
+-(void) startAGame {
     //Make sure to send the points system back down to where it belongs.
     
     CGSize size = [[CCDirector sharedDirector] winSize];
     score_go_to = ccp(size.width/2, 10);
     if (ccpDistanceSQ(m_ScoreLabel.position, score_go_to) > 4){
-        [self schedule:@selector(SlideScoreDown) interval:0.01];
+        [self schedule:@selector(slideScoreDown) interval:0.01];
     }
     [m_IntroLabel runAction:[CCFadeOut actionWithDuration:0.1]];
     if (m_TitleSprite.opacity != 0) {
@@ -110,20 +110,20 @@
      [CCSequence actions:
       [CCFadeOut actionWithDuration:0.2],
       [CCDelayTime actionWithDuration:0.1],
-      [CCCallFunc actionWithTarget:self selector:@selector(Ready)],
+      [CCCallFunc actionWithTarget:self selector:@selector(iReady)],
       [CCFadeIn actionWithDuration:0.2],
       [CCDelayTime actionWithDuration:0.5],
       
       [CCFadeOut actionWithDuration:0.2],
       [CCDelayTime actionWithDuration:0.1],
-      [CCCallFunc actionWithTarget:self selector:@selector(Set)],
+      [CCCallFunc actionWithTarget:self selector:@selector(iSet)],
       [CCFadeIn actionWithDuration:0.2],
       [CCDelayTime actionWithDuration:0.5],
       
       
       [CCFadeOut actionWithDuration:0.2],
       [CCDelayTime actionWithDuration:0.1],
-      [CCCallFunc actionWithTarget:self selector:@selector(Begin)],
+      [CCCallFunc actionWithTarget:self selector:@selector(iBegin)],
       [CCFadeIn actionWithDuration:0.2],
       [CCDelayTime actionWithDuration:0.5],
       [CCFadeOut actionWithDuration:0.2],
@@ -134,42 +134,50 @@
      ];
 }
 
-- (void) hideIntroLabel{
+-(void) hideIntroLabel {
     m_IntroLabel.visible = NO;
 }
 
-- (void) Ready{
+-(void) iReady {
     m_TitleLabel.string = @"Ready";
 }
-- (void) Set{
+
+-(void) iSet {
     m_TitleLabel.string = @"Set";
 }
-- (void) Begin{
+
+-(void) iBegin {
     m_TitleLabel.string = @"Begin";
 }
 
-- (void) showTitleLabel : (NSString*) text{
+-(void) showTitleLabel : (NSString*) text {
     m_TitleLabel.string = text;
     m_TitleLabel.visible = YES;
 }
-- (void) hideTitleLabel{
+
+-(void) hideTitleLabel {
     m_TitleLabel.visible = NO;
 }
-- (void) showScoreLabel : (int) score{
+
+-(void) showScoreLabel : (int) score {
     m_ScoreLabel.string = [NSString stringWithFormat:@"%d pts", score];
     m_ScoreLabel.visible = YES;
 }
-- (void) hideScoreLabel{
+
+-(void) hideScoreLabel{
     m_ScoreLabel.visible = NO;
 }
-- (void) showTimeLabel: (int) time{
+
+-(void) showTimeLabel: (int) time {
     m_TimeLabel.string = [NSString stringWithFormat:@"%d s", time];
     m_TimeLabel.visible = YES;
 }
-- (void) hideTimeLabel{
+
+-(void) hideTimeLabel {
     m_TimeLabel.visible = NO;
 }
-- (void) showMultiplierLabel: (int) multiplier{
+
+-(void) showMultiplierLabel: (int) multiplier {
     m_MultLabel.string = [NSString stringWithFormat:@"x%d!!", multiplier];
     m_MultLabel.visible = YES;
     m_MultParticleL.visible = YES;
@@ -177,27 +185,27 @@
     m_MultParticleR.visible = YES;
     [m_MultParticleR resetSystem];
 }
-- (void) hideMultiplierLabel {
+
+-(void) hideMultiplierLabel {
     m_MultLabel.visible = NO;
     m_MultParticleL.visible = NO;
     m_MultParticleR.visible = NO;
 }
 
-- (void) showGameOver{
+-(void) showGameOver {
     CGSize size = [[CCDirector sharedDirector] winSize];
     score_go_to= ccp(size.width/2, size.height/2 - 10);
-    [self schedule:@selector(SlideScoreUp) interval:0.01];
+    [self schedule:@selector(slideScoreUp) interval:0.01];
 }
 
-- (void) SlideScoreUp
-{
+-(void) slideScoreUp {
     m_ScoreLabel.position = ccpAdd(m_ScoreLabel.position,
                                    ccpMult(ccpNormalize(ccpSub(score_go_to, m_ScoreLabel.position)),
                                    5));
     m_ScoreLabel.fontSize += 0.5;
     
     if (ccpDistanceSQ(m_ScoreLabel.position, score_go_to) <= 2){
-        [self unschedule:@selector(SlideScoreUp)];
+        [self unschedule:@selector(slideScoreUp)];
         CGSize size = [[CCDirector sharedDirector] winSize];
         
         //When the game is actually over:
@@ -215,8 +223,7 @@
     }
 }
 
-- (void) SlideScoreDown
-{
+-(void) slideScoreDown {
     
     m_ScoreLabel.position = ccpAdd(m_ScoreLabel.position,
                                    ccpMult(ccpNormalize(ccpSub(score_go_to, m_ScoreLabel.position)),
@@ -225,7 +232,7 @@
     
     if (ccpDistanceSQ(m_ScoreLabel.position, score_go_to) <= 2){
         CGSize size = [[CCDirector sharedDirector] winSize];
-        [self unschedule:@selector(SlideScoreDown)];
+        [self unschedule:@selector(slideScoreDown)];
         m_ScoreLabel.fontSize = 12;
         m_ScoreLabel.position = ccp(size.width/2, 10);
     }
@@ -233,8 +240,7 @@
 
 
 // on "dealloc" you need to release all your retained objects
-- (void) dealloc
-{
+-(void) dealloc {
 	// in case you have something to dealloc, do it in this method
 	// in this particular example nothing needs to be released.
 	// cocos2d will automatically release all the children (Label)
