@@ -179,6 +179,8 @@
 }
 - (void) hideMultiplierLabel {
     m_MultLabel.visible = NO;
+    m_MultParticleL.visible = NO;
+    m_MultParticleR.visible = NO;
 }
 
 - (void) showGameOver{
