@@ -8,6 +8,9 @@
 
 #import "CCSprite.h"
 #import "CCParticleSystemQuad.h"
+#import "CCTouchDelegateProtocol.h"
+
+@class GameplayLayer;
 
 enum Color {
     red,
@@ -21,7 +24,7 @@ struct Touch {
     NSTimeInterval timeStamp;
 };
 
-@interface Disk : CCSprite {
+@interface Disk : CCSprite <CCTouchOneByOneDelegate> {
     enum Color iColor;
     float iRadius;
     CGSize winSize;
@@ -29,9 +32,11 @@ struct Touch {
     CGPoint iDirection;
     struct Touch touchStart;
     CCParticleSystemQuad* emitter;
+    GameplayLayer* iGameplayLayer;
 }
 
 @property (readonly) enum Color color;
+@property (assign) GameplayLayer* gameplayLayer;
 @property double velocity;
 @property CGPoint direction;
 @property float radius;
@@ -41,9 +46,5 @@ struct Touch {
 -(void) update:(ccTime)delta;
 
 -(void) setColor:(enum Color)color;
-
--(void) setStartTouch:(CGPoint)loc Timestamp:(NSTimeInterval) time;
-
--(struct Touch) getStartTouch;
 
 @end

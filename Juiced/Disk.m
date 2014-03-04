@@ -8,6 +8,7 @@
 
 #import "Disk.h"
 #import "cocos2d.h"
+#import "GameplayLayer.h"
 
 #pragma mark - Disk
 
@@ -17,6 +18,7 @@
 @synthesize velocity = iVelocity;
 @synthesize direction = iDirection;
 @synthesize radius = iRadius;
+@synthesize gameplayLayer = iGameplayLayer;
 
 - (id)init
 {
@@ -83,15 +85,6 @@
     [self addChild:emitter];
 }
 
--(void) setStartTouch:(CGPoint)loc Timestamp:(NSTimeInterval) time {
-    touchStart.location = loc;
-    touchStart.timeStamp = time;
-}
-
--(struct Touch) getStartTouch {
-    return touchStart;
-}
-
 -(void)update:(ccTime)delta {
     CGPoint newPos = ccp(self.position.x + iDirection.x * iVelocity * delta, self.position.y + iDirection.y * iVelocity * delta);
     iVelocity *= (1 - 0.85 * delta);
@@ -116,15 +109,74 @@
     self.position = newPos;
 }
 
-// Uncomment this if you want to see hitboxes for disks
-/*- (void)draw {
-    ccDrawColor4B(255, 255, 255, 255);
-    CGPoint origin = ccp(0, 0);
-    CGPoint destination = ccp(iRadius * 2, iRadius * 2);
+- (BOOL) ccTouchBegan:(UITouch *)touch withEvent:(UIEvent *)event {
+    CGPoint touchLocation = [self convertTouchToNodeSpaceAR:touch];
+    CGPoint layerLocation = [iGameplayLayer convertTouchToNodeSpace:touch];
     
-    ccDrawRect(origin, destination);
+    if ((pow(touchLocation.x, 2) + pow(touchLocation.y, 2)) <= pow(iRadius, 2)) {
+        [iGameplayLayer.selectedDisks addObject:self];
+        touchStart.location = layerLocation;
+        touchStart.timeStamp = touch.timestamp;
+        self.velocity = 0;
+        return YES;
+    }
     
-    [super draw];
-}*/
+    return NO;
+}
+
+- (void) ccTouchEnded:(UITouch *)touch withEvent:(UIEvent *)event {
+    // Determine how long the touch/drag lasted on the disk
+    double dt = touch.timestamp - touchStart.timeStamp;
+    
+    // Determine the vector of the touch and normalize it
+    CGPoint touchLocation = [iGameplayLayer convertTouchToNodeSpace:touch];
+    CGPoint dir = ccp(touchLocation.x - touchStart.location.x, touchLocation.y - touchStart.location.y);
+    double dx = sqrt(dir.x * dir.x + dir.y * dir.y);
+    if (dx == 0) {
+        dir = ccp(0, 0);
+    } else {
+        dir = ccp(dir.x / dx, dir.y / dx);
+    }
+    
+    // Determine the velocity
+    double velocity = dx/dt;
+    
+    // Cap max velocity
+    if (velocity > 3000) {
+        velocity = 3000;
+    }
+    
+    self.velocity = velocity;
+    self.direction = dir;
+    
+    [iGameplayLayer.selectedDisks removeObject:self];
+}
+
+- (void) ccTouchMoved:(UITouch *)touch withEvent:(UIEvent *)event {
+    CGPoint touchLocation = [iGameplayLayer convertTouchToNodeSpace:touch];
+    CGPoint oldTouchLocation = [touch previousLocationInView:touch.view];
+    
+    oldTouchLocation = [[CCDirector sharedDirector] convertToGL:oldTouchLocation];
+    oldTouchLocation = [iGameplayLayer convertToNodeSpace:oldTouchLocation];
+    
+    CGPoint translation = ccpSub(touchLocation, oldTouchLocation);
+    CGPoint newPos = ccpAdd(self.position, translation);
+    self.position = newPos;
+    
+    touchStart.location = oldTouchLocation;
+    touchStart.timeStamp = touch.timestamp;
+}
+
+- (void)onEnter
+{
+	[[[CCDirector sharedDirector] touchDispatcher] addTargetedDelegate:self priority:0 swallowsTouches:YES];
+	[super onEnter];
+}
+
+- (void)onExit
+{
+	[[[CCDirector sharedDirector] touchDispatcher] removeDelegate:self];
+	[super onExit];
+}
 
 @end

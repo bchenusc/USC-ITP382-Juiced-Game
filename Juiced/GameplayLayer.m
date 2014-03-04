@@ -32,6 +32,7 @@
 @synthesize disks = objects;
 @synthesize quads = quadrants;
 @synthesize selectedDisk = selectedSprite;
+@synthesize selectedDisks = iSelectedDisks;
 
 @synthesize ParticleEmitter = emitter;
 
@@ -70,6 +71,9 @@
         // Quadrants
         quadrants = [[NSMutableArray alloc] init];
         
+        // Selected disks
+        iSelectedDisks = [[NSMutableArray alloc] init];
+        
         // No selected sprite initially
         selectedSprite = NULL;
         
@@ -107,7 +111,7 @@
         [self addChild:quad4];
         
         // This layer can receive touches and is updated
-        [[CCDirector sharedDirector].touchDispatcher addTargetedDelegate:self priority:INT_MIN+2 swallowsTouches:YES];
+        //[glview]
         [self scheduleUpdate];
         
         //Layers
@@ -132,6 +136,7 @@
     CGSize winSize = [[CCDirector sharedDirector] winSize];
     // Add a some disks for testing
     Disk* disk1 = [Disk node];
+    disk1.gameplayLayer = self;
     disk1.position = ccp(winSize.width/4, winSize.height/4);
     [disk1 setColor:red];
     disk1.scale = 0;
@@ -140,6 +145,7 @@
     [self addChild:disk1];
     
     Disk* disk2 = [Disk node];
+    disk2.gameplayLayer = self;
     disk2.position = ccp(winSize.width*3/4, winSize.height/4);
     [disk2 setColor:blue];
     disk2.scale = 0;
@@ -148,6 +154,7 @@
     [self addChild:disk2];
     
     Disk* disk3 = [Disk node];
+    disk3.gameplayLayer = self;
     disk3.position = ccp(winSize.width/4, winSize.height*3/4);
     [disk3 setColor:yellow];
     disk3.scale = 0;
@@ -156,6 +163,7 @@
     [self addChild:disk3];
     
     Disk* disk4 = [Disk node];
+    disk4.gameplayLayer = self;
     disk4.position = ccp(winSize.width*3/4, winSize.height*3/4);
     [disk4 setColor:green];
     disk4.scale = 0;
@@ -166,89 +174,6 @@
 
 -(void) clearSelectedDisk {
     selectedSprite = NULL;
-}
-
--(void) selectObjectForTouch:(UITouch*)touch {
-    CGPoint touchLocation = [self convertTouchToNodeSpace:touch];
-    for(int i = objects.count - 1; i >= 0; i--) {
-        Disk* d = objects[i];
-        CGPoint distanceFromDisk = ccpSub(d.position, touchLocation);
-        if((pow(distanceFromDisk.x, 2) + pow(distanceFromDisk.y, 2)) <= pow([d rect].size.width / 2, 2)) {
-            selectedSprite = d;
-            [d setStartTouch:touchLocation Timestamp:touch.timestamp];
-            d.velocity = 0;
-            return;
-        }
-    }
-}
-
--(void) panForTranslation:(CGPoint)translation {
-    if (selectedSprite) {
-        CGPoint newPos = ccpAdd(selectedSprite.position, translation);
-        selectedSprite.position = newPos;
-    }
-}
-
-- (BOOL) ccTouchBegan:(UITouch *)touch withEvent:(UIEvent *)event {
-    [self selectObjectForTouch:touch];
-    
-    return YES;
-}
-
-- (void) ccTouchMoved:(UITouch *)touch withEvent:(UIEvent *)event {
-    if (selectedSprite == NULL) {
-        [self selectObjectForTouch:touch];
-    }
-    
-    CGPoint touchLocation = [self convertTouchToNodeSpace:touch];
-    
-    CGPoint oldTouchLocation = [touch previousLocationInView:touch.view];
-    oldTouchLocation = [[CCDirector sharedDirector] convertToGL:oldTouchLocation];
-    oldTouchLocation = [self convertToNodeSpace:oldTouchLocation];
-    
-    CGPoint translation = ccpSub(touchLocation, oldTouchLocation);
-    [self panForTranslation:translation];
-    
-    if(selectedSprite != NULL) {
-        if([selectedSprite isKindOfClass:[Disk class]]) {
-            Disk *d = (Disk*)selectedSprite;
-            [d setStartTouch:oldTouchLocation Timestamp:touch.timestamp];
-        }
-    }
-}
-
-- (void) ccTouchEnded:(UITouch *)touch withEvent:(UIEvent *)event {
-    // If there's a selected sprite, and it's a disk
-    if (selectedSprite && [selectedSprite isKindOfClass:[Disk class]]) {
-        // Cast to a Disk
-        Disk* disk = (Disk*) selectedSprite;
-        
-        // Determine how long the touch/drag lasted on the disk
-        double dt = touch.timestamp - [disk getStartTouch].timeStamp;
-        
-        // Determine the vector of the touch and normalize it
-        CGPoint touchLocation = [self convertTouchToNodeSpace:touch];
-        CGPoint dir = ccp(touchLocation.x - [disk getStartTouch].location.x, touchLocation.y - [disk getStartTouch].location.y);
-        double dx = sqrt(dir.x * dir.x + dir.y * dir.y);
-        if (dx == 0) {
-            dir = ccp(0, 0);
-        } else {
-            dir = ccp(dir.x / dx, dir.y / dx);
-        }
-        
-        // Determine the velocity
-        double velocity = dx/dt;
-        
-        // Cap max velocity
-        if (velocity > 3000) {
-            velocity = 3000;
-        }
-        
-        disk.velocity = velocity;
-        disk.direction = dir;
-        
-        selectedSprite = NULL;
-    }
 }
 
 -(void) SetGameState:(GameState*)newState {
@@ -317,6 +242,7 @@
 -(void)spawnDiskAtRandomLocation {
     CGSize winSize = [[CCDirector sharedDirector] winSize];
     Disk* newDisk = [Disk node];
+    newDisk.gameplayLayer = self;
     newDisk.scale = 0;
     newDisk.zOrder = diskZOrder++;
     CGRect newDiskRect = newDisk.rect;
@@ -483,6 +409,8 @@
     [objects release];
     
     [quadrants release];
+    
+    [iSelectedDisks release];
 	
 	// don't forget to call "super dealloc"
 	[super dealloc];

@@ -24,6 +24,7 @@
     NSMutableArray* objects;
     NSMutableArray* quadrants;
     CCSprite* selectedSprite;
+    NSMutableArray* iSelectedDisks;
     
     int i_Score;
     int diskZOrder;
@@ -39,6 +40,7 @@
 @property (readonly) UILayer* UI;
 @property (readonly) NSMutableArray* disks;
 @property (readonly) NSMutableArray* quads;
+@property (readonly) NSMutableArray* selectedDisks;
 @property (readonly) CCSprite* selectedDisk;
 
 @property(nonatomic, retain) CCParticleSystemQuad* ParticleEmitter;
@@ -49,10 +51,6 @@
 -(void) clearSelectedDisk;
 
 -(void) SpawnFourDisks;
-
--(void) selectObjectForTouch:(UITouch*)touch;
-
--(void) panForTranslation:(CGPoint)translation;
 
 -(void) SetGameState:(GameState*)newState;
 
