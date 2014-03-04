@@ -341,32 +341,37 @@
     }
     
     // Makes sure the new disk isn't too close to others
-    for(Disk* d in objects) {
-        if(abs(d.position.x - newDisk.position.x) <= newDiskRect.size.width / 10 && abs(d.position.y - newDisk.position.y) <= newDiskRect.size.height / 10) {
-            if(newDisk.position.x < d.position.x)
+    for (Disk* d in objects) {
+        if (abs(d.position.x - newDisk.position.x) <= newDiskRect.size.width / 10 && abs(d.position.y - newDisk.position.y) <= newDiskRect.size.height / 10) {
+            if (newDisk.position.x < d.position.x) {
                 newDisk.position = ccp(newDisk.position.x - newDiskRect.size.width / 10, newDisk.position.y);
-            else
+            } else {
                 newDisk.position = ccp(newDisk.position.x + newDiskRect.size.width / 10, newDisk.position.y);
-            if(newDisk.position.y < d.position.y)
+            }
+            
+            if (newDisk.position.y < d.position.y) {
                 newDisk.position = ccp(newDisk.position.y, newDisk.position.y - newDiskRect.size.height / 10);
-            else
+            } else {
                 newDisk.position = ccp(newDisk.position.y, newDisk.position.y + newDiskRect.size.height / 10);
+            }
         }
     }
     
     // Makes sure the new disk isn't too close to borders
-    if(newDisk.position.x < newDiskRect.size.width)
+    if (newDisk.position.x < newDiskRect.size.width) {
         newDisk.position = ccp(newDiskRect.size.width * 3 / 2, newDisk.position.y);
-    else if(newDisk.position.x > winSize.width - newDiskRect.size.width)
+    } else if (newDisk.position.x > winSize.width - newDiskRect.size.width) {
         newDisk.position = ccp(winSize.width - newDiskRect.size.width * 3 / 2, newDisk.position.y);
+    }
     
-    if(newDisk.position.y < newDiskRect.size.height)
+    if (newDisk.position.y < newDiskRect.size.height) {
         newDisk.position = ccp(newDisk.position.x, newDiskRect.size.height * 3 / 2);
-    else if(newDisk.position.x > winSize.width - newDiskRect.size.width)
+    } else if (newDisk.position.x > winSize.width - newDiskRect.size.width) {
         newDisk.position = ccp(newDisk.position.x, winSize.height - newDiskRect.size.height * 3 / 2);
+    }
     
     // Grow the disk to the requisite size of 60, in .5 seconds
-    [self performSelector:@selector(expandDisk:) withObject:newDisk afterDelay:.01];
+    [self expandDisk:newDisk];
     
     [self addChild:newDisk];
 }
