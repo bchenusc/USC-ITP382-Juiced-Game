@@ -99,9 +99,9 @@
             }
         }
         
-        /*if (d) {
+        if (d) {
             [d update:delta];
-        }*/
+        }
     }
 }
 
