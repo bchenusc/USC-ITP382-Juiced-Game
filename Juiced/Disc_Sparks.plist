@@ -33,7 +33,7 @@
 	<key>finishColorVarianceRed</key>
 	<real>0.0</real>
 	<key>finishParticleSize</key>
-	<real>45</real>
+	<real>54</real>
 	<key>finishParticleSizeVariance</key>
 	<real>2</real>
 	<key>gravityx</key>
@@ -41,7 +41,7 @@
 	<key>gravityy</key>
 	<real>0.0</real>
 	<key>maxParticles</key>
-	<real>9</real>
+	<real>30</real>
 	<key>maxRadius</key>
 	<integer>0</integer>
 	<key>maxRadiusVariance</key>
@@ -51,9 +51,9 @@
 	<key>minRadiusVariance</key>
 	<real>0.0</real>
 	<key>particleLifespan</key>
-	<real>1</real>
+	<real>0.050000000000000003</real>
 	<key>particleLifespanVariance</key>
-	<real>0.10000000000000001</real>
+	<real>0.02</real>
 	<key>radialAccelVariance</key>
 	<real>0.0</real>
 	<key>radialAcceleration</key>
@@ -79,7 +79,7 @@
 	<key>speedVariance</key>
 	<real>0.0</real>
 	<key>startColorAlpha</key>
-	<real>1</real>
+	<real>0.27000001072883606</real>
 	<key>startColorBlue</key>
 	<real>1</real>
 	<key>startColorGreen</key>
@@ -95,7 +95,7 @@
 	<key>startColorVarianceRed</key>
 	<real>0.0</real>
 	<key>startParticleSize</key>
-	<real>50</real>
+	<real>60</real>
 	<key>startParticleSizeVariance</key>
 	<real>2</real>
 	<key>tangentialAccelVariance</key>
