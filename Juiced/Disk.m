@@ -41,8 +41,10 @@
         self.anchorPoint = ccp(0.5, 0.5);
         
         iColor = blue;
-        emitter = [CCParticleSystemQuad particleWithFile:@"Blue_Sparks.plist"];
+        emitter = [CCParticleSystemQuad particleWithFile:@"Disc_Sparks.plist"];
         emitter.position = ccp(self.contentSize.width/2, self.contentSize.height/2);
+        emitter.startSize = iRadius * 2;
+        emitter.endSize = emitter.startSize * 0.9f;
         [self addChild:emitter];
     }
     return self;
@@ -60,22 +62,22 @@
     
     switch (color) {
         case blue:
-            emitter.startColor = ccc4FFromccc4B(ccc4(0, 0, 255, 255));
+            emitter.startColor = ccc4FFromccc4B(ccc4(0, 0, 255, 128));
             emitter.endColor = ccc4FFromccc4B(ccc4(0, 0, 255, 0));
             super.color = ccc3(0, 0, 255);
             break;
         case red:
-            emitter.startColor = ccc4FFromccc4B(ccc4(255, 0, 0, 255));
+            emitter.startColor = ccc4FFromccc4B(ccc4(255, 0, 0, 128));
             emitter.endColor = ccc4FFromccc4B(ccc4(255, 0, 0, 0));
             super.color = ccc3(255, 0, 0);
             break;
         case green:
-            emitter.startColor = ccc4FFromccc4B(ccc4(52, 199, 52, 255));
+            emitter.startColor = ccc4FFromccc4B(ccc4(52, 199, 52, 128));
             emitter.endColor = ccc4FFromccc4B(ccc4(52, 199, 52, 0));
             super.color = ccc3(52, 199, 52);
             break;
         case yellow:
-            emitter.startColor = ccc4FFromccc4B(ccc4(255, 255, 0, 255));
+            emitter.startColor = ccc4FFromccc4B(ccc4(255, 255, 0, 128));
             emitter.endColor = ccc4FFromccc4B(ccc4(255, 255, 0, 0));
             super.color = ccc3(255, 255, 0);
             break;
