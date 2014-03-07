@@ -42,6 +42,7 @@
         
         iColor = blue;
         emitter = [CCParticleSystemQuad particleWithFile:@"Blue_Sparks.plist"];
+        emitter.position = ccp(self.contentSize.width/2, self.contentSize.height/2);
         [self addChild:emitter];
     }
     return self;
@@ -57,32 +58,28 @@
 -(void) setColor:(enum Color)color; {
     iColor = color;
     
-    if (emitter) {
-        [self removeChild:emitter cleanup:YES];
-        emitter = NULL;
-    }
-    
     switch (color) {
         case blue:
-            emitter = [CCParticleSystemQuad particleWithFile:@"Blue_Sparks.plist"];
+            emitter.startColor = ccc4FFromccc4B(ccc4(0, 0, 255, 255));
+            emitter.endColor = ccc4FFromccc4B(ccc4(0, 0, 255, 0));
             super.color = ccc3(0, 0, 255);
             break;
         case red:
-            emitter = [CCParticleSystemQuad particleWithFile:@"Red_Sparks.plist"];
+            emitter.startColor = ccc4FFromccc4B(ccc4(255, 0, 0, 255));
+            emitter.endColor = ccc4FFromccc4B(ccc4(255, 0, 0, 0));
             super.color = ccc3(255, 0, 0);
             break;
         case green:
-            emitter = [CCParticleSystemQuad particleWithFile:@"Green_Sparks.plist"];
+            emitter.startColor = ccc4FFromccc4B(ccc4(52, 199, 52, 255));
+            emitter.endColor = ccc4FFromccc4B(ccc4(52, 199, 52, 0));
             super.color = ccc3(52, 199, 52);
             break;
         case yellow:
-            emitter = [CCParticleSystemQuad particleWithFile:@"Yellow_Sparks.plist"];
+            emitter.startColor = ccc4FFromccc4B(ccc4(255, 255, 0, 255));
+            emitter.endColor = ccc4FFromccc4B(ccc4(255, 255, 0, 0));
             super.color = ccc3(255, 255, 0);
             break;
     }
-    
-    emitter.position = ccp(self.contentSize.width/2, self.contentSize.height/2);
-    [self addChild:emitter];
 }
 
 -(void) update:(ccTime)delta {
