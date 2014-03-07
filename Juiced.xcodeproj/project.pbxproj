@@ -171,13 +171,6 @@
 /* Begin PBXFileReference section */
 		00AC5E4318CA871C00BF0012 /* StateSurvivalGame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StateSurvivalGame.h; sourceTree = "<group>"; };
 		00AC5E4418CA871C00BF0012 /* StateSurvivalGame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StateSurvivalGame.m; sourceTree = "<group>"; };
-		00DC623B18B9A7F500D9EA85 /* Red_Explode.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Red_Explode.plist; path = "/Users/JEFFREY/Documents/2013-2014 USC/ITP382/Juiced/Juiced/Red_Explode.plist"; sourceTree = "<absolute>"; };
-		00DC623E18BA624300D9EA85 /* Blue_Test.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Blue_Test.plist; path = "/Users/JEFFREY/Documents/2013-2014 USC/ITP382/Juiced/Juiced/Blue_Test.plist"; sourceTree = "<absolute>"; };
-		00DC624018BAB9E700D9EA85 /* White_Starburst.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = White_Starburst.plist; path = "/Users/JEFFREY/Documents/2013-2014 USC/ITP382/Juiced/Juiced/White_Starburst.plist"; sourceTree = "<absolute>"; };
-		00DC624218BABA7600D9EA85 /* Red_Sparks.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Red_Sparks.plist; path = "/Users/JEFFREY/Documents/2013-2014 USC/ITP382/Juiced/Juiced/Red_Sparks.plist"; sourceTree = "<absolute>"; };
-		00DC624418BB012000D9EA85 /* Blue_Sparks.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Blue_Sparks.plist; path = "/Users/JEFFREY/Documents/2013-2014 USC/ITP382/Juiced/Juiced/Blue_Sparks.plist"; sourceTree = "<absolute>"; };
-		00DC624518BB012000D9EA85 /* Green_Sparks.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Green_Sparks.plist; path = "/Users/JEFFREY/Documents/2013-2014 USC/ITP382/Juiced/Juiced/Green_Sparks.plist"; sourceTree = "<absolute>"; };
-		00DC624618BB012000D9EA85 /* Yellow_Sparks.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Yellow_Sparks.plist; path = "/Users/JEFFREY/Documents/2013-2014 USC/ITP382/Juiced/Juiced/Yellow_Sparks.plist"; sourceTree = "<absolute>"; };
 		00F627F118C586A500B49B76 /* Score_Mult_L.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Score_Mult_L.plist; sourceTree = "<group>"; };
 		00F627F218C586A500B49B76 /* Score_Mult_R.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Score_Mult_R.plist; sourceTree = "<group>"; };
 		3B083A7118B96B0A002ADD91 /* UILayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UILayer.h; sourceTree = "<group>"; };
@@ -518,13 +511,6 @@
 			children = (
 				00F627F118C586A500B49B76 /* Score_Mult_L.plist */,
 				00F627F218C586A500B49B76 /* Score_Mult_R.plist */,
-				00DC623E18BA624300D9EA85 /* Blue_Test.plist */,
-				00DC624418BB012000D9EA85 /* Blue_Sparks.plist */,
-				00DC624518BB012000D9EA85 /* Green_Sparks.plist */,
-				00DC624618BB012000D9EA85 /* Yellow_Sparks.plist */,
-				00DC623B18B9A7F500D9EA85 /* Red_Explode.plist */,
-				00DC624218BABA7600D9EA85 /* Red_Sparks.plist */,
-				00DC624018BAB9E700D9EA85 /* White_Starburst.plist */,
 			);
 			name = Particles;
 			sourceTree = "<group>";
