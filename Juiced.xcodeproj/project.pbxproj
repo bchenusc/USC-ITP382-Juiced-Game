@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		00AC5E4518CA871C00BF0012 /* StateSurvivalGame.m in Sources */ = {isa = PBXBuildFile; fileRef = 00AC5E4418CA871C00BF0012 /* StateSurvivalGame.m */; };
-		00BDB6B318CA8F3700491BA3 /* Disc_Sparks.plist in Resources */ = {isa = PBXBuildFile; fileRef = 00BDB6B218CA8F3700491BA3 /* Disc_Sparks.plist */; };
+		00BDB6B518CA915400491BA3 /* Disc_Sparks.plist in Resources */ = {isa = PBXBuildFile; fileRef = 00BDB6B418CA915400491BA3 /* Disc_Sparks.plist */; };
 		00F627F318C586A500B49B76 /* Score_Mult_L.plist in Resources */ = {isa = PBXBuildFile; fileRef = 00F627F118C586A500B49B76 /* Score_Mult_L.plist */; };
 		00F627F418C586A500B49B76 /* Score_Mult_R.plist in Resources */ = {isa = PBXBuildFile; fileRef = 00F627F218C586A500B49B76 /* Score_Mult_R.plist */; };
 		3B083A7318B96B0A002ADD91 /* UILayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B083A7218B96B0A002ADD91 /* UILayer.m */; };
@@ -172,7 +172,7 @@
 /* Begin PBXFileReference section */
 		00AC5E4318CA871C00BF0012 /* StateSurvivalGame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StateSurvivalGame.h; sourceTree = "<group>"; };
 		00AC5E4418CA871C00BF0012 /* StateSurvivalGame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StateSurvivalGame.m; sourceTree = "<group>"; };
-		00BDB6B218CA8F3700491BA3 /* Disc_Sparks.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Disc_Sparks.plist; sourceTree = "<group>"; };
+		00BDB6B418CA915400491BA3 /* Disc_Sparks.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Disc_Sparks.plist; sourceTree = "<group>"; };
 		00F627F118C586A500B49B76 /* Score_Mult_L.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Score_Mult_L.plist; sourceTree = "<group>"; };
 		00F627F218C586A500B49B76 /* Score_Mult_R.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Score_Mult_R.plist; sourceTree = "<group>"; };
 		3B083A7118B96B0A002ADD91 /* UILayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UILayer.h; sourceTree = "<group>"; };
@@ -511,7 +511,7 @@
 		00DC623D18B9A82300D9EA85 /* Particles */ = {
 			isa = PBXGroup;
 			children = (
-				00BDB6B218CA8F3700491BA3 /* Disc_Sparks.plist */,
+				00BDB6B418CA915400491BA3 /* Disc_Sparks.plist */,
 				00F627F118C586A500B49B76 /* Score_Mult_L.plist */,
 				00F627F218C586A500B49B76 /* Score_Mult_R.plist */,
 			);
@@ -1057,7 +1057,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D189EEFE18BE780400D3F560 /* icon-ipad-o@2x.png in Resources */,
-				00BDB6B318CA8F3700491BA3 /* Disc_Sparks.plist in Resources */,
+				00BDB6B518CA915400491BA3 /* Disc_Sparks.plist in Resources */,
 				D10FD51918A9DE5000328D09 /* Icon.png in Resources */,
 				D10FD67718A9DE5100328D09 /* ChangeLog in Resources */,
 				D189EF0518BE787500D3F560 /* icon-iphone-o@2x.png in Resources */,

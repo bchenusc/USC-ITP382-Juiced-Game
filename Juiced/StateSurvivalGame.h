@@ -10,4 +10,9 @@
 
 @interface StateSurvivalGame : GameMode
 
+-(void) startGame;
+-(void) enter;
+-(void) update;
+-(void) exit;
+
 @end
