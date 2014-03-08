@@ -67,6 +67,13 @@
         // Quadrants
         quadrants = [[NSMutableArray alloc] init];
         
+        // Batching nodes
+        diskTexture = [[CCTextureCache sharedTextureCache] addImage:@"Disk.png"];
+        iSpriteBatch = [CCSpriteBatchNode batchNodeWithTexture:diskTexture];
+        iParticleBatch = [CCParticleBatchNode batchNodeWithTexture:diskTexture];
+        [self addChild:iSpriteBatch];
+        [self addChild:iParticleBatch];
+        
         // Add some corner quadrants for testing
         CornerQuadrant* quad1 = [CornerQuadrant node];
         quad1.position = ccp(0, 0);
@@ -124,41 +131,41 @@
 -(void) spawnFourDisks {
     CGSize winSize = [[CCDirector sharedDirector] winSize];
     // Add a some disks for testing
-    Disk* disk1 = [Disk node];
+    Disk* disk1 = [[Disk node] initWithParticlesInBatchNode:iParticleBatch];
     disk1.gameplayLayer = self;
     disk1.position = ccp(winSize.width/4, winSize.height/4);
     [disk1 setColor:red];
     disk1.scale = 0;
     disk1.zOrder = diskZOrder++;
     [self expandDisk:disk1];
-    [self addChild:disk1];
+    [iSpriteBatch addChild:disk1];
     
-    Disk* disk2 = [Disk node];
+    Disk* disk2 = [[Disk node] initWithParticlesInBatchNode:iParticleBatch];
     disk2.gameplayLayer = self;
     disk2.position = ccp(winSize.width*3/4, winSize.height/4);
     [disk2 setColor:blue];
     disk2.scale = 0;
     disk2.zOrder = diskZOrder++;
     [self expandDisk:disk2];
-    [self addChild:disk2];
+    [iSpriteBatch addChild:disk2];
     
-    Disk* disk3 = [Disk node];
+    Disk* disk3 = [[Disk node] initWithParticlesInBatchNode:iParticleBatch];
     disk3.gameplayLayer = self;
     disk3.position = ccp(winSize.width/4, winSize.height*3/4);
     [disk3 setColor:yellow];
     disk3.scale = 0;
     disk3.zOrder = diskZOrder++;
     [self expandDisk:disk3];
-    [self addChild:disk3];
+    [iSpriteBatch addChild:disk3];
     
-    Disk* disk4 = [Disk node];
+    Disk* disk4 = [[Disk node] initWithParticlesInBatchNode:iParticleBatch];
     disk4.gameplayLayer = self;
     disk4.position = ccp(winSize.width*3/4, winSize.height*3/4);
     [disk4 setColor:green];
     disk4.scale = 0;
     disk4.zOrder = diskZOrder++;
     [self expandDisk:disk4];
-    [self addChild:disk4];
+    [iSpriteBatch addChild:disk4];
 }
 
 -(void) setGameState:(GameState*)newState {
@@ -235,7 +242,7 @@
 
 -(void) spawnDiskAtRandomLocation {
     CGSize winSize = [[CCDirector sharedDirector] winSize];
-    Disk* newDisk = [Disk node];
+    Disk* newDisk = [[Disk node] initWithParticlesInBatchNode:iParticleBatch];
     newDisk.gameplayLayer = self;
     newDisk.scale = 0;
     newDisk.zOrder = diskZOrder++;
@@ -293,11 +300,11 @@
     // Grow the disk to the requisite size of 60, in .5 seconds
     [self expandDisk:newDisk];
     
-    [self addChild:newDisk];
+    [iSpriteBatch addChild:newDisk];
 }
 
 -(void) expandDisk:(Disk *)d {
-    d.scale += 1/6.0;
+    [d scaleDiskBy:1/6.0f];
     if(d.scale < 1)
         [self performSelector:@selector(expandDisk:) withObject:d afterDelay:.01];
     else
@@ -310,11 +317,11 @@
 
 -(void) shrinkDisk:(Disk *)d {
     if(d != nil) {
-        d.scale -= 1/6.0;
+        [d scaleDiskBy:-1/6.0f];
         if(d.scale > 0) {
             [self performSelector:@selector(shrinkDisk:) withObject:d afterDelay:.01];
         } else {
-            [self removeChild:d cleanup:YES];
+            [iSpriteBatch removeChild:d cleanup:YES];
         }
     }
 }

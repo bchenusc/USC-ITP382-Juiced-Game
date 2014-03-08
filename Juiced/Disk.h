@@ -43,7 +43,11 @@ struct Touch {
 @property float radius;
 @property BOOL isSelected;
 
+-(id) initWithParticlesInBatchNode:(CCParticleBatchNode*)node;
+
 -(CGRect) rect;
+
+-(void) scaleDiskBy:(float)scale;
 
 -(void) update:(ccTime)delta;
 

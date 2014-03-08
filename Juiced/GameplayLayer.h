@@ -24,6 +24,10 @@
     NSMutableArray* objects;
     NSMutableArray* quadrants;
     
+    CCSpriteBatchNode* iSpriteBatch;
+    CCParticleBatchNode* iParticleBatch;
+    CCTexture2D* diskTexture;
+    
     int i_Score;
     int diskZOrder;
     

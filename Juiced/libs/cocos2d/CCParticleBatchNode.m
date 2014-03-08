@@ -338,8 +338,6 @@
 
 	NSAssert([_children containsObject:child], @"CCParticleBatchNode doesn't contain the sprite. Can't remove it");
 
-	[super removeChild:child cleanup:doCleanup];
-
 	// remove child helper
 	[_textureAtlas removeQuadsAtIndex:child.atlasIndex amount:child.totalParticles];
 
@@ -348,6 +346,8 @@
 
 	// paticle could be reused for self rendering
 	[child setBatchNode:nil];
+    
+    [super removeChild:child cleanup:doCleanup];
 
 	[self updateAllAtlasIndexes];
 }
