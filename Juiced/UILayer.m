@@ -134,6 +134,42 @@
      ];
 }
 
+-(void)startARound:(int)roundNumber {
+    [m_TitleLabel setVisible:YES];
+    m_TitleLabel.string = [NSString stringWithFormat:@"Round %d", roundNumber];
+    
+    [m_TitleLabel runAction:
+     [CCSequence actions:
+      [CCFadeOut actionWithDuration:.2],
+      [CCDelayTime actionWithDuration:.1],
+      [CCFadeIn actionWithDuration:.2],
+      [CCDelayTime actionWithDuration:.5],
+     
+      [CCFadeOut actionWithDuration:0.2],
+      [CCDelayTime actionWithDuration:0.1],
+      [CCCallFunc actionWithTarget:self selector:@selector(iReady)],
+      [CCFadeIn actionWithDuration:0.2],
+      [CCDelayTime actionWithDuration:0.5],
+      
+      [CCFadeOut actionWithDuration:0.2],
+      [CCDelayTime actionWithDuration:0.1],
+      [CCCallFunc actionWithTarget:self selector:@selector(iSet)],
+      [CCFadeIn actionWithDuration:0.2],
+      [CCDelayTime actionWithDuration:0.5],
+      
+      
+      [CCFadeOut actionWithDuration:0.2],
+      [CCDelayTime actionWithDuration:0.1],
+      [CCCallFunc actionWithTarget:self selector:@selector(iBegin)],
+      [CCFadeIn actionWithDuration:0.2],
+      [CCDelayTime actionWithDuration:0.5],
+      [CCFadeOut actionWithDuration:0.2],
+      [CCCallFunc actionWithTarget:self selector:@selector(hideTitleLabel)],
+      nil
+      ]
+     ];
+}
+
 -(void) hideIntroLabel {
     m_IntroLabel.visible = NO;
 }

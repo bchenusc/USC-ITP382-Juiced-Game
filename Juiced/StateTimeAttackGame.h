@@ -11,7 +11,8 @@
 @interface StateTimeAttackGame : GameMode {
     int i_DiskScore;
     int i_DiskComboMultiplier;
-    int i_Time;
+    double i_Time;
+    int i_TotalTime;
 }
 
 @end
