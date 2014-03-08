@@ -8,6 +8,7 @@
 
 #import "StateMainMenu.h"
 #import "StateTimeAttackGame.h"
+#import "StateSurvivalGame.h"
 #import "StateEliminationGame.h"
 
 @implementation StateMainMenu
@@ -39,7 +40,6 @@
     if(quad.color == disk.color) {
         disk.velocity = 0;
         [m_manager setGameState:[[StateEliminationGame alloc] init]];
-        return YES;
     }
     
     return NO;
