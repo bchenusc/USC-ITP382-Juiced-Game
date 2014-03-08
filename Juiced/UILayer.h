@@ -40,6 +40,7 @@
 -(void) showTimeLabel: (int) time;
 -(void) hideTimeLabel;
 -(void) showMultiplierLabel: (int) multiplier;
+-(void) multiplierEmphasize;
 -(void) hideMultiplierLabel;
 -(void) showGameOver;
 -(void) assignGameplayLayer : (GameplayLayer*) layer;

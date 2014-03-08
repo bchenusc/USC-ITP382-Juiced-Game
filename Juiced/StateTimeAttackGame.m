@@ -15,7 +15,7 @@
     self = [super init];
     if (self) {
         // Scoring Variables
-        i_DiskScore = 100;
+        i_DiskScore = 10;
         i_DiskComboMultiplier = 1;
         i_Time = 0;
     }
@@ -72,11 +72,15 @@
                     [[SimpleAudioEngine sharedEngine] playEffect:@"error.mp3"];
                     i_DiskComboMultiplier = 1;
                     
+                    
                     m_manager.score -= 50;
                     if(m_manager.score < 0) {
                         m_manager.score = 0;
                     }
                 }
+                //Combo show in the background
+                [m_manager.UI showMultiplierLabel:i_DiskComboMultiplier];
+                [m_manager.UI multiplierEmphasize];
                 
                 [m_manager removeDisk:d retainVelocity:NO];
                 d = NULL;
