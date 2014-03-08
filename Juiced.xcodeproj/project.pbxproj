@@ -7,13 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		00DC623C18B9A7F500D9EA85 /* Red_Explode.plist in Resources */ = {isa = PBXBuildFile; fileRef = 00DC623B18B9A7F500D9EA85 /* Red_Explode.plist */; };
-		00DC623F18BA624300D9EA85 /* Blue_Test.plist in Resources */ = {isa = PBXBuildFile; fileRef = 00DC623E18BA624300D9EA85 /* Blue_Test.plist */; };
-		00DC624118BAB9E800D9EA85 /* White_Starburst.plist in Resources */ = {isa = PBXBuildFile; fileRef = 00DC624018BAB9E700D9EA85 /* White_Starburst.plist */; };
-		00DC624318BABA7600D9EA85 /* Red_Sparks.plist in Resources */ = {isa = PBXBuildFile; fileRef = 00DC624218BABA7600D9EA85 /* Red_Sparks.plist */; };
-		00DC624718BB012000D9EA85 /* Blue_Sparks.plist in Resources */ = {isa = PBXBuildFile; fileRef = 00DC624418BB012000D9EA85 /* Blue_Sparks.plist */; };
-		00DC624818BB012000D9EA85 /* Green_Sparks.plist in Resources */ = {isa = PBXBuildFile; fileRef = 00DC624518BB012000D9EA85 /* Green_Sparks.plist */; };
-		00DC624918BB012000D9EA85 /* Yellow_Sparks.plist in Resources */ = {isa = PBXBuildFile; fileRef = 00DC624618BB012000D9EA85 /* Yellow_Sparks.plist */; };
+		00AC5E4518CA871C00BF0012 /* StateSurvivalGame.m in Sources */ = {isa = PBXBuildFile; fileRef = 00AC5E4418CA871C00BF0012 /* StateSurvivalGame.m */; };
+		00BDB6B518CA915400491BA3 /* Disc_Sparks.plist in Resources */ = {isa = PBXBuildFile; fileRef = 00BDB6B418CA915400491BA3 /* Disc_Sparks.plist */; };
 		00F627F318C586A500B49B76 /* Score_Mult_L.plist in Resources */ = {isa = PBXBuildFile; fileRef = 00F627F118C586A500B49B76 /* Score_Mult_L.plist */; };
 		00F627F418C586A500B49B76 /* Score_Mult_R.plist in Resources */ = {isa = PBXBuildFile; fileRef = 00F627F218C586A500B49B76 /* Score_Mult_R.plist */; };
 		3B083A7318B96B0A002ADD91 /* UILayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B083A7218B96B0A002ADD91 /* UILayer.m */; };
@@ -176,13 +171,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		00DC623B18B9A7F500D9EA85 /* Red_Explode.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Red_Explode.plist; sourceTree = "<group>"; };
-		00DC623E18BA624300D9EA85 /* Blue_Test.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Blue_Test.plist; sourceTree = "<group>"; };
-		00DC624018BAB9E700D9EA85 /* White_Starburst.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = White_Starburst.plist; sourceTree = "<group>"; };
-		00DC624218BABA7600D9EA85 /* Red_Sparks.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Red_Sparks.plist; sourceTree = "<group>"; };
-		00DC624418BB012000D9EA85 /* Blue_Sparks.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Blue_Sparks.plist; sourceTree = "<group>"; };
-		00DC624518BB012000D9EA85 /* Green_Sparks.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Green_Sparks.plist; sourceTree = "<group>"; };
-		00DC624618BB012000D9EA85 /* Yellow_Sparks.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Yellow_Sparks.plist; sourceTree = "<group>"; };
+		00AC5E4318CA871C00BF0012 /* StateSurvivalGame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StateSurvivalGame.h; sourceTree = "<group>"; };
+		00AC5E4418CA871C00BF0012 /* StateSurvivalGame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StateSurvivalGame.m; sourceTree = "<group>"; };
+		00BDB6B418CA915400491BA3 /* Disc_Sparks.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Disc_Sparks.plist; sourceTree = "<group>"; };
 		00F627F118C586A500B49B76 /* Score_Mult_L.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Score_Mult_L.plist; sourceTree = "<group>"; };
 		00F627F218C586A500B49B76 /* Score_Mult_R.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Score_Mult_R.plist; sourceTree = "<group>"; };
 		3B083A7118B96B0A002ADD91 /* UILayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UILayer.h; sourceTree = "<group>"; };
@@ -523,15 +514,9 @@
 		00DC623D18B9A82300D9EA85 /* Particles */ = {
 			isa = PBXGroup;
 			children = (
+				00BDB6B418CA915400491BA3 /* Disc_Sparks.plist */,
 				00F627F118C586A500B49B76 /* Score_Mult_L.plist */,
 				00F627F218C586A500B49B76 /* Score_Mult_R.plist */,
-				00DC623E18BA624300D9EA85 /* Blue_Test.plist */,
-				00DC624418BB012000D9EA85 /* Blue_Sparks.plist */,
-				00DC624518BB012000D9EA85 /* Green_Sparks.plist */,
-				00DC624618BB012000D9EA85 /* Yellow_Sparks.plist */,
-				00DC623B18B9A7F500D9EA85 /* Red_Explode.plist */,
-				00DC624218BABA7600D9EA85 /* Red_Sparks.plist */,
-				00DC624018BAB9E700D9EA85 /* White_Starburst.plist */,
 			);
 			name = Particles;
 			sourceTree = "<group>";
@@ -607,13 +592,6 @@
 				3B8324E018BB3EF20024937B /* score_goal.mp3 */,
 				3B8324DE18BB3EC00024937B /* error.mp3 */,
 				3B8324DC18BB385C0024937B /* bgmusic.mp3 */,
-				00DC623E18BA624300D9EA85 /* Blue_Test.plist */,
-				00DC624418BB012000D9EA85 /* Blue_Sparks.plist */,
-				00DC624518BB012000D9EA85 /* Green_Sparks.plist */,
-				00DC624618BB012000D9EA85 /* Yellow_Sparks.plist */,
-				00DC623B18B9A7F500D9EA85 /* Red_Explode.plist */,
-				00DC624218BABA7600D9EA85 /* Red_Sparks.plist */,
-				00DC624018BAB9E700D9EA85 /* White_Starburst.plist */,
 				00DC623D18B9A82300D9EA85 /* Particles */,
 				D10FD50818A9DE4F00328D09 /* Default.png */,
 				D10FD50A18A9DE4F00328D09 /* Default@2x.png */,
@@ -1012,6 +990,8 @@
 				D16F6A1418C2D71400AD8241 /* GameMode.m */,
 				D16F6A0F18C2D4D200AD8241 /* StateTimeAttackGame.h */,
 				D16F6A1018C2D4D200AD8241 /* StateTimeAttackGame.m */,
+				00AC5E4318CA871C00BF0012 /* StateSurvivalGame.h */,
+				00AC5E4418CA871C00BF0012 /* StateSurvivalGame.m */,
 			);
 			name = GameModes;
 			sourceTree = "<group>";
@@ -1082,13 +1062,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				D189EEFE18BE780400D3F560 /* icon-ipad-o@2x.png in Resources */,
-				00DC624918BB012000D9EA85 /* Yellow_Sparks.plist in Resources */,
+				00BDB6B518CA915400491BA3 /* Disc_Sparks.plist in Resources */,
 				D10FD51918A9DE5000328D09 /* Icon.png in Resources */,
 				D10FD67718A9DE5100328D09 /* ChangeLog in Resources */,
 				D189EF0518BE787500D3F560 /* icon-iphone-o@2x.png in Resources */,
-				00DC624818BB012000D9EA85 /* Green_Sparks.plist in Resources */,
 				00F627F418C586A500B49B76 /* Score_Mult_R.plist in Resources */,
-				00DC623F18BA624300D9EA85 /* Blue_Test.plist in Resources */,
 				3B8324DF18BB3EC00024937B /* error.mp3 in Resources */,
 				D189EEEE18BE6F8800D3F560 /* Disk.png in Resources */,
 				D189EF0418BE787500D3F560 /* icon-iphone@2x.png in Resources */,
@@ -1096,7 +1074,6 @@
 				D189EF0618BE787500D3F560 /* icon-iphone-o.png in Resources */,
 				3B8324DD18BB385C0024937B /* bgmusic.mp3 in Resources */,
 				D10FD50B18A9DE4F00328D09 /* Default@2x.png in Resources */,
-				00DC624718BB012000D9EA85 /* Blue_Sparks.plist in Resources */,
 				D10FD51518A9DE4F00328D09 /* Icon-Small.png in Resources */,
 				3B8324E118BB3EF20024937B /* score_goal.mp3 in Resources */,
 				D10FD51118A9DE4F00328D09 /* Icon-72.png in Resources */,
@@ -1105,13 +1082,10 @@
 				D105ADAE18BC465A0036509E /* juiced.png in Resources */,
 				D189EEEF18BE6F8800D3F560 /* Disk@2x.png in Resources */,
 				D10FD51318A9DE4F00328D09 /* Icon-Small-50.png in Resources */,
-				00DC624318BABA7600D9EA85 /* Red_Sparks.plist in Resources */,
 				D10FD51E18A9DE5000328D09 /* iTunesArtwork in Resources */,
 				D10FD51718A9DE5000328D09 /* Icon-Small@2x.png in Resources */,
-				00DC623C18B9A7F500D9EA85 /* Red_Explode.plist in Resources */,
 				00F627F318C586A500B49B76 /* Score_Mult_L.plist in Resources */,
 				D189EF0018BE780400D3F560 /* icon-ipad@2x.png in Resources */,
-				00DC624118BAB9E800D9EA85 /* White_Starburst.plist in Resources */,
 				D105ADAF18BC465A0036509E /* juiced@2x.png in Resources */,
 				D10FD50F18A9DE4F00328D09 /* Default-Landscape~ipad.png in Resources */,
 				D10FD50D18A9DE4F00328D09 /* Default-568h@2x.png in Resources */,
@@ -1229,6 +1203,7 @@
 				D10FD5CB18A9DE5000328D09 /* ccShaders.m in Sources */,
 				D10FD69C18A9DE5100328D09 /* GameplayLayer.m in Sources */,
 				D16F6A0E18C2CE7500AD8241 /* StateMainMenu.m in Sources */,
+				00AC5E4518CA871C00BF0012 /* StateSurvivalGame.m in Sources */,
 				D10FD62118A9DE5100328D09 /* CCWindow.m in Sources */,
 				D10FD5FF18A9DE5000328D09 /* cocos2d.m in Sources */,
 				D10FD5AC18A9DE5000328D09 /* CCProgressTimer.m in Sources */,

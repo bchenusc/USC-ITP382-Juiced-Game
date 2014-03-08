@@ -8,6 +8,7 @@
 
 #import "StateMainMenu.h"
 #import "StateTimeAttackGame.h"
+#import "StateSurvivalGame.h"
 
 @implementation StateMainMenu
 
@@ -37,7 +38,7 @@
     //Handle collisions here.
     if(quad.color == disk.color) {
         disk.velocity = 0;
-        [m_manager setGameState:[[StateTimeAttackGame alloc] init]];
+        [m_manager setGameState:[[StateSurvivalGame alloc] init]];
         return YES;
     }
     
