@@ -29,15 +29,11 @@
     [self createDisks:5];
 }
 
--(void) gameOver{
+-(void) gameOver {
     [self unschedule:@selector(createDisks)];
     [self unschedule:@selector(decrementScore)];
     [m_manager unschedule:@selector(blinkQuadrants)];
     [m_manager unschedule:@selector(changeColorOfAllQuadrants)];
-    
-    [m_manager clearAllDisks];
-    
-    [m_manager.UI showGameOver];
     
     [m_manager setGameState:[[StateMainMenu alloc] init]];
 }
@@ -126,12 +122,7 @@
 }
 
 -(void) exit {
-    [self unschedule:@selector(createDisks)];
-    [m_manager unschedule:@selector(blinkQuadrants)];
-    [m_manager unschedule:@selector(changeColorOfAllQuadrants)];
-    
     [m_manager clearAllDisks];
-    
     [m_manager.UI showGameOver];
 }
 

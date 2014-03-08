@@ -51,13 +51,12 @@
     emitter = [CCParticleSystemQuad particleWithFile:@"Disc_Sparks.plist"];
     emitter.startSize = iRadius * 2;
     emitter.endSize = emitter.startSize * 0.9f;
-    emitter.position = self.position;
-    emitter.visible = NO;
+    emitter.position = ccp(-100, -100);
+    emitter.scale = 0;
     [node addChild:emitter];
     
     return self;
 }
-
 
 -(CGRect) rect {
     return CGRectMake(self.position.x - self.contentSize.width * self.anchorPoint.x,
@@ -66,9 +65,9 @@
                       self.contentSize.height);
 }
 
--(void) scaleDiskBy:(float)scale {
-    self.scale += scale;
-    emitter.scale += scale;
+-(void) setDiskScale:(float)scale {
+    self.scale = scale;
+    emitter.scale = scale;
 }
 
 -(void) setColor:(enum Color)color; {
@@ -122,7 +121,6 @@
     self.position = newPos;
     if (emitter) {
         emitter.position = newPos;
-        emitter.visible = YES;
     }
 }
 

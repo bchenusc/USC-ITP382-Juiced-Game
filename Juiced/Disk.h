@@ -47,7 +47,7 @@ struct Touch {
 
 -(CGRect) rect;
 
--(void) scaleDiskBy:(float)scale;
+-(void) setDiskScale:(float)scale;
 
 -(void) update:(ccTime)delta;
 

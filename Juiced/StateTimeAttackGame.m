@@ -11,7 +11,7 @@
 
 @implementation StateTimeAttackGame
 
-- (id)init {
+-(id) init {
     self = [super init];
     if (self) {
         // Scoring Variables
@@ -34,14 +34,10 @@
     [self createDisks];
 }
 
--(void) gameOver{
+-(void) gameOver {
     [self unschedule:@selector(createDisks)];
     [m_manager unschedule:@selector(blinkQuadrants)];
     [m_manager unschedule:@selector(changeColorOfAllQuadrants)];
-    
-    [m_manager clearAllDisks];
-    
-    [m_manager.UI showGameOver];
     
     [m_manager setGameState:[[StateMainMenu alloc] init]];
 }
@@ -105,7 +101,7 @@
     [m_manager.UI showTimeLabel:i_Time];
     if (i_Time <= 0){
         [self unschedule:@selector(timeDecrease)];
-        [m_manager setGameState:[[StateMainMenu alloc] init]];
+        [self gameOver];
     }
 }
 
@@ -149,12 +145,7 @@
 }
 
 -(void) exit {
-    [self unschedule:@selector(createDisks)];
-    [m_manager unschedule:@selector(blinkQuadrants)];
-    [m_manager unschedule:@selector(changeColorOfAllQuadrants)];
-    
     [m_manager clearAllDisks];
-    
     [m_manager.UI showGameOver];
 }
 

@@ -63,14 +63,17 @@
 // Spawns one disk at a random location
 -(void) spawnDiskAtRandomLocation;
 
+// Spawns one disk at a given location with random color
+-(void) spawnDiskAtLocation:(CGPoint)location;
+
+// Spawns one disk at a given location with a given color
+-(void) spawnDiskAtLocation:(CGPoint)location withColor:(enum Color)color;
+
 // Remove a given disk
 -(void) removeDisk:(Disk*)d retainVelocity:(BOOL)rv;
 
 // Makes the disk expand by incrementing its radius
 -(void) expandDisk:(Disk*)d;
-
-// Makes a disk active
--(void) activateDisk:(Disk*)d;
 
 // Shrinks a disk and deletes it
 -(void) shrinkDisk:(Disk*)d;
