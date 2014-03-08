@@ -16,6 +16,7 @@
     
     int m_gameTime;
     int m_multiplier;
+    int m_discScore;
     int m_timeScore;
 }
 

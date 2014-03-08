@@ -19,6 +19,7 @@
         
         m_gameTime = 0;
         m_multiplier = 4;
+        m_discScore = 1;
         m_timeScore = 10;
         
         //Set the vertical decrement/increment
@@ -47,6 +48,7 @@
 }
 
 - (void) update:(ccTime)delta {
+    //Cannibalized from Time Attack
     CGSize winSize = [[CCDirector sharedDirector] winSize];
     
     for(int i = 0; i < m_manager.disks.count; i++) {
@@ -66,6 +68,7 @@
                     
                     // Scoring stuff
                     [self growQuadrants:intersectedCQ];
+                    m_manager.score += m_discScore;
                     
                 } else { // Wrong color quadrant
                     
@@ -95,6 +98,7 @@
         }
         
     }
+    [m_manager.UI showScoreLabel:m_manager.score];
 }
 
 - (void) growQuadrants:(CornerQuadrant*) quad {
@@ -145,11 +149,6 @@
     // Delete overflow
     while(m_manager.disks.count > 10) {
         [m_manager removeDisk:[m_manager.disks objectAtIndex:0] retainVelocity: YES];
-//        m_manager.score -= 20;
-//        if(m_manager.score < 0) {
-//            m_manager.score = 0;
-//        }
-//        [m_manager.UI showScoreLabel:m_manager.score];
     }
 }
 
@@ -160,7 +159,11 @@
 }
 
 - (void) exit {
-    
+    [m_manager clearAllDisks];
+    NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
+    m_manager.score = [[defaults objectForKey:@"disksDestroyed"] intValue];
+    [m_manager.UI showScoreLabel:m_manager.score];
+    [m_manager.UI showGameOver];
 }
 
 @end
