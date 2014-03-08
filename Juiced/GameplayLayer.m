@@ -122,6 +122,14 @@
         emitter.visible = NO;
         [self addChild:emitter];
         
+        NSDictionary* defaultPreferences = [NSDictionary dictionaryWithObjectsAndKeys:
+                                            [NSNumber numberWithInt:0], @"disksDestroyed",
+                                            [NSNumber numberWithInt:0], @"stateTimeAttackGameHighScore",
+                                            [NSNumber numberWithInt:0], @"stateEliminationGameHighScore",
+                                            [NSNumber numberWithInt:0], @"stateSurvivalGameHighScore",
+                                            nil];
+        [[NSUserDefaults standardUserDefaults] registerDefaults:defaultPreferences];
+        
         [self setGameState:[[StateMainMenu alloc] init]];
 	}
 	return self;
@@ -398,6 +406,28 @@
         [gm startGame];
     }
     
+}
+
+-(void)setAchievementValues:(NSMutableArray *)values {
+    NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
+    
+    NSNumber* numDisksDestroyed = [NSNumber numberWithInt:([(NSNumber*)[values objectAtIndex:0] intValue]+ + [(NSNumber*)[defaults objectForKey:@"disksDestroyed"] intValue])];
+    
+    [[NSUserDefaults standardUserDefaults] setObject:numDisksDestroyed forKey:@"disksDestroyed"];
+    
+    if((int)values[1] > [(NSNumber*)[defaults objectForKey:@"stateTimeAttackGameHighScore"] intValue]) {
+        [defaults setObject:[values objectAtIndex:1] forKey:@"stateTimeAttackGameHighScore"];
+    }
+    
+    if((int)values[2] > [(NSNumber*)(int)[defaults objectForKey:@"stateEliminationGameHighScore"] intValue]) {
+        [defaults setObject:[values objectAtIndex:2] forKey:@"stateEliminationGameHighScore"];
+    }
+    
+    if((int)values[3] > [(NSNumber*)(int)[defaults objectForKey:@"stateSurvivalGameHighScore"] intValue]) {
+        [defaults setObject:[values objectAtIndex:3] forKey:@"stateSurvivalGameHighScore"];
+    }
+    
+    [defaults synchronize];
 }
 
 // on "dealloc" you need to release all your retained objects

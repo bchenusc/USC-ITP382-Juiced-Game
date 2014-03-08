@@ -93,4 +93,7 @@
 // Starts a game
 -(void) gameStart;
 
+// Sets achievement values
+-(void) setAchievementValues:(NSMutableArray*)values;
+
 @end
