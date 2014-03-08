@@ -8,11 +8,13 @@
 
 #import "GameMode.h"
 
-@interface StateSurvivalGame : GameMode
-
--(void) startGame;
--(void) enter;
--(void) update;
--(void) exit;
+@interface StateSurvivalGame : GameMode {
+    int m_decrement;
+    int m_increment;
+    
+    int m_gameTime;
+    int m_multiplier;
+    int m_timeScore;
+}
 
 @end
