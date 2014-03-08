@@ -134,6 +134,11 @@
     [self spawnDiskAtLocation:ccp(winSize.width*3/4, winSize.height/4) withColor:blue];
     [self spawnDiskAtLocation:ccp(winSize.width/4, winSize.height*3/4) withColor:yellow];
     [self spawnDiskAtLocation:ccp(winSize.width*3/4, winSize.height*3/4) withColor:green];
+    
+    ((CornerQuadrant*)[quadrants objectAtIndex:0]).color = red;
+    ((CornerQuadrant*)[quadrants objectAtIndex:1]).color = yellow;
+    ((CornerQuadrant*)[quadrants objectAtIndex:2]).color = blue;
+    ((CornerQuadrant*)[quadrants objectAtIndex:3]).color = green;
 }
 
 -(void) setGameState:(GameState*)newState {

@@ -100,7 +100,7 @@
 }
 
 -(void) decrementScore {
-    m_manager.score -= i_Round * 1000;
+    m_manager.score -= i_Round * 10;
     [m_manager.UI showScoreLabel:m_manager.score];
     if(m_manager.score < 0) {
         m_manager.score = 0;
