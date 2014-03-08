@@ -11,6 +11,8 @@
 @interface StateSurvivalGame : GameMode {
     int m_decrement;
     int m_increment;
+    int m_maxWidth;
+    int m_maxHeight;
     
     int m_gameTime;
     int m_multiplier;

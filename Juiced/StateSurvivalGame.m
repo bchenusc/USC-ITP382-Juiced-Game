@@ -25,6 +25,9 @@
         m_decrement = size.height/20;
         m_increment = size.height/8;
         
+        m_maxWidth = size.width/4;
+        m_maxHeight = size.height/2;
+        
     }
     return self;
 }
@@ -104,6 +107,17 @@
         quad.height += m_increment;
     } else {
         quad.height -= m_increment;
+    }
+    //Reset if over the max
+    if (quad.width > m_maxWidth) {
+        quad.width = m_maxWidth;
+    } else if (quad.width < -m_maxWidth) {
+        quad.width = -m_maxWidth;
+    }
+    if (quad.height > m_maxHeight) {
+        quad.height = m_maxHeight;
+    } else if (quad.height < -m_maxHeight) {
+        quad.height = -m_maxHeight;
     }
 }
 
