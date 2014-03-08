@@ -15,6 +15,4 @@
     int i_TotalTime;
 }
 
--(void) createDisksHelper;
-
 @end

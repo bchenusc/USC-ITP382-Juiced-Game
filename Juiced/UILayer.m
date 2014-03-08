@@ -134,6 +134,33 @@
      ];
 }
 
+-(void)startARound:(int)totalTime {
+    [m_TitleLabel runAction:
+     [CCSequence actions:
+      [CCFadeOut actionWithDuration:totalTime / 3 / 5],
+      [CCDelayTime actionWithDuration:totalTime / 3 / 10],
+      [CCCallFunc actionWithTarget:self selector:@selector(iReady)],
+      [CCFadeIn actionWithDuration:totalTime / 3 / 5],
+      [CCDelayTime actionWithDuration:totalTime / 3 / 2],
+      
+      [CCFadeOut actionWithDuration:totalTime / 3 / 5],
+      [CCDelayTime actionWithDuration:totalTime / 3 / 10],
+      [CCCallFunc actionWithTarget:self selector:@selector(iSet)],
+      [CCFadeIn actionWithDuration:totalTime / 3 / 5],
+      [CCDelayTime actionWithDuration:totalTime / 3 / 2],
+      
+      [CCFadeOut actionWithDuration:totalTime / 3 / 5],
+      [CCDelayTime actionWithDuration:totalTime / 3 / 10],
+      [CCCallFunc actionWithTarget:self selector:@selector(iBegin)],
+      [CCFadeIn actionWithDuration:totalTime / 3 / 5],
+      [CCDelayTime actionWithDuration:totalTime / 3 / 2],
+      
+      [CCCallFunc actionWithTarget:self selector:@selector(hideTitleLabel)],
+      nil
+      ]
+     ];
+}
+
 -(void) hideIntroLabel {
     m_IntroLabel.visible = NO;
 }

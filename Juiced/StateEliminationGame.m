@@ -1,37 +1,31 @@
 //
-//  StateTimeAttackGame.m
+//  StateEliminationGame.m
 //  Juiced
 //
-//  Created by Matthew Pohlmann on 3/1/14.
+//  Created by David on 3/7/14.
 //  Copyright (c) 2014 Silly Landmine Studios. All rights reserved.
 //
 
-#import "StateTimeAttackGame.h"
 #import "SimpleAudioEngine.h"
 
-@implementation StateTimeAttackGame
+#import "StateEliminationGame.h"
+
+@implementation StateEliminationGame
 
 - (id)init {
     self = [super init];
-    if (self) {
-        // Scoring Variables
-        i_DiskScore = 100;
-        i_DiskComboMultiplier = 1;
-        i_Time = 0;
-        i_TotalTime = 0;
-    }
     return self;
 }
 
 -(void) startGame {
-    m_manager.score = 0;
-    i_DiskComboMultiplier = 1;
-    i_Time = 5;
+    m_manager.score = 10000;
+    i_Round = 1;
+    b_TransitioningToNextRound = false;
     [self schedule:@selector(timeDecrease) interval:1.0f];
     [m_manager.UI showScoreLabel: m_manager.score];
-    [m_manager.UI showTimeLabel: i_Time];
+    [m_manager.UI hideTimeLabel];
     [m_manager scheduleOnce:@selector(blinkQuadrants) delay:8];
-    [self createDisks];
+    [self createDisks:10];
 }
 
 -(void) gameOver{
@@ -49,6 +43,13 @@
 -(void) update:(ccTime)delta {
     CGSize winSize = [[CCDirector sharedDirector] winSize];
     
+    if(m_manager.disks.count <= 0 && !b_TransitioningToNextRound) {
+        b_TransitioningToNextRound = YES;
+        [m_manager.UI startARound:3];
+        [self scheduleOnce:@selector(startNextRound) delay:3];
+        i_Round++;
+    }
+    
     for(int i = 0; i < m_manager.disks.count; i++) {
         Disk* d = m_manager.disks[i];
         
@@ -63,26 +64,16 @@
                 if(intersectedCQ.color == d.color) {
                     [m_manager scoreParticlesAtLocation:d.position];
                     [[SimpleAudioEngine sharedEngine] playEffect:@"score_goal.mp3"];
-                    
-                    // Scoring stuff
-                    m_manager.score += i_DiskScore * i_DiskComboMultiplier;
-                    if (++i_DiskComboMultiplier > 5) {
-                        i_DiskComboMultiplier = 5;
-                    }
-                    
-                    i_Time++;
-                    [m_manager.UI showTimeLabel:i_Time];
-                    
                 } else { // Wrong color quadrant
                     [[SimpleAudioEngine sharedEngine] playEffect:@"error.mp3"];
-                    i_DiskComboMultiplier = 1;
                     
-                    i_Time -= .5;
-                    [m_manager.UI showTimeLabel:i_Time];
+                    m_manager.score -= 5;
                     
-                    m_manager.score -= 50;
                     if(m_manager.score < 0) {
+                        [m_manager.UI showScoreLabel:m_manager.score];
                         m_manager.score = 0;
+                        [self gameOver];
+                        return;
                     }
                 }
                 
@@ -95,52 +86,14 @@
     }
 }
 
-
--(void) timeDecrease{
-    i_Time -= 1;
-    i_TotalTime++;
-    if(i_Time <= 0) {
-        i_Time = 0;
-    }
-    [m_manager.UI showTimeLabel:i_Time];
-    if (i_Time <= 0){
-        [self unschedule:@selector(timeDecrease)];
-        [m_manager setGameState:[[StateMainMenu alloc] init]];
-    }
+-(void) startNextRound {
+    [self createDisks:i_Round * 5 + 10];
+    b_TransitioningToNextRound = false;
 }
 
-
--(void) createDisks {
-    int timesToSpawnDisk = arc4random() % (i_TotalTime / 5 + 1) + 2;
-    for(int i = 0; i < timesToSpawnDisk; i++) {
+-(void) createDisks:(int)numberOfDisks {
+    for(int i = 0; i < numberOfDisks; i++) {
         [m_manager spawnDiskAtRandomLocation];
-    }
-    [self unschedule:@selector(createDisks)];
-    [self schedule:@selector(createDisks) interval:0.5f + .5f / (i_TotalTime / 5 + 1)];
-    [self deleteOverflowDisks];
-}
-
--(void) deleteOverflowDisks {
-    // Always move selected disks to the back of the objects list so they won't be deleted
-    for (int i = m_manager.disks.count - 1; i >= 0; i--) {
-        Disk* d = [m_manager.disks objectAtIndex:i];
-        
-        if (d.isSelected) {
-            [m_manager.disks removeObjectAtIndex:i];
-            [m_manager.disks addObject:d];
-        }
-    }
-    
-    // Delete overflow
-    while(m_manager.disks.count > 10) {
-        [m_manager removeDisk:[m_manager.disks objectAtIndex:0] retainVelocity: YES];
-        m_manager.score -= 20;
-        i_Time -= 0.25;
-        [m_manager.UI showTimeLabel:i_Time];
-        if(m_manager.score < 0) {
-            m_manager.score = 0;
-        }
-        [m_manager.UI showScoreLabel:m_manager.score];
     }
 }
 

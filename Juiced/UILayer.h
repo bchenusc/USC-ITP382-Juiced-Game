@@ -33,6 +33,7 @@
 }
 
 -(void) startAGame;
+-(void) startARound : (int) totalTime;
 -(void) showTitleLabel : (NSString*) text;
 -(void) hideTitleLabel;
 -(void) showScoreLabel : (int) score;
