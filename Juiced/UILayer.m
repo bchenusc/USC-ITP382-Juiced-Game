@@ -96,10 +96,11 @@
     //Make sure to send the points system back down to where it belongs.
     
     CGSize size = [[CCDirector sharedDirector] winSize];
-    score_go_to = ccp(size.width/2, 10);
+    score_go_to = ccp(size.width/2, size.height/2);
     if (ccpDistanceSQ(m_ScoreLabel.position, score_go_to) > 4){
         [self schedule:@selector(slideScoreDown) interval:0.01];
     }
+    [m_ScoreLabel runAction:[CCFadeOut  actionWithDuration:0.1]];
     [m_IntroLabel runAction:[CCFadeOut actionWithDuration:0.1]];
     if (m_TitleSprite.opacity != 0) {
         [m_TitleSprite runAction:[CCFadeOut actionWithDuration:0.1]];
@@ -132,6 +133,7 @@
       [CCDelayTime actionWithDuration:0.5],
       [CCFadeOut actionWithDuration:0.2],
       [CCCallFunc actionWithTarget:self selector:@selector(hideTitleLabel)],
+      [CCCallFunc actionWithTarget:self selector:@selector(showZeroLabel)],
       [CCCallFunc actionWithTarget:m_GameplayLayer selector:@selector(gameStart)],
       nil
       ]
@@ -163,7 +165,15 @@
     m_TitleLabel.visible = NO;
 }
 
+-(void) showZeroLabel{
+    m_ScoreLabel.opacity = 80;
+    [self showScoreLabel:0];
+}
+
 -(void) showScoreLabel : (int) score {
+    if (m_ScoreLabel.opacity == 0){
+        [m_ScoreLabel runAction:[CCFadeIn actionWithDuration:0.1]];
+    }
     m_ScoreLabel.string = [NSString stringWithFormat:@"%d", score];
     m_ScoreLabel.fontSize = 300 / powf((floorf(log10f(score)) + 1 ), 0.5f);
     m_ScoreLabel.visible = YES;
@@ -215,17 +225,21 @@
     CGSize size = [[CCDirector sharedDirector] winSize];
     score_go_to= ccp(size.width/2, size.height/2 - 10);
     [self hideMultiplierLabel];
-    //[self schedule:@selector(slideScoreUp) interval:0.01];
+    //[self slideScoreUp];
+    
+    [self schedule:@selector(slideScoreUp) interval:0.01];
 }
 
 -(void) slideScoreUp {
-   // m_ScoreLabel.position = ccpAdd(m_ScoreLabel.position,
-   //                                ccpMult(ccpNormalize(ccpSub(score_go_to, m_ScoreLabel.position)),
-    //                               5));
-   // m_ScoreLabel.fontSize += 0.5;
+    m_ScoreLabel.position = ccpAdd(m_ScoreLabel.position,
+                                   ccpMult(ccpNormalize(ccpSub(score_go_to, m_ScoreLabel.position)),
+                                   2));
+    m_ScoreLabel.fontSize = clampf(m_ScoreLabel.fontSize-50, 50, 100);
+    m_ScoreLabel.opacity = clampf(m_ScoreLabel.opacity + 50, 0, 255);
     
-   // if (ccpDistanceSQ(m_ScoreLabel.position, score_go_to) <= 2){
-     //   [self unschedule:@selector(slideScoreUp)];
+    if (ccpDistanceSQ(m_ScoreLabel.position, score_go_to) <= 2){
+        m_ScoreLabel.fontSize = 50;
+        [self unschedule:@selector(slideScoreUp)];
         CGSize size = [[CCDirector sharedDirector] winSize];
         
         //When the game is actually over:
@@ -240,21 +254,26 @@
         CGSize size = [[CCDirector sharedDirector] winSize];
         m_Menu.position = ccp(size.width/2, size.height/2 - 40);
         [m_itemNewGame runAction: [CCFadeIn actionWithDuration: 2]];*/
-    //}
+    }
 }
 
 -(void) slideScoreDown {
     
-   // m_ScoreLabel.position = ccpAdd(m_ScoreLabel.position,
-    //                               ccpMult(ccpNormalize(ccpSub(score_go_to, m_ScoreLabel.position)),
-     //                                      5));
-    //m_ScoreLabel.fontSize -= 0.5;
-    //if (ccpDistanceSQ(m_ScoreLabel.position, score_go_to) <= 2){
+    m_ScoreLabel.position = ccpAdd(m_ScoreLabel.position,
+                                   ccpMult(ccpNormalize(ccpSub(score_go_to, m_ScoreLabel.position)),
+                                        5));
+    m_ScoreLabel.visible = NO;
+    
+    //m_ScoreLabel.fontSize = clampf(m_ScoreLabel.fontSize+30, 50, 150);
+
+    if (ccpDistanceSQ(m_ScoreLabel.position, score_go_to) <= 2){
+        m_GameplayLayer.score = 0;
         CGSize size = [[CCDirector sharedDirector] winSize];
-        //[self unschedule:@selector(slideScoreDown)];
+        [self unschedule:@selector(slideScoreDown)];
         m_ScoreLabel.fontSize = 150;
-        //m_ScoreLabel.position = ccp(size.width/2, 10);
-    //}
+        m_ScoreLabel.position = ccp(size.width/2, size.height/2);
+        m_ScoreLabel.opacity = 80;
+    }
 }
 
 
