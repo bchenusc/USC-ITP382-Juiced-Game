@@ -67,6 +67,13 @@
         // Quadrants
         quadrants = [[NSMutableArray alloc] init];
         
+        // Batching nodes
+        diskTexture = [[CCTextureCache sharedTextureCache] addImage:@"Disk.png"];
+        iSpriteBatch = [CCSpriteBatchNode batchNodeWithTexture:diskTexture];
+        iParticleBatch = [CCParticleBatchNode batchNodeWithTexture:diskTexture];
+        [self addChild:iSpriteBatch z:1];
+        [self addChild:iParticleBatch z:1];
+        
         // Add some corner quadrants for testing
         CornerQuadrant* quad1 = [CornerQuadrant node];
         quad1.position = ccp(0, 0);
@@ -105,60 +112,41 @@
         
         //Layers
         uiLayer = [UILayer node];
-        [self addChild:uiLayer];
+        [self addChild:uiLayer z:0];
         [uiLayer showTitleLabel: @""];
         [uiLayer assignGameplayLayer:self];
-        
-        //Gameplay Variable initialization
-        [self setGameState:[[StateMainMenu alloc] init]];
         
         //Particle System Initialization
         emitter = [CCParticleSystemQuad particleWithFile:@"White_Starburst.plist"];
         emitter.position = ccp(winSize.width/2, winSize.height/2);
         emitter.visible = NO;
         [self addChild:emitter];
+        
+        NSDictionary* defaultPreferences = [NSDictionary dictionaryWithObjectsAndKeys:
+                                            [NSNumber numberWithInt:0], @"disksDestroyed",
+                                            [NSNumber numberWithInt:0], @"stateTimeAttackGameHighScore",
+                                            [NSNumber numberWithInt:0], @"stateEliminationGameHighScore",
+                                            [NSNumber numberWithInt:0], @"stateSurvivalGameHighScore",
+                                            nil];
+        [[NSUserDefaults standardUserDefaults] registerDefaults:defaultPreferences];
+        
+        [self setGameState:[[StateMainMenu alloc] init]];
 	}
 	return self;
 }
 
 -(void) spawnFourDisks {
     CGSize winSize = [[CCDirector sharedDirector] winSize];
-    // Add a some disks for testing
-    Disk* disk1 = [Disk node];
-    disk1.gameplayLayer = self;
-    disk1.position = ccp(winSize.width/4, winSize.height/4);
-    [disk1 setColor:red];
-    disk1.scale = 0;
-    disk1.zOrder = diskZOrder++;
-    [self expandDisk:disk1];
-    [self addChild:disk1];
     
-    Disk* disk2 = [Disk node];
-    disk2.gameplayLayer = self;
-    disk2.position = ccp(winSize.width*3/4, winSize.height/4);
-    [disk2 setColor:blue];
-    disk2.scale = 0;
-    disk2.zOrder = diskZOrder++;
-    [self expandDisk:disk2];
-    [self addChild:disk2];
+    [self spawnDiskAtLocation:ccp(winSize.width/4, winSize.height/4) withColor:red];
+    [self spawnDiskAtLocation:ccp(winSize.width*3/4, winSize.height/4) withColor:blue];
+    [self spawnDiskAtLocation:ccp(winSize.width/4, winSize.height*3/4) withColor:yellow];
+    [self spawnDiskAtLocation:ccp(winSize.width*3/4, winSize.height*3/4) withColor:green];
     
-    Disk* disk3 = [Disk node];
-    disk3.gameplayLayer = self;
-    disk3.position = ccp(winSize.width/4, winSize.height*3/4);
-    [disk3 setColor:yellow];
-    disk3.scale = 0;
-    disk3.zOrder = diskZOrder++;
-    [self expandDisk:disk3];
-    [self addChild:disk3];
-    
-    Disk* disk4 = [Disk node];
-    disk4.gameplayLayer = self;
-    disk4.position = ccp(winSize.width*3/4, winSize.height*3/4);
-    [disk4 setColor:green];
-    disk4.scale = 0;
-    disk4.zOrder = diskZOrder++;
-    [self expandDisk:disk4];
-    [self addChild:disk4];
+    ((CornerQuadrant*)[quadrants objectAtIndex:0]).color = red;
+    ((CornerQuadrant*)[quadrants objectAtIndex:1]).color = yellow;
+    ((CornerQuadrant*)[quadrants objectAtIndex:2]).color = blue;
+    ((CornerQuadrant*)[quadrants objectAtIndex:3]).color = green;
 }
 
 -(void) setGameState:(GameState*)newState {
@@ -190,13 +178,13 @@
         m_NextGameState = NULL;
     }
     
-    // Update the current state
-    [m_GameState update:delta];
-    
     // Update all objects that need updating
     for (int i = 0; i < objects.count; i++) {
         [objects[i] update:delta];
     }
+    
+    // Update the current state
+    [m_GameState update:delta];
 }
 
 -(CornerQuadrant*) getQuadrantAtRect:(CGRect)rect {
@@ -235,9 +223,9 @@
 
 -(void) spawnDiskAtRandomLocation {
     CGSize winSize = [[CCDirector sharedDirector] winSize];
-    Disk* newDisk = [Disk node];
+    Disk* newDisk = [[Disk node] initWithParticlesInBatchNode:iParticleBatch];
     newDisk.gameplayLayer = self;
-    newDisk.scale = 0;
+    [newDisk setDiskScale:0];
     newDisk.zOrder = diskZOrder++;
     CGRect newDiskRect = newDisk.rect;
     newDisk.position = ccp(arc4random() % (int)(winSize.width - newDiskRect.size.width) + newDiskRect.size.width, arc4random() % (int)(winSize.height - newDiskRect.size.height * 2) + newDiskRect.size.height);
@@ -293,28 +281,65 @@
     // Grow the disk to the requisite size of 60, in .5 seconds
     [self expandDisk:newDisk];
     
-    [self addChild:newDisk];
+    [iSpriteBatch addChild:newDisk];
+    [objects addObject:newDisk];
+}
+
+// Spawns one disk at a given location with random color
+-(void) spawnDiskAtLocation:(CGPoint)location {
+    enum Color c;
+    
+    switch (arc4random() % 4) {
+        case 0:
+            c = red;
+            break;
+        case 1:
+            c = yellow;
+            break;
+        case 2:
+            c = green;
+            break;
+        case 3:
+            c = blue;
+            break;
+        default:
+            c = blue;
+            break;
+    }
+    
+    [self spawnDiskAtLocation:location withColor:c];
+}
+
+// Spawns one disk at a given location with a given color
+-(void) spawnDiskAtLocation:(CGPoint)location withColor:(enum Color)color {
+    Disk* newDisk = [[Disk node] initWithParticlesInBatchNode:iParticleBatch];
+    [newDisk setColor:color];
+    newDisk.position = location;
+    newDisk.gameplayLayer = self;
+    [newDisk setDiskScale:0];
+    newDisk.zOrder = diskZOrder++;
+    [self expandDisk:newDisk];
+    [iSpriteBatch addChild:newDisk];
+    [objects addObject:newDisk];
 }
 
 -(void) expandDisk:(Disk *)d {
-    d.scale += 1/6.0;
-    if(d.scale < 1)
+    [d setDiskScale:(d.scale + 1/6.0f)];
+    if(d.scale < 1) {
         [self performSelector:@selector(expandDisk:) withObject:d afterDelay:.01];
-    else
-        [self activateDisk:d];
-}
-
--(void) activateDisk:(Disk *)d {
-    [objects addObject:d];
+    } else {
+        [d setDiskScale:1.0f];
+    }
 }
 
 -(void) shrinkDisk:(Disk *)d {
-    if(d != nil) {
-        d.scale -= 1/6.0;
+    if(d != NULL) {
+        [d unschedule:@selector(expandDisk:)];
+        [d setDiskScale:(d.scale - 1/6.0f)];
         if(d.scale > 0) {
             [self performSelector:@selector(shrinkDisk:) withObject:d afterDelay:.01];
         } else {
-            [self removeChild:d cleanup:YES];
+            [iSpriteBatch removeChild:d cleanup:YES];
         }
     }
 }
@@ -322,7 +347,7 @@
 -(void) changeColorOfAllQuadrants {
     // Create an array corresponding with the four colors
     NSMutableArray* randomArray = [NSMutableArray new];
-    for(int i = 0; i < quadrants.count; i++) {
+    for (int i = 0; i < quadrants.count; i++) {
         NSNumber* newNumber = [NSNumber numberWithInt:i];
         [randomArray addObject:newNumber];
     }
@@ -366,6 +391,7 @@
 
 - (void) clearAllDisks {
     // Remove all disks
+    [self unschedule:@selector(expandDisk:)];
     for(Disk* d in objects) {
         [self shrinkDisk:d];
         d.velocity = 0;
@@ -380,6 +406,28 @@
         [gm startGame];
     }
     
+}
+
+-(void)setAchievementValues:(NSMutableArray *)values {
+    NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
+    
+    NSNumber* numDisksDestroyed = [NSNumber numberWithInt:([(NSNumber*)[values objectAtIndex:0] intValue]+ + [(NSNumber*)[defaults objectForKey:@"disksDestroyed"] intValue])];
+    
+    [[NSUserDefaults standardUserDefaults] setObject:numDisksDestroyed forKey:@"disksDestroyed"];
+    
+    if((int)values[1] > [(NSNumber*)[defaults objectForKey:@"stateTimeAttackGameHighScore"] intValue]) {
+        [defaults setObject:[values objectAtIndex:1] forKey:@"stateTimeAttackGameHighScore"];
+    }
+    
+    if((int)values[2] > [(NSNumber*)(int)[defaults objectForKey:@"stateEliminationGameHighScore"] intValue]) {
+        [defaults setObject:[values objectAtIndex:2] forKey:@"stateEliminationGameHighScore"];
+    }
+    
+    if((int)values[3] > [(NSNumber*)(int)[defaults objectForKey:@"stateSurvivalGameHighScore"] intValue]) {
+        [defaults setObject:[values objectAtIndex:3] forKey:@"stateSurvivalGameHighScore"];
+    }
+    
+    [defaults synchronize];
 }
 
 // on "dealloc" you need to release all your retained objects

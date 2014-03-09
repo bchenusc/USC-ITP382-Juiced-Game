@@ -21,8 +21,9 @@
 @synthesize gameplayLayer = iGameplayLayer;
 @synthesize isSelected = iIsSelected;
 
-- (id) init {
-    self = [super initWithFile:@"Disk.png"];
+- (id)init
+{
+    self = [super initWithTexture:[[CCTextureCache sharedTextureCache] textureForKey:@"Disk.png"]];
     if (self) {
         winSize = [[CCDirector sharedDirector] winSize];
         
@@ -41,20 +42,32 @@
         self.anchorPoint = ccp(0.5, 0.5);
         
         iColor = blue;
-        emitter = [CCParticleSystemQuad particleWithFile:@"Disc_Sparks.plist"];
-        emitter.position = ccp(self.contentSize.width/2, self.contentSize.height/2);
-        emitter.startSize = iRadius * 2;
-        emitter.endSize = emitter.startSize * 0.9f;
-        [self addChild:emitter];
+        emitter = NULL;
     }
     return self;
 }
 
-- (CGRect) rect {
+-(id) initWithParticlesInBatchNode:(CCParticleBatchNode*)node {
+    emitter = [CCParticleSystemQuad particleWithFile:@"Disc_Sparks.plist"];
+    emitter.startSize = iRadius * 2;
+    emitter.endSize = emitter.startSize * 0.9f;
+    emitter.position = ccp(-100, -100);
+    emitter.scale = 0;
+    [node addChild:emitter];
+    
+    return self;
+}
+
+-(CGRect) rect {
     return CGRectMake(self.position.x - self.contentSize.width * self.anchorPoint.x,
                       self.position.y - self.contentSize.height * self.anchorPoint.y,
                       self.contentSize.width,
                       self.contentSize.height);
+}
+
+-(void) setDiskScale:(float)scale {
+    self.scale = scale;
+    emitter.scale = scale;
 }
 
 -(void) setColor:(enum Color)color; {
@@ -106,6 +119,9 @@
     }
     
     self.position = newPos;
+    if (emitter) {
+        emitter.position = newPos;
+    }
 }
 
 - (BOOL) ccTouchBegan:(UITouch *)touch withEvent:(UIEvent *)event {
@@ -146,15 +162,15 @@
     // Determine the vector of the touch and normalize it
     CGPoint touchLocation = [iGameplayLayer convertTouchToNodeSpace:touch];
     CGPoint dir = ccp(touchLocation.x - touchStart.location.x, touchLocation.y - touchStart.location.y);
-    double dx = sqrt(dir.x * dir.x + dir.y * dir.y);
-    if (dx == 0) {
+    double ds = sqrt(dir.x * dir.x + dir.y * dir.y);
+    if (ds == 0) {
         dir = ccp(0, 0);
     } else {
-        dir = ccp(dir.x / dx, dir.y / dx);
+        dir = ccp(dir.x / ds, dir.y / ds);
     }
     
     // Determine the velocity
-    double velocity = dx/dt;
+    double velocity = ds/dt;
     
     // Cap max velocity
     if (velocity > 3000) {
@@ -174,6 +190,12 @@
 
 - (void) onExit {
 	[[[CCDirector sharedDirector] touchDispatcher] removeDelegate:self];
+    
+    if (emitter) {
+        emitter.visible = NO;
+        [emitter.parent removeChild:emitter cleanup:YES];
+    }
+    
 	[super onExit];
 }
 

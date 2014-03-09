@@ -13,8 +13,8 @@
     int i_DiskComboMultiplier;
     double i_Time;
     int i_TotalTime;
+    
+    int i_DisksDestroyed;
 }
-
--(void) createDisksHelper;
 
 @end

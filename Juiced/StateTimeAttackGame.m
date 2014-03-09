@@ -11,7 +11,7 @@
 
 @implementation StateTimeAttackGame
 
-- (id)init {
+-(id) init {
     self = [super init];
     if (self) {
         // Scoring Variables
@@ -27,6 +27,7 @@
     m_manager.score = 0;
     i_DiskComboMultiplier = 1;
     i_Time = 5;
+    i_DisksDestroyed = 0;
     [self schedule:@selector(timeDecrease) interval:1.0f];
     [m_manager.UI showScoreLabel: m_manager.score];
     [m_manager.UI showTimeLabel: i_Time];
@@ -34,16 +35,20 @@
     [self createDisks];
 }
 
--(void) gameOver{
+-(void) gameOver {
     [self unschedule:@selector(createDisks)];
     [m_manager unschedule:@selector(blinkQuadrants)];
     [m_manager unschedule:@selector(changeColorOfAllQuadrants)];
     
-    [m_manager clearAllDisks];
-    
-    [m_manager.UI showGameOver];
-    
     [m_manager setGameState:[[StateMainMenu alloc] init]];
+    
+    NSMutableArray* achievementValues = [NSMutableArray arrayWithObjects:
+                                         [NSNumber numberWithInt:i_DisksDestroyed],
+                                         [NSNumber numberWithInt:m_manager.score],
+                                         [NSNumber numberWithInt:0],
+                                         [NSNumber numberWithInt:0],
+                                         nil];
+    [m_manager setAchievementValues:achievementValues];
 }
 
 -(void) update:(ccTime)delta {
@@ -69,6 +74,8 @@
                     if (++i_DiskComboMultiplier > 5) {
                         i_DiskComboMultiplier = 5;
                     }
+                    
+                    i_DisksDestroyed++;
                     
                     i_Time++;
                     [m_manager.UI showTimeLabel:i_Time];
@@ -106,7 +113,7 @@
     [m_manager.UI showTimeLabel:i_Time];
     if (i_Time <= 0){
         [self unschedule:@selector(timeDecrease)];
-        [m_manager setGameState:[[StateMainMenu alloc] init]];
+        [self gameOver];
     }
 }
 
@@ -119,10 +126,6 @@
     [self unschedule:@selector(createDisks)];
     [self schedule:@selector(createDisks) interval:0.5f + .5f / (i_TotalTime / 5 + 1)];
     [self deleteOverflowDisks];
-}
-
--(void)createDisksHelper {
-    [self createDisks];
 }
 
 -(void) deleteOverflowDisks {
@@ -154,12 +157,10 @@
 }
 
 -(void) exit {
-    [self unschedule:@selector(createDisks)];
-    [m_manager unschedule:@selector(blinkQuadrants)];
-    [m_manager unschedule:@selector(changeColorOfAllQuadrants)];
-    
     [m_manager clearAllDisks];
-    
+    NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
+    m_manager.score = [[defaults objectForKey:@"disksDestroyed"] intValue];
+    [m_manager.UI showScoreLabel:m_manager.score];
     [m_manager.UI showGameOver];
 }
 

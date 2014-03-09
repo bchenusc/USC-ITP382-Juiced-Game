@@ -9,6 +9,7 @@
 #import "StateMainMenu.h"
 #import "StateTimeAttackGame.h"
 #import "StateSurvivalGame.h"
+#import "StateEliminationGame.h"
 
 @implementation StateMainMenu
 
@@ -26,23 +27,19 @@
             CornerQuadrant* intersectedCQ = [m_manager getQuadrantAtRect:d.rect];
             if(intersectedCQ != NULL) {
                 // Handle menu selection
-                if ([self handleMenuSelection:d Quadrant:intersectedCQ]) {
-                    d = NULL;
-                }
+                [self handleMenuSelection:d Quadrant:intersectedCQ];
             }
         }
     }
 }
 
--(BOOL) handleMenuSelection : (Disk*) disk Quadrant : (CornerQuadrant*) quad {
+-(void) handleMenuSelection : (Disk*) disk Quadrant : (CornerQuadrant*) quad {
     //Handle collisions here.
     if(quad.color == disk.color) {
         disk.velocity = 0;
         [m_manager setGameState:[[StateTimeAttackGame alloc] init]];
         return YES;
     }
-    
-    return NO;
 }
 
 -(void) enter {
