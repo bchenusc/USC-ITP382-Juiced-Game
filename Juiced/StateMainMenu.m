@@ -37,8 +37,22 @@
     //Handle collisions here.
     if(quad.color == disk.color) {
         disk.velocity = 0;
-        [m_manager setGameState:[[StateTimeAttackGame alloc] init]];
-        return YES;
+        switch (disk.color) {
+            case blue:
+                
+                break;
+            case red:
+                [m_manager setGameState:[[StateTimeAttackGame alloc] init]];
+                break;
+            case green:
+                [m_manager setGameState:[[StateSurvivalGame alloc] init]];
+                break;
+            case yellow:
+                [m_manager setGameState:[[StateEliminationGame alloc] init]];
+                break;
+            default:
+                break;
+        }
     }
 }
 
