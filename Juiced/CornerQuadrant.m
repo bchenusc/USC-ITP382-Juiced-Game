@@ -72,7 +72,7 @@
             [glowSprite2 setColor:ccc3(0, 51, 255)];
             break;
         case red:
-            [glowSprite2 setColor:ccc3(255, 51, 0)];
+            [glowSprite2 setColor:ccc3(255, 0, 51)];
             break;
         case green:
             [glowSprite2 setColor:ccc3(34, 255, 34)];
@@ -106,7 +106,7 @@
             c = ccc3(0, 51, 255);
             break;
         case red:
-            c = ccc3(255, 51, 0);
+            c = ccc3(255, 0, 51);
             break;
         case green:
             c = ccc3(34, 255, 34);
@@ -161,7 +161,7 @@
             color = ccc4FFromccc4B(ccc4(0, 51, 255, 255));
             break;
         case red:
-            color = ccc4FFromccc4B(ccc4(255, 51, 0, 255));
+            color = ccc4FFromccc4B(ccc4(255, 0, 51, 255));
             break;
         case green:
             color = ccc4FFromccc4B(ccc4(0, 255, 51, 255));
