@@ -39,10 +39,12 @@
         c_size.width = 2 * iRadius;
         c_size.height = 2 * iRadius;
         self.contentSize = c_size;
-        self.anchorPoint = ccp(0.5, 0.5);
+        self.anchorPoint = ccp(0.5f, 0.5f);
         
-        iColor = blue;
+        iColor = white;
         emitter = NULL;
+        
+        [self setDiskScale:0.0f];
     }
     return self;
 }
@@ -55,7 +57,34 @@
     emitter.scale = 0;
     [node addChild:emitter];
     
+    [self setDiskScale:0.0f];
+    [self performSelector:@selector(expand) withObject:self afterDelay:.01f];
+    
     return self;
+}
+
+-(void) removeDisk {
+    [self unschedule:@selector(expand)];
+    [self performSelector:@selector(shrink) withObject:self afterDelay:.01f];
+}
+
+
+-(void) expand {
+    [self setDiskScale:(self.scale + 1/6.0f)];
+    if(self.scale < 1) {
+        [self performSelector:@selector(expand) withObject:self afterDelay:.01f];
+    } else {
+        [self setDiskScale:1.0f];
+    }
+}
+
+-(void) shrink {
+    [self setDiskScale:(self.scale - 1/6.0f)];
+    if(self.scale > 0) {
+        [self performSelector:@selector(shrink) withObject:self afterDelay:.01f];
+    } else {
+        [self removeFromParentAndCleanup:YES];
+    }
 }
 
 -(CGRect) rect {
@@ -67,13 +96,20 @@
 
 -(void) setDiskScale:(float)scale {
     self.scale = scale;
-    emitter.scale = scale;
+    if (emitter) {
+        emitter.scale = scale;
+    }
 }
 
 -(void) setColor:(enum Color)color; {
     iColor = color;
     
     switch (color) {
+        case white:
+            emitter.startColor = ccc4FFromccc4B(ccc4(255, 255, 255, 128));
+            emitter.endColor = ccc4FFromccc4B(ccc4(255, 255, 255, 0));
+            super.color = ccc3(255, 255, 255);
+            break;
         case blue:
             emitter.startColor = ccc4FFromccc4B(ccc4(0, 0, 255, 128));
             emitter.endColor = ccc4FFromccc4B(ccc4(0, 0, 255, 0));

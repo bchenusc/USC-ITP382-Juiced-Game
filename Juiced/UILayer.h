@@ -40,6 +40,7 @@
 -(void) startAGame;
 -(void) startARound : (int)roundNumber;
 -(void) showTitleLabel : (NSString*) text;
+-(void) hideIntroLabel;
 -(void) hideTitleLabel;
 -(void) showScoreLabel : (int) score;
 -(void) hideScoreLabel;

@@ -1,18 +1,17 @@
 //
-//  StateMainMenu.m
+//  StateAchievements.m
 //  Juiced
 //
-//  Created by Matthew Pohlmann on 3/1/14.
+//  Created by David on 3/8/14.
 //  Copyright (c) 2014 Silly Landmine Studios. All rights reserved.
 //
 
-#import "StateMainMenu.h"
+#import "StateAchievements.h"
 #import "StateTimeAttackGame.h"
 #import "StateSurvivalGame.h"
 #import "StateEliminationGame.h"
-#import "StateAchievements.h"
 
-@implementation StateMainMenu
+@implementation StateAchievements
 
 -(void) update:(ccTime)delta {
     CGSize winSize = [[CCDirector sharedDirector] winSize];
@@ -36,28 +35,18 @@
 
 -(void) handleMenuSelection : (Disk*) disk Quadrant : (CornerQuadrant*) quad {
     //Handle collisions here.
-    if(quad.color == disk.color) {
-        disk.velocity = 0;
-        switch (disk.color) {
-            case red:
-                [m_manager setGameState:[[StateTimeAttackGame alloc] init]];
-                break;
-            case green:
-                [m_manager setGameState:[[StateSurvivalGame alloc] init]];
-                break;
-            case yellow:
-                [m_manager setGameState:[[StateEliminationGame alloc] init]];
-                break;
-            case blue:
-                [m_manager setGameState:[[StateAchievements alloc] init]];
-            default:
-                break;
-        }
-    }
+    [m_manager setGameState:[[StateMainMenu alloc] init]];
 }
 
 -(void) enter {
-    [m_manager scheduleOnce:@selector(spawnFourDisks) delay:2.0];
+    [m_manager changeColorOfAllQuadrantsTo:red];
+    [self scheduleOnce:@selector(spawnCenterDisk) delay:2.0];
+    [m_manager.UI hideIntroLabel];
+}
+
+-(void) spawnCenterDisk {
+    CGSize winSize = [[CCDirector sharedDirector] winSize];
+    [m_manager spawnDiskAtLocation:ccp(winSize.width / 2, winSize.height / 2) withColor:red];
 }
 
 -(void) exit {

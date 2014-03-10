@@ -236,8 +236,6 @@
 
 - (void) exit {
     [m_manager clearAllDisks];
-    //NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
-    //m_manager.score = [[defaults objectForKey:@"disksDestroyed"] intValue];
     [m_manager.UI showScoreLabel:m_manager.score];
     [m_manager.UI showGameOver];
 }

@@ -72,14 +72,11 @@
 // Remove a given disk
 -(void) removeDisk:(Disk*)d retainVelocity:(BOOL)rv;
 
-// Makes the disk expand by incrementing its radius
--(void) expandDisk:(Disk*)d;
-
-// Shrinks a disk and deletes it
--(void) shrinkDisk:(Disk*)d;
-
 // Switches the color of all quadrants
 -(void) changeColorOfAllQuadrants;
+
+// Switches the color of all quadrants to one color
+-(void) changeColorOfAllQuadrantsTo:(enum Color)color;
 
 // Blinks all quadrants
 -(void) blinkQuadrants;
