@@ -106,9 +106,9 @@
             super.color = ccc3(255, 0, 51);
             break;
         case green:
-            emitter.startColor = ccc4FFromccc4B(ccc4(34, 255, 34, 102));
-            emitter.endColor = ccc4FFromccc4B(ccc4(34, 255, 34, 0));
-            super.color = ccc3(34, 255, 34);
+            emitter.startColor = ccc4FFromccc4B(ccc4(0, 214, 86, 102));
+            emitter.endColor = ccc4FFromccc4B(ccc4(0, 214, 86, 0));
+            super.color = ccc3(0, 214, 86);
             break;
         case yellow:
             emitter.startColor = ccc4FFromccc4B(ccc4(255, 204, 0, 102));

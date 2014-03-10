@@ -19,8 +19,8 @@
 		3BF18EAC18CE6B3B0093F449 /* paching-sound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 3BF18EAB18CE6B3B0093F449 /* paching-sound.mp3 */; };
 		63A8CC6B18CAA69000134F94 /* StateEliminationGame.m in Sources */ = {isa = PBXBuildFile; fileRef = 63A8CC6A18CAA69000134F94 /* StateEliminationGame.m */; };
 		63A8CC6E18CB360900134F94 /* StateAchievements.m in Sources */ = {isa = PBXBuildFile; fileRef = 63A8CC6D18CB360800134F94 /* StateAchievements.m */; };
-		D10252DA18CE802100FF0D56 /* juiced.png in Resources */ = {isa = PBXBuildFile; fileRef = D10252D818CE802100FF0D56 /* juiced.png */; };
-		D10252DB18CE802100FF0D56 /* juiced@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D10252D918CE802100FF0D56 /* juiced@2x.png */; };
+		D10252DE18CE85E000FF0D56 /* juiced.png in Resources */ = {isa = PBXBuildFile; fileRef = D10252DC18CE85E000FF0D56 /* juiced.png */; };
+		D10252DF18CE85E000FF0D56 /* juiced@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D10252DD18CE85E000FF0D56 /* juiced@2x.png */; };
 		D10FD4F318A9DE4F00328D09 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D10FD4F218A9DE4F00328D09 /* QuartzCore.framework */; };
 		D10FD4F518A9DE4F00328D09 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D10FD4F418A9DE4F00328D09 /* OpenGLES.framework */; };
 		D10FD4F718A9DE4F00328D09 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D10FD4F618A9DE4F00328D09 /* OpenAL.framework */; };
@@ -193,8 +193,8 @@
 		63A8CC6A18CAA69000134F94 /* StateEliminationGame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StateEliminationGame.m; sourceTree = "<group>"; };
 		63A8CC6C18CB360800134F94 /* StateAchievements.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StateAchievements.h; sourceTree = "<group>"; };
 		63A8CC6D18CB360800134F94 /* StateAchievements.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StateAchievements.m; sourceTree = "<group>"; };
-		D10252D818CE802100FF0D56 /* juiced.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = juiced.png; sourceTree = "<group>"; };
-		D10252D918CE802100FF0D56 /* juiced@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "juiced@2x.png"; sourceTree = "<group>"; };
+		D10252DC18CE85E000FF0D56 /* juiced.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = juiced.png; sourceTree = "<group>"; };
+		D10252DD18CE85E000FF0D56 /* juiced@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "juiced@2x.png"; sourceTree = "<group>"; };
 		D10FD4EF18A9DE4F00328D09 /* Juiced.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Juiced.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D10FD4F218A9DE4F00328D09 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		D10FD4F418A9DE4F00328D09 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -597,8 +597,8 @@
 		D10FD50718A9DE4F00328D09 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				D10252D818CE802100FF0D56 /* juiced.png */,
-				D10252D918CE802100FF0D56 /* juiced@2x.png */,
+				D10252DC18CE85E000FF0D56 /* juiced.png */,
+				D10252DD18CE85E000FF0D56 /* juiced@2x.png */,
 				3BF18EAB18CE6B3B0093F449 /* paching-sound.mp3 */,
 				D115DFAF18CD9EA9007BB89D /* GlowSprite.png */,
 				3B716FEF18CD814D0096661E /* juiced-background.png */,
@@ -1090,12 +1090,12 @@
 				3B8324DF18BB3EC00024937B /* error.mp3 in Resources */,
 				D115DFAB18CD415D007BB89D /* DiskCenter.png in Resources */,
 				D189EEEE18BE6F8800D3F560 /* Disk.png in Resources */,
-				D10252DA18CE802100FF0D56 /* juiced.png in Resources */,
+				D10252DE18CE85E000FF0D56 /* juiced.png in Resources */,
 				D189EF0418BE787500D3F560 /* icon-iphone@2x.png in Resources */,
 				D189EEFF18BE780400D3F560 /* icon-ipad.png in Resources */,
 				D115DFB018CD9EA9007BB89D /* GlowSprite.png in Resources */,
 				D189EF0618BE787500D3F560 /* icon-iphone-o.png in Resources */,
-				D10252DB18CE802100FF0D56 /* juiced@2x.png in Resources */,
+				D10252DF18CE85E000FF0D56 /* juiced@2x.png in Resources */,
 				00EABF7218CD748100270A9A /* White_Starburst.plist in Resources */,
 				3B716FF018CD814D0096661E /* juiced-background.png in Resources */,
 				3B8324DD18BB385C0024937B /* bgmusic.mp3 in Resources */,
