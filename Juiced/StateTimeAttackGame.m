@@ -26,7 +26,7 @@
 -(void) startGame {
     m_manager.score = 0;
     i_DiskComboMultiplier = 1;
-    i_Time = 5;
+    i_Time = 20;
     i_DisksDestroyed = 0;
     [self schedule:@selector(timeDecrease) interval:1.0f];
     [m_manager.UI showScoreLabel: m_manager.score];
@@ -157,8 +157,6 @@
 
 -(void) exit {
     [m_manager clearAllDisks];
-    NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
-    m_manager.score = [[defaults objectForKey:@"disksDestroyed"] intValue];
     [m_manager.UI showScoreLabel:m_manager.score];
     [m_manager.UI showGameOver];
 }

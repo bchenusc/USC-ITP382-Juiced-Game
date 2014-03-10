@@ -27,6 +27,8 @@
     [m_manager scheduleOnce:@selector(blinkQuadrants) delay:8];
     [self schedule:@selector(decrementScore) interval:1.0f];
     [self createDisks:5];
+    
+    i_DisksDestroyed = 0;
 }
 
 -(void) gameOver {
@@ -36,6 +38,14 @@
     [m_manager unschedule:@selector(changeColorOfAllQuadrants)];
     
     [m_manager setGameState:[[StateMainMenu alloc] init]];
+    
+    NSMutableArray* achievementValues = [NSMutableArray arrayWithObjects:
+                                         [NSNumber numberWithInt:i_DisksDestroyed],
+                                         [NSNumber numberWithInt:m_manager.score],
+                                         [NSNumber numberWithInt:0],
+                                         [NSNumber numberWithInt:0],
+                                         nil];
+    [m_manager setAchievementValues:achievementValues];
 }
 
 -(void) update:(ccTime)delta {
@@ -67,6 +77,7 @@
                 if(intersectedCQ.color == d.color) {
                     [m_manager scoreParticlesAtLocation:d.position];
                     [[SimpleAudioEngine sharedEngine] playEffect:@"score_goal.mp3"];
+                    i_DisksDestroyed++;
                 } else { // Wrong color quadrant
                     [[SimpleAudioEngine sharedEngine] playEffect:@"error.mp3"];
                     

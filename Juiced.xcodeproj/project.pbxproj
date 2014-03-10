@@ -16,6 +16,7 @@
 		3B8324DF18BB3EC00024937B /* error.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 3B8324DE18BB3EC00024937B /* error.mp3 */; };
 		3B8324E118BB3EF20024937B /* score_goal.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 3B8324E018BB3EF20024937B /* score_goal.mp3 */; };
 		63A8CC6B18CAA69000134F94 /* StateEliminationGame.m in Sources */ = {isa = PBXBuildFile; fileRef = 63A8CC6A18CAA69000134F94 /* StateEliminationGame.m */; };
+		63A8CC6E18CB360900134F94 /* StateAchievements.m in Sources */ = {isa = PBXBuildFile; fileRef = 63A8CC6D18CB360800134F94 /* StateAchievements.m */; };
 		D105ADAE18BC465A0036509E /* juiced.png in Resources */ = {isa = PBXBuildFile; fileRef = D105ADAC18BC465A0036509E /* juiced.png */; };
 		D105ADAF18BC465A0036509E /* juiced@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D105ADAD18BC465A0036509E /* juiced@2x.png */; };
 		D10FD4F318A9DE4F00328D09 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D10FD4F218A9DE4F00328D09 /* QuartzCore.framework */; };
@@ -183,6 +184,8 @@
 		3B8324E018BB3EF20024937B /* score_goal.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = score_goal.mp3; path = Resources/score_goal.mp3; sourceTree = "<group>"; };
 		63A8CC6918CAA69000134F94 /* StateEliminationGame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StateEliminationGame.h; sourceTree = "<group>"; };
 		63A8CC6A18CAA69000134F94 /* StateEliminationGame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StateEliminationGame.m; sourceTree = "<group>"; };
+		63A8CC6C18CB360800134F94 /* StateAchievements.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StateAchievements.h; sourceTree = "<group>"; };
+		63A8CC6D18CB360800134F94 /* StateAchievements.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StateAchievements.m; sourceTree = "<group>"; };
 		D105ADAC18BC465A0036509E /* juiced.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = juiced.png; sourceTree = "<group>"; };
 		D105ADAD18BC465A0036509E /* juiced@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "juiced@2x.png"; sourceTree = "<group>"; };
 		D10FD4EF18A9DE4F00328D09 /* Juiced.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Juiced.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -977,6 +980,8 @@
 				D16F6A0A18C2CDE800AD8241 /* GameState.m */,
 				D16F6A0C18C2CE7500AD8241 /* StateMainMenu.h */,
 				D16F6A0D18C2CE7500AD8241 /* StateMainMenu.m */,
+				63A8CC6C18CB360800134F94 /* StateAchievements.h */,
+				63A8CC6D18CB360800134F94 /* StateAchievements.m */,
 			);
 			name = GameStates;
 			sourceTree = "<group>";
@@ -1124,6 +1129,7 @@
 				D10FD65518A9DE5100328D09 /* CDXMacOSXSupport.m in Sources */,
 				D10FD64918A9DE5100328D09 /* ZipUtils.m in Sources */,
 				D10FD53B18A9DE5000328D09 /* CCActionManager.m in Sources */,
+				63A8CC6E18CB360900134F94 /* StateAchievements.m in Sources */,
 				D10FD5A318A9DE5000328D09 /* CCParticleSystemQuad.m in Sources */,
 				D10FD56618A9DE5000328D09 /* CCDrawNode.m in Sources */,
 				D10FD5F818A9DE5000328D09 /* CCTransitionPageTurn.m in Sources */,
