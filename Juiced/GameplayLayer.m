@@ -355,6 +355,14 @@
     [self scheduleOnce:@selector(blinkQuadrants) delay:8];
 }
 
+-(void) changeColorOfAllQuadrantsTo:(enum Color)color {
+    for(int i = 0; i < quadrants.count; i++) {
+        CornerQuadrant* cq = quadrants[i];
+        [cq setVisible:YES];
+        cq.color = color;
+    }
+}
+
 -(void) blinkQuadrants {
     for(CornerQuadrant *cq in quadrants) {
         CCBlink* blink = [CCBlink actionWithDuration:1 blinks:5];

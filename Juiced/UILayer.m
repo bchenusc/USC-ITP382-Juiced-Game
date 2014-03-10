@@ -13,6 +13,7 @@
 #import "AppDelegate.h"
 
 #import "GameplayLayer.h"
+#import "BMath.h"
 
 // HelloWorldLayer implementation
 @implementation UILayer
@@ -37,9 +38,11 @@
         [self addChild:m_TitleSprite];
         
         //Score
-        m_ScoreLabel = [CCLabelTTF labelWithString:@"Score" fontName: @"Fatsans" fontSize:12];
-        m_ScoreLabel.position = ccp(size.width/2, 10);
+        m_ScoreLabel = [CCLabelTTF labelWithString:@"Score" fontName: @"Fatsans" fontSize:150];
+        m_ScoreLabel.opacity = 60;
+        m_ScoreLabel.position = ccp(size.width/2, size.height/2);
         m_ScoreLabel.visible = NO;
+        
         [self addChild:m_ScoreLabel];
         
         //Timer
@@ -55,9 +58,10 @@
         [self addChild : m_IntroLabel];
         
         //Score Multiplier
-        m_MultLabel = [CCLabelTTF labelWithString:@"Placeholder" fontName:@"Fatsans" fontSize:72];
-        m_MultLabel.position = ccp(size.width/2, size.height/2);
+        m_MultLabel = [CCLabelTTF labelWithString:@"Placeholder" fontName:@"Fatsans" fontSize:12];
+        m_MultLabel.position = ccp(size.width/2, 10);
         m_MultLabel.visible = NO;
+        //m_MultLabel.opacity = 50;
         [self addChild:m_MultLabel];
         
         //Particle Systems
@@ -92,10 +96,11 @@
     //Make sure to send the points system back down to where it belongs.
     
     CGSize size = [[CCDirector sharedDirector] winSize];
-    score_go_to = ccp(size.width/2, 10);
+    score_go_to = ccp(size.width/2, size.height/2);
     if (ccpDistanceSQ(m_ScoreLabel.position, score_go_to) > 4){
         [self schedule:@selector(slideScoreDown) interval:0.01];
     }
+    [m_ScoreLabel runAction:[CCFadeOut  actionWithDuration:0.1]];
     [m_IntroLabel runAction:[CCFadeOut actionWithDuration:0.1]];
     if (m_TitleSprite.opacity != 0) {
         [m_TitleSprite runAction:[CCFadeOut actionWithDuration:0.1]];
@@ -128,6 +133,7 @@
       [CCDelayTime actionWithDuration:0.5],
       [CCFadeOut actionWithDuration:0.2],
       [CCCallFunc actionWithTarget:self selector:@selector(hideTitleLabel)],
+      [CCCallFunc actionWithTarget:self selector:@selector(showZeroLabel)],
       [CCCallFunc actionWithTarget:m_GameplayLayer selector:@selector(gameStart)],
       nil
       ]
@@ -195,8 +201,17 @@
     m_TitleLabel.visible = NO;
 }
 
+-(void) showZeroLabel{
+    m_ScoreLabel.opacity = 80;
+    [self showScoreLabel:0];
+}
+
 -(void) showScoreLabel : (int) score {
-    m_ScoreLabel.string = [NSString stringWithFormat:@"%d pts", score];
+    if (m_ScoreLabel.opacity == 0){
+        [m_ScoreLabel runAction:[CCFadeIn actionWithDuration:0.1]];
+    }
+    m_ScoreLabel.string = [NSString stringWithFormat:@"%d", score];
+    m_ScoreLabel.fontSize = 300 / powf((floorf(log10f(score)) + 1 ), 0.5f);
     m_ScoreLabel.visible = YES;
 }
 
@@ -214,12 +229,26 @@
 }
 
 -(void) showMultiplierLabel: (int) multiplier {
-    m_MultLabel.string = [NSString stringWithFormat:@"x%d!!", multiplier];
+    if (multiplier == 1){
+        [self hideMultiplierLabel];
+        return;
+    }else
+    {
+        m_MultLabel.string = [NSString stringWithFormat:@"%d", multiplier];
+    }
     m_MultLabel.visible = YES;
     m_MultParticleL.visible = YES;
     [m_MultParticleL resetSystem];
     m_MultParticleR.visible = YES;
     [m_MultParticleR resetSystem];
+}
+
+-(void) multiplierEmphasize{
+    id grow = [CCScaleTo actionWithDuration:0.2f scale:1.5f];
+    id shrink = [CCScaleTo actionWithDuration:0.2f scale:1.0f];
+    id sequence = [CCSequence actions:grow, shrink, nil];
+    
+    [m_MultLabel runAction:sequence];
 }
 
 -(void) hideMultiplierLabel {
@@ -231,16 +260,21 @@
 -(void) showGameOver {
     CGSize size = [[CCDirector sharedDirector] winSize];
     score_go_to= ccp(size.width/2, size.height/2 - 10);
+    [self hideMultiplierLabel];
+    //[self slideScoreUp];
+    
     [self schedule:@selector(slideScoreUp) interval:0.01];
 }
 
 -(void) slideScoreUp {
     m_ScoreLabel.position = ccpAdd(m_ScoreLabel.position,
                                    ccpMult(ccpNormalize(ccpSub(score_go_to, m_ScoreLabel.position)),
-                                   5));
-    m_ScoreLabel.fontSize += 0.5;
+                                   2));
+    m_ScoreLabel.fontSize = clampf(m_ScoreLabel.fontSize-50, 50, 100);
+    m_ScoreLabel.opacity = clampf(m_ScoreLabel.opacity + 50, 0, 255);
     
     if (ccpDistanceSQ(m_ScoreLabel.position, score_go_to) <= 2){
+        m_ScoreLabel.fontSize = 50;
         [self unschedule:@selector(slideScoreUp)];
         CGSize size = [[CCDirector sharedDirector] winSize];
         
@@ -263,14 +297,18 @@
     
     m_ScoreLabel.position = ccpAdd(m_ScoreLabel.position,
                                    ccpMult(ccpNormalize(ccpSub(score_go_to, m_ScoreLabel.position)),
-                                           5));
-    m_ScoreLabel.fontSize -= 0.5;
+                                        5));
+    m_ScoreLabel.visible = NO;
     
+    //m_ScoreLabel.fontSize = clampf(m_ScoreLabel.fontSize+30, 50, 150);
+
     if (ccpDistanceSQ(m_ScoreLabel.position, score_go_to) <= 2){
+        m_GameplayLayer.score = 0;
         CGSize size = [[CCDirector sharedDirector] winSize];
         [self unschedule:@selector(slideScoreDown)];
-        m_ScoreLabel.fontSize = 12;
-        m_ScoreLabel.position = ccp(size.width/2, 10);
+        m_ScoreLabel.fontSize = 150;
+        m_ScoreLabel.position = ccp(size.width/2, size.height/2);
+        m_ScoreLabel.opacity = 80;
     }
 }
 

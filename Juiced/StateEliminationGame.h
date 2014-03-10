@@ -11,6 +11,7 @@
 @interface StateEliminationGame : GameMode {
     int i_Round;
     BOOL b_TransitioningToNextRound;
+    int i_DisksDestroyed;
 }
 
 @end
