@@ -144,7 +144,7 @@
 	
     //preload sounds
     [[SimpleAudioEngine sharedEngine] preloadEffect:@"error.mp3"];
-    [[SimpleAudioEngine sharedEngine] preloadEffect:@"score_goal.mp3"];
+    [[SimpleAudioEngine sharedEngine] preloadEffect:@"paching-sound.mp3"];
     
     [glView setMultipleTouchEnabled:YES];
     

@@ -67,7 +67,7 @@
                 // Check if the colors are the same
                 if(intersectedCQ.color == d.color) {
                     [m_manager scoreParticlesAtLocation:d.position];
-                    [[SimpleAudioEngine sharedEngine] playEffect:@"score_goal.mp3"];
+                    [[SimpleAudioEngine sharedEngine] playEffect:@"paching-sound.mp3"];
                     
                     // Scoring stuff
                     m_manager.score += i_DiskScore * i_DiskComboMultiplier;

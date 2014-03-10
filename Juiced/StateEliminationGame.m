@@ -76,7 +76,7 @@
                 // Check if the colors are the same
                 if(intersectedCQ.color == d.color) {
                     [m_manager scoreParticlesAtLocation:d.position];
-                    [[SimpleAudioEngine sharedEngine] playEffect:@"score_goal.mp3"];
+                    [[SimpleAudioEngine sharedEngine] playEffect:@"paching-sound.mp3"];
                     i_DisksDestroyed++;
                 } else { // Wrong color quadrant
                     [[SimpleAudioEngine sharedEngine] playEffect:@"error.mp3"];
