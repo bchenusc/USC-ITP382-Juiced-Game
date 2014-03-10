@@ -406,15 +406,15 @@
     
     [[NSUserDefaults standardUserDefaults] setObject:numDisksDestroyed forKey:@"disksDestroyed"];
     
-    if((int)values[1] > [(NSNumber*)[defaults objectForKey:@"stateTimeAttackGameHighScore"] intValue]) {
+    if([(NSNumber*)values[1] intValue] > [[defaults objectForKey:@"stateTimeAttackGameHighScore"] intValue]) {
         [defaults setObject:[values objectAtIndex:1] forKey:@"stateTimeAttackGameHighScore"];
     }
     
-    if((int)values[2] > [(NSNumber*)(int)[defaults objectForKey:@"stateEliminationGameHighScore"] intValue]) {
+    if([(NSNumber*)values[2] intValue] > [[defaults objectForKey:@"stateEliminationGameHighScore"] intValue]) {
         [defaults setObject:[values objectAtIndex:2] forKey:@"stateEliminationGameHighScore"];
     }
     
-    if((int)values[3] > [(NSNumber*)(int)[defaults objectForKey:@"stateSurvivalGameHighScore"] intValue]) {
+    if([(NSNumber*)values[3] intValue] > [[defaults objectForKey:@"stateSurvivalGameHighScore"] intValue]) {
         [defaults setObject:[values objectAtIndex:3] forKey:@"stateSurvivalGameHighScore"];
     }
     

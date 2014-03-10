@@ -27,6 +27,8 @@
     if (self) {
         CGSize size = [[CCDirector sharedDirector] winSize];
         
+        mc_maxMultiplier = 5;
+        
         //Title
         m_TitleLabel = [CCLabelTTF labelWithString:@"" fontName: @"Fatsans" fontSize:30];
         m_TitleLabel.position = ccp(size.width/2, size.height/2 + 20);
@@ -67,11 +69,30 @@
         m_EliminationLabel.visible = YES;
         [self addChild : m_EliminationLabel];
         
-        m_AchievementLabel = [CCLabelTTF labelWithString:@"Achievements" fontName: @"Fatsans" fontSize:12];
-        m_AchievementLabel.position = ccp(size.width - 65, 20);
-        m_AchievementLabel.visible = YES;
-        [self addChild : m_AchievementLabel];
+        m_HighScoreLabel = [CCLabelTTF labelWithString:@"High Scores" fontName: @"Fatsans" fontSize:12];
+        m_HighScoreLabel.position = ccp(size.width - 55, 20);
+        m_HighScoreLabel.visible = YES;
+        [self addChild : m_HighScoreLabel];
         
+        m_HighScoreTitleLabel = [CCLabelTTF labelWithString:@"High Scores" fontName: @"Fatsans" fontSize:36];
+        m_HighScoreTitleLabel.position = ccp(size.width / 2, size.height / 2 + 10);
+        m_HighScoreTitleLabel.visible = NO;
+        [self addChild: m_HighScoreTitleLabel];
+        
+        m_HighScoreTimeAttack = [CCLabelTTF labelWithString:@"" fontName: @"Fatsans" fontSize:20];
+        m_HighScoreTimeAttack.position = ccp(55, 40);
+        m_HighScoreTimeAttack.visible = NO;
+        [self addChild: m_HighScoreTimeAttack];
+        
+        m_HighScoreElimination = [CCLabelTTF labelWithString:@"" fontName: @"Fatsans" fontSize:20];
+        m_HighScoreElimination.position = ccp(55, size.height - 40);
+        m_HighScoreElimination.visible = NO;
+        [self addChild: m_HighScoreElimination];
+        
+        m_HighScoreSurvival = [CCLabelTTF labelWithString:@"" fontName: @"Fatsans" fontSize:20];
+        m_HighScoreSurvival.position = ccp(size.width - 55, size.height - 40);
+        m_HighScoreSurvival.visible = NO;
+        [self addChild: m_HighScoreSurvival];
         
         //Instructions label
         m_IntroLabel =[CCLabelTTF labelWithString:@"Slide A Disk To Play " fontName: @"Fatsans" fontSize:12];
@@ -80,7 +101,7 @@
         [self addChild : m_IntroLabel];
         
         //Score Multiplier
-        m_MultLabel = [CCLabelTTF labelWithString:@"Placeholder" fontName:@"Fatsans" fontSize:12];
+        m_MultLabel = [CCLabelTTF labelWithString:@"Placeholder" fontName:@"Fatsans" fontSize:18];
         m_MultLabel.position = ccp(size.width/2, 10);
         m_MultLabel.visible = NO;
         //m_MultLabel.opacity = 50;
@@ -88,12 +109,12 @@
         
         //Particle Systems
         m_MultParticleL = [CCParticleSystemQuad particleWithFile:@"Score_Mult_L.plist"];
-        m_MultParticleL.position = ccp(size.width/2 - 100, 3*size.height/4);
+        m_MultParticleL.position = ccp(size.width/2 - 100, size.height/2);
         m_MultParticleL.visible = NO;
         [self addChild:m_MultParticleL];
         
         m_MultParticleR = [CCParticleSystemQuad particleWithFile:@"Score_Mult_R.plist"];
-        m_MultParticleR.position = ccp(size.width/2 + 100, 3*size.height/4);
+        m_MultParticleR.position = ccp(size.width/2 + 100, size.height/2);
         m_MultParticleR.visible = NO;
         [self addChild:m_MultParticleR];
         
@@ -205,14 +226,14 @@
 
 -(void) FadeOutGameModeLabels{
     [m_TimeAttackLabel runAction:[CCFadeOut actionWithDuration:0.1]];
-    [m_AchievementLabel runAction:[CCFadeOut actionWithDuration:0.1]];
+    [m_HighScoreLabel runAction:[CCFadeOut actionWithDuration:0.1]];
     [m_SurvivalLabel runAction:[CCFadeOut actionWithDuration:0.1]];
     [m_EliminationLabel runAction:[CCFadeOut actionWithDuration:0.1]];
 }
 
 -(void) FadeInGameModeLabels{
     [m_TimeAttackLabel runAction:[CCFadeIn actionWithDuration:0.1]];
-    [m_AchievementLabel runAction:[CCFadeIn actionWithDuration:0.1]];
+    [m_HighScoreLabel runAction:[CCFadeIn actionWithDuration:0.1]];
     [m_SurvivalLabel runAction:[CCFadeIn actionWithDuration:0.1]];
     [m_EliminationLabel runAction:[CCFadeIn actionWithDuration:0.1]];
 }
@@ -274,10 +295,12 @@
         m_MultLabel.string = [NSString stringWithFormat:@"%d", multiplier];
     }
     m_MultLabel.visible = YES;
-    m_MultParticleL.visible = YES;
-    [m_MultParticleL resetSystem];
-    m_MultParticleR.visible = YES;
-    [m_MultParticleR resetSystem];
+    if (multiplier == mc_maxMultiplier) {
+        m_MultParticleL.visible = YES;
+        [m_MultParticleL resetSystem];
+        m_MultParticleR.visible = YES;
+        [m_MultParticleR resetSystem];
+    }
 }
 
 -(void) multiplierEmphasize{
@@ -348,6 +371,39 @@
         m_ScoreLabel.position = ccp(size.width/2, size.height/2);
         m_ScoreLabel.opacity = 80;
     }
+}
+
+-(void) showAchievements {
+    [m_TitleSprite runAction:[CCFadeOut actionWithDuration:0.1]];
+    [m_ScoreLabel runAction:[CCFadeOut actionWithDuration:0.1]];
+    [m_TitleLabel runAction:[CCFadeOut actionWithDuration:0.1]];
+    
+    m_IntroLabel.visible = YES;
+    [m_IntroLabel runAction:[CCFadeIn actionWithDuration:0.1]];
+    m_HighScoreTitleLabel.visible = YES;
+    [m_HighScoreTitleLabel runAction:[CCFadeIn actionWithDuration:0.1]];
+    
+    
+    NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
+    
+    [m_HighScoreElimination setString:[[defaults objectForKey:@"stateEliminationGameHighScore"] stringValue]];
+    m_HighScoreElimination.visible = YES;
+    [m_HighScoreElimination runAction:[CCFadeIn actionWithDuration:0.1]];
+    [m_HighScoreSurvival setString:[[defaults objectForKey:@"stateSurvivalGameHighScore"] stringValue]];
+    m_HighScoreSurvival.visible = YES;
+    [m_HighScoreSurvival runAction:[CCFadeIn actionWithDuration:0.1]];
+    [m_HighScoreTimeAttack setString:[[defaults objectForKey:@"stateTimeAttackGameHighScore"] stringValue]];
+    m_HighScoreTimeAttack.visible = YES;
+    [m_HighScoreTimeAttack runAction:[CCFadeIn actionWithDuration:0.1]];
+}
+
+-(void) hideAchievements {
+    [m_TitleSprite runAction:[CCFadeIn actionWithDuration:0.1]];
+    [m_IntroLabel runAction:[CCFadeIn actionWithDuration:0.1]];
+    [m_HighScoreTitleLabel runAction:[CCFadeOut actionWithDuration:0.1]];
+    [m_HighScoreElimination runAction:[CCFadeOut actionWithDuration:0.1]];
+    [m_HighScoreSurvival runAction:[CCFadeOut actionWithDuration:0.1]];
+    [m_HighScoreTimeAttack runAction:[CCFadeOut actionWithDuration:0.1]];
 }
 
 

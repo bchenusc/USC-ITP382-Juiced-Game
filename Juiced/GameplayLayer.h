@@ -76,9 +76,6 @@
 // Switches the color of all quadrants
 -(void) changeColorOfAllQuadrants;
 
-// Switches the color of all quadrants to one color
--(void) changeColorOfAllQuadrantsTo:(enum Color)color;
-
 // Blinks all quadrants
 -(void) blinkQuadrants;
 
