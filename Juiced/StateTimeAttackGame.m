@@ -26,7 +26,7 @@
 -(void) startGame {
     m_manager.score = 0;
     i_DiskComboMultiplier = 1;
-    i_Time = 20;
+    i_Time = 10;
     i_DisksDestroyed = 0;
     [self schedule:@selector(timeDecrease) interval:1.0f];
     [m_manager.UI showScoreLabel: m_manager.score];
@@ -119,12 +119,12 @@
 
 
 -(void) createDisks {
-    int timesToSpawnDisk = arc4random() % (i_TotalTime / 5 + 1) + 2;
+    int timesToSpawnDisk = 1;
     for(int i = 0; i < timesToSpawnDisk; i++) {
         [m_manager spawnDiskAtRandomLocation];
     }
     [self unschedule:@selector(createDisks)];
-    [self schedule:@selector(createDisks) interval:0.5f + .5f / (i_TotalTime / 5 + 1)];
+    [self schedule:@selector(createDisks) interval:0.5f + .5f / (i_TotalTime / 20 + 1)];
     [self deleteOverflowDisks];
 }
 
@@ -140,15 +140,13 @@
     }
     
     // Delete overflow
-    while(m_manager.disks.count > 10) {
+    while(m_manager.disks.count > 15) {
         [m_manager removeDisk:[m_manager.disks objectAtIndex:0] retainVelocity: YES];
-        m_manager.score -= 20;
         i_Time -= 0.25;
         [m_manager.UI showTimeLabel:i_Time];
         if(m_manager.score < 0) {
             m_manager.score = 0;
         }
-        [m_manager.UI showScoreLabel:m_manager.score];
     }
 }
 

@@ -229,12 +229,12 @@
 }
 
 -(void) createDisks {
-    int timesToSpawnDisk = arc4random() % (m_gameTime / 5 + 1) + 2;
+    int timesToSpawnDisk = 1;
     for(int i = 0; i < timesToSpawnDisk; i++) {
         [m_manager spawnDiskAtRandomLocation];
     }
     [self unschedule:@selector(createDisks)];
-    [self schedule:@selector(createDisks) interval:0.5f + .5f / (m_gameTime / 5 + 1)];
+    [self schedule:@selector(createDisks) interval:0.5f + .5f / (m_gameTime / 20 + 1)];
     [self deleteOverflowDisks];
 }
 
@@ -250,7 +250,7 @@
     }
     
     // Delete overflow
-    while(m_manager.disks.count > 10) {
+    while(m_manager.disks.count > 25) {
         [m_manager removeDisk:[m_manager.disks objectAtIndex:0] retainVelocity: YES];
     }
 }
@@ -266,6 +266,14 @@
     [self unschedule:@selector(increaseScore)];
     
     [m_manager setGameState:[[StateMainMenu alloc] init]];
+    
+    NSMutableArray* achievementValues = [NSMutableArray arrayWithObjects:
+                                         [NSNumber numberWithInt:0],
+                                         [NSNumber numberWithInt:0],
+                                         [NSNumber numberWithInt:0],
+                                         [NSNumber numberWithInt:m_manager.score],
+                                         nil];
+    [m_manager setAchievementValues:achievementValues];
     
 }
 

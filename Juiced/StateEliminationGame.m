@@ -41,8 +41,8 @@
     
     NSMutableArray* achievementValues = [NSMutableArray arrayWithObjects:
                                          [NSNumber numberWithInt:i_DisksDestroyed],
-                                         [NSNumber numberWithInt:m_manager.score],
                                          [NSNumber numberWithInt:0],
+                                         [NSNumber numberWithInt:m_manager.score],
                                          [NSNumber numberWithInt:0],
                                          nil];
     [m_manager setAchievementValues:achievementValues];
@@ -111,7 +111,7 @@
 }
 
 -(void) decrementScore {
-    m_manager.score -= i_Round * 10;
+    m_manager.score -= 10;
     [m_manager.UI showScoreLabel:m_manager.score];
     if(m_manager.score < 0) {
         m_manager.score = 0;
