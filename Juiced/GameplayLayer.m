@@ -69,8 +69,9 @@
         
         // Batching nodes
         diskTexture = [[CCTextureCache sharedTextureCache] addImage:@"Disk.png"];
+        particleTexture = [[CCTextureCache sharedTextureCache] addImage:@"DiskCenter.png"];
         iSpriteBatch = [CCSpriteBatchNode batchNodeWithTexture:diskTexture];
-        iParticleBatch = [CCParticleBatchNode batchNodeWithTexture:diskTexture];
+        iParticleBatch = [CCParticleBatchNode batchNodeWithTexture:particleTexture];
         [self addChild:iSpriteBatch z:1];
         [self addChild:iParticleBatch z:1];
         

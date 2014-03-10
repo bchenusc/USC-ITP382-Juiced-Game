@@ -21,8 +21,7 @@
 @synthesize gameplayLayer = iGameplayLayer;
 @synthesize isSelected = iIsSelected;
 
-- (id)init
-{
+-(id) init {
     self = [super initWithTexture:[[CCTextureCache sharedTextureCache] textureForKey:@"Disk.png"]];
     if (self) {
         winSize = [[CCDirector sharedDirector] winSize];
@@ -44,28 +43,35 @@
         iColor = white;
         emitter = NULL;
         
-        [self setDiskScale:0.0f];
+        iIsSelected = NO;
+        iIsBeingRemoved = NO;
+        
+        [self setDiskScale:0.0001f];
     }
     return self;
 }
 
 -(id) initWithParticlesInBatchNode:(CCParticleBatchNode*)node {
     emitter = [CCParticleSystemQuad particleWithFile:@"Disc_Sparks.plist"];
-    emitter.startSize = iRadius * 2;
-    emitter.endSize = emitter.startSize * 0.9f;
+    emitter.startSize = iRadius * 2 * 0.95f;
+    emitter.endSize = iRadius * 2 * 1.05f;
     emitter.position = ccp(-100, -100);
+    emitter.startSizeVar = 2;
+    emitter.endSizeVar = 2;
     emitter.scale = 0;
     [node addChild:emitter];
     
-    [self setDiskScale:0.0f];
-    [self performSelector:@selector(expand) withObject:self afterDelay:.01f];
+    [self setDiskScale:0.0001f];
+    [self performSelector:@selector(expand) withObject:self];
     
     return self;
 }
 
 -(void) removeDisk {
     [self unschedule:@selector(expand)];
-    [self performSelector:@selector(shrink) withObject:self afterDelay:.01f];
+    [self performSelector:@selector(shrink) withObject:self];
+    iIsBeingRemoved = YES;
+    
 }
 
 
@@ -80,7 +86,7 @@
 
 -(void) shrink {
     [self setDiskScale:(self.scale - 1/6.0f)];
-    if(self.scale > 0) {
+    if(self.scale > 0.0002f) {
         [self performSelector:@selector(shrink) withObject:self afterDelay:.01f];
     } else {
         [self removeFromParentAndCleanup:YES];
@@ -95,6 +101,9 @@
 }
 
 -(void) setDiskScale:(float)scale {
+    if (scale <= 0.0001f) {
+        scale = 0.0001f;
+    }
     self.scale = scale;
     if (emitter) {
         emitter.scale = scale;
@@ -106,27 +115,27 @@
     
     switch (color) {
         case white:
-            emitter.startColor = ccc4FFromccc4B(ccc4(255, 255, 255, 128));
+            emitter.startColor = ccc4FFromccc4B(ccc4(255, 255, 255, 102));
             emitter.endColor = ccc4FFromccc4B(ccc4(255, 255, 255, 0));
             super.color = ccc3(255, 255, 255);
             break;
         case blue:
-            emitter.startColor = ccc4FFromccc4B(ccc4(0, 0, 255, 128));
+            emitter.startColor = ccc4FFromccc4B(ccc4(0, 0, 255, 102));
             emitter.endColor = ccc4FFromccc4B(ccc4(0, 0, 255, 0));
             super.color = ccc3(0, 0, 255);
             break;
         case red:
-            emitter.startColor = ccc4FFromccc4B(ccc4(255, 0, 0, 128));
+            emitter.startColor = ccc4FFromccc4B(ccc4(255, 0, 0, 102));
             emitter.endColor = ccc4FFromccc4B(ccc4(255, 0, 0, 0));
             super.color = ccc3(255, 0, 0);
             break;
         case green:
-            emitter.startColor = ccc4FFromccc4B(ccc4(52, 199, 52, 128));
+            emitter.startColor = ccc4FFromccc4B(ccc4(52, 199, 52, 102));
             emitter.endColor = ccc4FFromccc4B(ccc4(52, 199, 52, 0));
             super.color = ccc3(52, 199, 52);
             break;
         case yellow:
-            emitter.startColor = ccc4FFromccc4B(ccc4(255, 255, 0, 128));
+            emitter.startColor = ccc4FFromccc4B(ccc4(255, 255, 0, 102));
             emitter.endColor = ccc4FFromccc4B(ccc4(255, 255, 0, 0));
             super.color = ccc3(255, 255, 0);
             break;
@@ -229,7 +238,7 @@
     
     if (emitter) {
         emitter.visible = NO;
-        [emitter.parent removeChild:emitter cleanup:YES];
+        [emitter removeFromParentAndCleanup:YES];
     }
     
 	[super onExit];

@@ -27,6 +27,7 @@
     CCSpriteBatchNode* iSpriteBatch;
     CCParticleBatchNode* iParticleBatch;
     CCTexture2D* diskTexture;
+    CCTexture2D* particleTexture;
     
     int i_Score;
     int diskZOrder;
