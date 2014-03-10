@@ -13,7 +13,6 @@
 #import "AppDelegate.h"
 
 #import "GameplayLayer.h"
-#import "BMath.h"
 
 // HelloWorldLayer implementation
 @implementation UILayer
