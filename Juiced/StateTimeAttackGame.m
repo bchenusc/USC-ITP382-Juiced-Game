@@ -119,12 +119,12 @@
 
 
 -(void) createDisks {
-    int timesToSpawnDisk = 1;
+    int timesToSpawnDisk = arc4random() % 2 + 1;
     for(int i = 0; i < timesToSpawnDisk; i++) {
         [m_manager spawnDiskAtRandomLocation];
     }
     [self unschedule:@selector(createDisks)];
-    [self schedule:@selector(createDisks) interval:0.5f + .5f / (i_TotalTime / 20 + 1)];
+    [self schedule:@selector(createDisks) interval:0.25f + .75f / (i_TotalTime / 10 + 1)];
     [self deleteOverflowDisks];
 }
 
@@ -142,7 +142,7 @@
     // Delete overflow
     while(m_manager.disks.count > 15) {
         [m_manager removeDisk:[m_manager.disks objectAtIndex:0] retainVelocity: YES];
-        i_Time -= 0.25;
+        i_Time -= 1;
         [m_manager.UI showTimeLabel:i_Time];
         if(m_manager.score < 0) {
             m_manager.score = 0;

@@ -23,8 +23,8 @@
         m_timeScore = 100;
         
         //Set the vertical decrement/increment
-        m_decrement = size.height/20;
-        m_increment = size.height/8;
+        m_decrement = size.height/25;
+        m_increment = size.height/16;
         
         m_maxWidth = size.width/4;
         m_maxHeight = size.height/2;
@@ -123,6 +123,7 @@
 }
 
 - (void) shrinkQuadrants {
+    m_decrement *= 1.05;
     int im_multiiplier = 4;
     //Shrink each quadrant
     for (CornerQuadrant* c in m_manager.quads) {
@@ -229,12 +230,12 @@
 }
 
 -(void) createDisks {
-    int timesToSpawnDisk = 1;
+    int timesToSpawnDisk = arc4random() % 2 + 1;
     for(int i = 0; i < timesToSpawnDisk; i++) {
         [m_manager spawnDiskAtRandomLocation];
     }
     [self unschedule:@selector(createDisks)];
-    [self schedule:@selector(createDisks) interval:0.5f + .5f / (m_gameTime / 20 + 1)];
+    [self schedule:@selector(createDisks) interval:0.5f + .5f / (m_gameTime / 5 + 1)];
     [self deleteOverflowDisks];
 }
 
@@ -250,7 +251,7 @@
     }
     
     // Delete overflow
-    while(m_manager.disks.count > 25) {
+    while(m_manager.disks.count > 10) {
         [m_manager removeDisk:[m_manager.disks objectAtIndex:0] retainVelocity: YES];
     }
 }
