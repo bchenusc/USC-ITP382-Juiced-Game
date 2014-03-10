@@ -54,7 +54,11 @@
 	// always call "super" init
 	// Apple recommends to re-assign "self" with the "super's" return value
 	if( (self=[super init]) ) {
+        
         CGSize winSize = [[CCDirector sharedDirector] winSize];
+        CCSprite* background = [CCSprite spriteWithFile:@"juiced-background.png"];
+        background.position = ccp(winSize.width / 2, winSize.height/2);
+        [self addChild:background z:INT32_MIN+1];
         
         //Sound
         [[SimpleAudioEngine sharedEngine] playBackgroundMusic:@"bgmusic.mp3" loop: YES];
