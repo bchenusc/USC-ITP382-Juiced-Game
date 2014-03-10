@@ -96,24 +96,24 @@
             super.color = ccc3(255, 255, 255);
             break;
         case blue:
-            emitter.startColor = ccc4FFromccc4B(ccc4(0, 0, 255, 102));
-            emitter.endColor = ccc4FFromccc4B(ccc4(0, 0, 255, 0));
-            super.color = ccc3(0, 0, 255);
+            emitter.startColor = ccc4FFromccc4B(ccc4(0, 51, 255, 102));
+            emitter.endColor = ccc4FFromccc4B(ccc4(0, 51, 255, 0));
+            super.color = ccc3(0, 51, 255);
             break;
         case red:
-            emitter.startColor = ccc4FFromccc4B(ccc4(255, 0, 0, 102));
-            emitter.endColor = ccc4FFromccc4B(ccc4(255, 0, 0, 0));
-            super.color = ccc3(255, 0, 0);
+            emitter.startColor = ccc4FFromccc4B(ccc4(255, 0, 51, 102));
+            emitter.endColor = ccc4FFromccc4B(ccc4(255, 0, 51, 0));
+            super.color = ccc3(255, 0, 51);
             break;
         case green:
-            emitter.startColor = ccc4FFromccc4B(ccc4(0, 255, 0, 102));
-            emitter.endColor = ccc4FFromccc4B(ccc4(0, 255, 0, 0));
-            super.color = ccc3(52, 199, 52);
+            emitter.startColor = ccc4FFromccc4B(ccc4(34, 255, 34, 102));
+            emitter.endColor = ccc4FFromccc4B(ccc4(34, 255, 34, 0));
+            super.color = ccc3(34, 255, 34);
             break;
         case yellow:
-            emitter.startColor = ccc4FFromccc4B(ccc4(255, 255, 0, 102));
-            emitter.endColor = ccc4FFromccc4B(ccc4(255, 255, 0, 0));
-            super.color = ccc3(255, 255, 0);
+            emitter.startColor = ccc4FFromccc4B(ccc4(255, 204, 0, 102));
+            emitter.endColor = ccc4FFromccc4B(ccc4(255, 204, 0, 0));
+            super.color = ccc3(255, 204, 0);
             break;
     }
 }

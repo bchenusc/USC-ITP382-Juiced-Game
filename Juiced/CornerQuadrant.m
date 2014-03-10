@@ -40,23 +40,22 @@
     glowSprite.scaleY = self.height / glowSprite.boundingBox.size.height;
     switch (color) {
         case blue:
-            [glowSprite setColor:ccc3(0, 0, 255)];
+            [glowSprite setColor:ccc3(0, 51, 255)];
             break;
         case red:
-            [glowSprite setColor:ccc3(255, 0, 0)];
+            [glowSprite setColor:ccc3(255, 51, 0)];
             break;
         case green:
-            [glowSprite setColor:ccc3(0, 255, 0)];
+            [glowSprite setColor:ccc3(34, 255, 34)];
             break;
         case yellow:
-            [glowSprite setColor:ccc3(255, 255, 0)];
+            [glowSprite setColor:ccc3(255, 204, 0)];
             break;
         default:
             [glowSprite setColor:ccc3(0, 0, 0)];
             break;
     }
     [glowSprite setPosition:ccp(position.x + self.thickness / 2 * ((self.width > 0) ? 1 : -1), position.y + self.height / 2)];
-    [glowSprite setBlendFunc:(ccBlendFunc) {GL_ONE, GL_ONE}];
     [glowSprite runAction: [CCRepeatForever actionWithAction: [CCSequence actions:
             [CCScaleTo actionWithDuration:0.10f scaleX:glowSprite.scaleX * 3.50f scaleY:glowSprite.scaleY],
             [CCScaleTo actionWithDuration:0.10f scaleX:glowSprite.scaleX * 3.00f scaleY:glowSprite.scaleY], nil]]];
@@ -70,16 +69,16 @@
     glowSprite2.scaleY = self.width / glowSprite2.boundingBox.size.height;
     switch (color) {
         case blue:
-            [glowSprite2 setColor:ccc3(0, 0, 255)];
+            [glowSprite2 setColor:ccc3(0, 51, 255)];
             break;
         case red:
-            [glowSprite2 setColor:ccc3(255, 0, 0)];
+            [glowSprite2 setColor:ccc3(255, 51, 0)];
             break;
         case green:
-            [glowSprite2 setColor:ccc3(0, 255, 0)];
+            [glowSprite2 setColor:ccc3(34, 255, 34)];
             break;
         case yellow:
-            [glowSprite2 setColor:ccc3(255, 255, 0)];
+            [glowSprite2 setColor:ccc3(255, 204, 0)];
             break;
         default:
             [glowSprite2 setColor:ccc3(0, 0, 0)];
@@ -87,7 +86,6 @@
     }
     [glowSprite2 setPosition:ccp(position.x + self.width / 2, position.y + self.thickness / 2 * ((self.height > 0) ? 1 : -1))];
     [glowSprite2 setRotation:90];
-    [glowSprite2 setBlendFunc:(ccBlendFunc) {GL_ONE, GL_ONE}];
     [glowSprite2 runAction: [CCRepeatForever actionWithAction: [CCSequence actions:
                 [CCScaleTo actionWithDuration:0.10f scaleX:glowSprite2.scaleX * 3.50f scaleY:glowSprite2.scaleY],
                 [CCScaleTo actionWithDuration:0.10f scaleX:glowSprite2.scaleX * 3.00f scaleY:glowSprite2.scaleY], nil]]];
@@ -105,16 +103,16 @@
     
     switch (color) {
         case blue:
-            c = ccc3(0, 0, 255);
+            c = ccc3(0, 51, 255);
             break;
         case red:
-            c = ccc3(255, 0, 0);
+            c = ccc3(255, 51, 0);
             break;
         case green:
-            c = ccc3(0, 255, 0);
+            c = ccc3(34, 255, 34);
             break;
         case yellow:
-            c = ccc3(255, 255, 0);
+            c = ccc3(255, 204, 0);
             break;
         default:
             c =ccc3(0, 0, 0);
@@ -160,16 +158,16 @@
     ccColor4F color;
     switch (m_Color) {
         case blue:
-            color = ccc4FFromccc4B(ccc4(0, 0, 255, 255));
+            color = ccc4FFromccc4B(ccc4(0, 51, 255, 255));
             break;
         case red:
-            color = ccc4FFromccc4B(ccc4(255, 0, 0, 255));
+            color = ccc4FFromccc4B(ccc4(255, 51, 0, 255));
             break;
         case green:
-            color = ccc4FFromccc4B(ccc4(0, 255, 0, 255));
+            color = ccc4FFromccc4B(ccc4(0, 255, 51, 255));
             break;
         case yellow:
-            color = ccc4FFromccc4B(ccc4(255, 255, 0, 255));
+            color = ccc4FFromccc4B(ccc4(255, 204, 0, 255));
             break;
         default:
             return;
@@ -177,9 +175,6 @@
     
     ccDrawSolidRect(m_Position, ccp(m_Position.x + m_Width, m_Position.y + m_Thickness * ((self.height > 0) ? 1 : -1)), color);
     ccDrawSolidRect(m_Position, ccp(m_Position.x + m_Thickness * ((self.width > 0) ? 1 : -1), m_Position.y + m_Height), color);
-    
-    
-    [super draw];
 }
 
 @end
