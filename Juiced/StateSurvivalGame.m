@@ -41,14 +41,14 @@
     for (CornerQuadrant* cq in m_manager.quads) {
         NSLog(@"Count");
         if (cq.width > 0) {
-            cq.width = m_maxWidth;
+            [cq setQuadWidth:m_maxWidth];
         } else {
-            cq.width = -m_maxWidth;
+            [cq setQuadWidth:-m_maxWidth];
         }
         if (cq.height > 0) {
-            cq.height = m_maxHeight;
+            [cq setQuadHeight:m_maxHeight];
         } else {
-            cq.height = -m_maxHeight;
+            [cq setQuadHeight:-m_maxHeight];
         }
     }
     
@@ -99,25 +99,25 @@
 
 - (void) shrinkSpecificQuadrant: (CornerQuadrant*) cq {
     if (cq.width > 0) {
-        cq.width -= m_decrement;
+        [cq setQuadWidth:cq.width - m_decrement];
         if (cq.width < 0) {
-            cq.width = 0; //Zero out the quadrant size
+            [cq setQuadWidth:0]; //Zero out the quadrant size
         }
     } else {
-        cq.width += m_decrement;
+        [cq setQuadWidth:cq.width + m_decrement];
         if (cq.width > 0) {
-            cq.width = 0;
+            [cq setQuadWidth:0];
         }
     }
     if (cq.height > 0) {
-        cq.height -= m_decrement;
+        [cq setQuadWidth:cq.height - m_decrement];
         if (cq.height < 0) {
-            cq.height = 0;
+            [cq setQuadHeight:0];
         }
     } else {
-        cq.height += m_decrement;
+        [cq setQuadWidth:cq.height + m_decrement];
         if (cq.height > 0) {
-            cq.height = 0;
+            [cq setQuadHeight:0];
         }
     }
 }
@@ -129,46 +129,46 @@
     for (CornerQuadrant* c in m_manager.quads) {
         switch (c.color) {
             case blue:
-                c.width += m_decrement;
-                c.height -= m_decrement;
+                [c setQuadWidth:c.width + m_decrement];
+                [c setQuadHeight:c.height - m_decrement];
                 if (c.width > 0) {
-                    c.width = 0;
+                    [c setQuadWidth:0];
                 }
                 if (c.height < 0) {
-                    c.height = 0;
+                    [c setQuadHeight:0];
                 }
                 break;
                 
             case red:
-                c.width -= m_decrement;
-                c.height -= m_decrement;
+                [c setQuadWidth:c.width - m_decrement];
+                [c setQuadHeight:c.height - m_decrement];
                 if (c.width < 0) {
-                    c.width = 0;
+                    [c setQuadWidth:0];
                 }
                 if (c.height < 0) {
-                    c.height = 0;
+                    [c setQuadHeight:0];
                 }
                 break;
                 
             case yellow:
-                c.width -= m_decrement;
-                c.height += m_decrement;
+                [c setQuadWidth:c.width - m_decrement];
+                [c setQuadHeight:c.height + m_decrement];
                 if (c.width < 0) {
-                    c.width = 0;
+                    [c setQuadWidth:0];
                 }
                 if (c.height > 0) {
-                    c.height = 0;
+                    [c setQuadHeight:0];
                 }
                 break;
                 
             case green:
-                c.width += m_decrement;
-                c.height += m_decrement;
+                [c setQuadWidth:c.width + m_decrement];
+                [c setQuadHeight:c.height + m_decrement];
                 if (c.width > 0) {
-                    c.width = 0;
+                    [c setQuadWidth:0];
                 }
                 if (c.height > 0) {
-                    c.height = 0;
+                    [c setQuadHeight:0];
                 }
                 break;
                 
@@ -193,23 +193,23 @@
 - (void) growQuadrants:(CornerQuadrant*) quad {
     switch (quad.color) {
         case blue:
-            quad.height += m_increment;
-            quad.width -= m_increment;
+            [quad setQuadHeight: quad.height + m_increment];
+            [quad setQuadWidth: quad.width - m_increment];
             break;
             
         case red:
-            quad.height += m_increment;
-            quad.width += m_increment;
+            [quad setQuadHeight: quad.height + m_increment];
+            [quad setQuadWidth: quad.width + m_increment];
             break;
             
         case yellow:
-            quad.height -= m_increment;
-            quad.width += m_increment;
+            [quad setQuadHeight: quad.height - m_increment];
+            [quad setQuadWidth: quad.width + m_increment];
             break;
             
         case green:
-            quad.height -= m_increment;
-            quad.width -= m_increment;
+            [quad setQuadHeight: quad.height - m_increment];
+            [quad setQuadWidth: quad.width - m_increment];
             break;
             
         default:
@@ -218,14 +218,14 @@
     }
     //Reset if over the max
     if (quad.width > m_maxWidth) {
-        quad.width = m_maxWidth;
+        [quad setQuadWidth:m_maxWidth];
     } else if (quad.width < -m_maxWidth) {
-        quad.width = -m_maxWidth;
+        [quad setQuadWidth:-m_maxWidth];
     }
     if (quad.height > m_maxHeight) {
-        quad.height = m_maxHeight;
+        [quad setQuadHeight:m_maxHeight];
     } else if (quad.height < -m_maxHeight) {
-        quad.height = -m_maxHeight;
+        [quad setQuadHeight:-m_maxHeight];
     }
 }
 
@@ -287,23 +287,23 @@
         NSLog(@"EC");
         switch (cq.color) {
             case blue:
-                cq.width = -m_maxWidth;
-                cq.height = m_maxHeight;
+                [cq setQuadWidth:-m_maxWidth];
+                [cq setQuadHeight:m_maxHeight];
                 break;
                 
             case red:
-                cq.width = m_maxWidth;
-                cq.height = m_maxHeight;
+                [cq setQuadWidth:m_maxWidth];
+                [cq setQuadHeight:m_maxHeight];
                 break;
                 
             case yellow:
-                cq.width = m_maxWidth;
-                cq.height = -m_maxHeight;
+                [cq setQuadWidth:m_maxWidth];
+                [cq setQuadHeight:-m_maxHeight];
                 break;
                 
             case green:
-                cq.width = -m_maxWidth;
-                cq.height = -m_maxHeight;
+                [cq setQuadWidth:-m_maxWidth];
+                [cq setQuadHeight:-m_maxHeight];
                 break;
                 
             case white:

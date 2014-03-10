@@ -29,9 +29,15 @@
 // Set color of quadrant
 -(void) setColorOfQuad:(enum Color)color;
 
+// Set height of quadrant
+-(void) setQuadHeight:(CGFloat)height;
+
+// Set width of quadrant
+-(void) setQuadWidth:(CGFloat)width;
+
 @property (readonly) enum Color color;
-@property CGFloat width;
-@property CGFloat height;
+@property (readonly) CGFloat width;
+@property (readonly) CGFloat height;
 @property CGPoint position;
 @property int thickness;
 

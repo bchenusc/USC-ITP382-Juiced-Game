@@ -22,8 +22,8 @@
         winSize = [[CCDirector sharedDirector] winSize];
         self.position = ccp(winSize.width / 2, winSize.height / 2);
         m_Color = blue;
-        self.width = winSize.width / 4;
-        self.height = winSize.height / 2;
+        m_Width = winSize.width / 4;
+        m_Height = winSize.height / 2;
         self.thickness = round(0.025 * winSize.height);
     }
     return self;
@@ -32,8 +32,8 @@
 -(id) initWithPosition:(CGPoint)position width:(float)width height:(float)height color:(enum Color)color {
     self.position = position;
     m_Color = color;
-    self.width = width;
-    self.height = height;
+    m_Width = width;
+    m_Height = height;
     
     CCSprite* glowSprite = [CCSprite spriteWithFile:@"GlowSprite.png"];
     glowSprite.scaleX = self.thickness / glowSprite.boundingBox.size.width;
@@ -125,6 +125,26 @@
         CCSprite* s = [self.children objectAtIndex:i];
         [s setColor:c];
     }
+}
+
+// Set height of quadrant
+-(void) setQuadHeight:(CGFloat)height {
+    m_Height = height;
+    
+    CCSprite* vert = [self.children objectAtIndex:0];
+    
+    vert.scaleY = m_Height / 60;
+    [vert setPosition:ccp(m_Position.x + self.thickness / 2 * ((m_Width > 0) ? 1 : -1), m_Position.y + m_Height / 2)];
+}
+
+// Set width of quadrant
+-(void) setQuadWidth:(CGFloat)width {
+    m_Width = width;
+    
+    CCSprite* hor = [self.children objectAtIndex:1];
+    
+    hor.scaleY = m_Width / 60;
+    [hor setPosition:ccp(m_Position.x + m_Width / 2, m_Position.y + self.thickness / 2 * ((m_Height > 0) ? 1 : -1))];
 }
 
 -(NSMutableArray*) getCollidableArea {
