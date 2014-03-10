@@ -35,22 +35,36 @@
 
 -(void) handleMenuSelection : (Disk*) disk Quadrant : (CornerQuadrant*) quad {
     //Handle collisions here.
-    [m_manager setGameState:[[StateMainMenu alloc] init]];
+    if(quad.color == disk.color) {
+        disk.velocity = 0;
+        switch (disk.color) {
+            case blue:
+                [m_manager setGameState:[[StateAchievements alloc] init]];
+                 break;
+            case red:
+                [m_manager setGameState:[[StateTimeAttackGame alloc] init]];
+                break;
+            case green:
+                [m_manager setGameState:[[StateSurvivalGame alloc] init]];
+                break;
+            case yellow:
+                [m_manager setGameState:[[StateEliminationGame alloc] init]];
+                break;
+            default:
+                break;
+        }
+    }
 }
 
 -(void) enter {
-    [m_manager changeColorOfAllQuadrantsTo:red];
-    [self scheduleOnce:@selector(spawnCenterDisk) delay:2.0];
-    [m_manager.UI hideIntroLabel];
-}
-
--(void) spawnCenterDisk {
-    CGSize winSize = [[CCDirector sharedDirector] winSize];
-    [m_manager spawnDiskAtLocation:ccp(winSize.width / 2, winSize.height / 2) withColor:red];
+    [m_manager clearAllDisks];
+    [m_manager spawnFourDisks];
+    [m_manager.UI showAchievements];
 }
 
 -(void) exit {
     [m_manager clearAllDisks];
+    [m_manager.UI hideAchievements];
 }
 
 @end

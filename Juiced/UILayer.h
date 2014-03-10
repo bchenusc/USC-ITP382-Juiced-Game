@@ -23,7 +23,13 @@
     CCLabelTTF* m_TimeAttackLabel;
     CCLabelTTF* m_SurvivalLabel;
     CCLabelTTF* m_EliminationLabel;
-    CCLabelTTF* m_AchievementLabel;
+    CCLabelTTF* m_HighScoreLabel;
+    
+    
+    CCLabelTTF* m_HighScoreTitleLabel;
+    CCLabelTTF* m_HighScoreTimeAttack;
+    CCLabelTTF* m_HighScoreSurvival;
+    CCLabelTTF* m_HighScoreElimination;
     
     GameplayLayer* m_GameplayLayer;
     
@@ -50,6 +56,8 @@
 -(void) multiplierEmphasize;
 -(void) hideMultiplierLabel;
 -(void) showGameOver;
+-(void) showAchievements;
+-(void) hideAchievements;
 -(void) assignGameplayLayer : (GameplayLayer*) layer;
 
 @end
