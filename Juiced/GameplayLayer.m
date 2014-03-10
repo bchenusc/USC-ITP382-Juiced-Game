@@ -214,7 +214,7 @@
 
 -(void) removeDisk:(Disk*)d retainVelocity:(BOOL)rv{
     [objects removeObject:d];
-    [self shrinkDisk:d];
+    [d removeDisk];
     
     if (!rv) {
         d.velocity = 0;
@@ -225,7 +225,6 @@
     CGSize winSize = [[CCDirector sharedDirector] winSize];
     Disk* newDisk = [[Disk node] initWithParticlesInBatchNode:iParticleBatch];
     newDisk.gameplayLayer = self;
-    [newDisk setDiskScale:0];
     newDisk.zOrder = diskZOrder++;
     CGRect newDiskRect = newDisk.rect;
     newDisk.position = ccp(arc4random() % (int)(winSize.width - newDiskRect.size.width) + newDiskRect.size.width, arc4random() % (int)(winSize.height - newDiskRect.size.height * 2) + newDiskRect.size.height);
@@ -278,9 +277,6 @@
         newDisk.position = ccp(newDisk.position.x, winSize.height - newDiskRect.size.height * 3 / 2);
     }
     
-    // Grow the disk to the requisite size of 60, in .5 seconds
-    [self expandDisk:newDisk];
-    
     [iSpriteBatch addChild:newDisk];
     [objects addObject:newDisk];
 }
@@ -316,33 +312,11 @@
     [newDisk setColor:color];
     newDisk.position = location;
     newDisk.gameplayLayer = self;
-    [newDisk setDiskScale:0];
     newDisk.zOrder = diskZOrder++;
-    [self expandDisk:newDisk];
     [iSpriteBatch addChild:newDisk];
     [objects addObject:newDisk];
 }
 
--(void) expandDisk:(Disk *)d {
-    [d setDiskScale:(d.scale + 1/6.0f)];
-    if(d.scale < 1) {
-        [self performSelector:@selector(expandDisk:) withObject:d afterDelay:.01];
-    } else {
-        [d setDiskScale:1.0f];
-    }
-}
-
--(void) shrinkDisk:(Disk *)d {
-    if(d != NULL) {
-        [d unschedule:@selector(expandDisk:)];
-        [d setDiskScale:(d.scale - 1/6.0f)];
-        if(d.scale > 0) {
-            [self performSelector:@selector(shrinkDisk:) withObject:d afterDelay:.01];
-        } else {
-            [iSpriteBatch removeChild:d cleanup:YES];
-        }
-    }
-}
            
 -(void) changeColorOfAllQuadrants {
     // Create an array corresponding with the four colors
@@ -393,7 +367,7 @@
     // Remove all disks
     [self unschedule:@selector(expandDisk:)];
     for(Disk* d in objects) {
-        [self shrinkDisk:d];
+        [d removeDisk];
         d.velocity = 0;
     }
     [objects removeAllObjects];

@@ -13,6 +13,7 @@
 @class GameplayLayer;
 
 enum Color {
+    white,
     red,
     blue,
     green,
@@ -45,9 +46,9 @@ struct Touch {
 
 -(id) initWithParticlesInBatchNode:(CCParticleBatchNode*)node;
 
--(CGRect) rect;
+-(void) removeDisk;
 
--(void) setDiskScale:(float)scale;
+-(CGRect) rect;
 
 -(void) update:(ccTime)delta;
 
