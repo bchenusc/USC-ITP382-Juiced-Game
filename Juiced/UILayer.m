@@ -27,6 +27,8 @@
     if (self) {
         CGSize size = [[CCDirector sharedDirector] winSize];
         
+        mc_maxMultiplier = 5;
+        
         //Title
         m_TitleLabel = [CCLabelTTF labelWithString:@"" fontName: @"Fatsans" fontSize:30];
         m_TitleLabel.position = ccp(size.width/2, size.height/2 + 20);
@@ -80,7 +82,7 @@
         [self addChild : m_IntroLabel];
         
         //Score Multiplier
-        m_MultLabel = [CCLabelTTF labelWithString:@"Placeholder" fontName:@"Fatsans" fontSize:12];
+        m_MultLabel = [CCLabelTTF labelWithString:@"Placeholder" fontName:@"Fatsans" fontSize:18];
         m_MultLabel.position = ccp(size.width/2, 10);
         m_MultLabel.visible = NO;
         //m_MultLabel.opacity = 50;
@@ -88,12 +90,12 @@
         
         //Particle Systems
         m_MultParticleL = [CCParticleSystemQuad particleWithFile:@"Score_Mult_L.plist"];
-        m_MultParticleL.position = ccp(size.width/2 - 100, 3*size.height/4);
+        m_MultParticleL.position = ccp(size.width/2 - 100, size.height/2);
         m_MultParticleL.visible = NO;
         [self addChild:m_MultParticleL];
         
         m_MultParticleR = [CCParticleSystemQuad particleWithFile:@"Score_Mult_R.plist"];
-        m_MultParticleR.position = ccp(size.width/2 + 100, 3*size.height/4);
+        m_MultParticleR.position = ccp(size.width/2 + 100, size.height/2);
         m_MultParticleR.visible = NO;
         [self addChild:m_MultParticleR];
         
@@ -274,10 +276,12 @@
         m_MultLabel.string = [NSString stringWithFormat:@"%d", multiplier];
     }
     m_MultLabel.visible = YES;
-    m_MultParticleL.visible = YES;
-    [m_MultParticleL resetSystem];
-    m_MultParticleR.visible = YES;
-    [m_MultParticleR resetSystem];
+    if (multiplier == mc_maxMultiplier) {
+        m_MultParticleL.visible = YES;
+        [m_MultParticleL resetSystem];
+        m_MultParticleR.visible = YES;
+        [m_MultParticleR resetSystem];
+    }
 }
 
 -(void) multiplierEmphasize{

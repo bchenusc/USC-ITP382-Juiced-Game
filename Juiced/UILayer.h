@@ -35,6 +35,8 @@
     CCParticleSystemQuad* m_MultParticleL;
     CCParticleSystemQuad* m_MultParticleR;
     
+    int mc_maxMultiplier;
+    
 }
 
 -(void) startAGame;
