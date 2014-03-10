@@ -37,7 +37,7 @@
     GameState* m_NextGameState;
     
     UILayer* uiLayer;
-    CCParticleSystemQuad* emitter;
+    //CCParticleSystemQuad* emitter;
 }
 
 @property int score;
@@ -46,7 +46,7 @@
 @property (readonly) NSMutableArray* disksToBeRemoved;
 @property (readonly) NSMutableArray* quads;
 
-@property(nonatomic, retain) CCParticleSystemQuad* ParticleEmitter;
+//@property(nonatomic, retain) CCParticleSystemQuad* ParticleEmitter;
 
 // Returns a CCScene that contains the HelloWorldLayer as the only child
 +(CCScene*) scene;
@@ -77,9 +77,6 @@
 
 // Switches the color of all quadrants
 -(void) changeColorOfAllQuadrants;
-
-// Switches the color of all quadrants to one color
--(void) changeColorOfAllQuadrantsTo:(enum Color)color;
 
 // Blinks all quadrants
 -(void) blinkQuadrants;

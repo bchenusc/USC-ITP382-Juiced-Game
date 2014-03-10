@@ -33,7 +33,7 @@
 @synthesize disksToBeRemoved = toBeRemoved;
 @synthesize quads = quadrants;
 
-@synthesize ParticleEmitter = emitter;
+//@synthesize ParticleEmitter = emitter;
 
 // Helper class method that creates a Scene with the HelloWorldLayer as the only child.
 +(CCScene*) scene {
@@ -55,7 +55,11 @@
 	// always call "super" init
 	// Apple recommends to re-assign "self" with the "super's" return value
 	if( (self=[super init]) ) {
+        
         CGSize winSize = [[CCDirector sharedDirector] winSize];
+        CCSprite* background = [CCSprite spriteWithFile:@"juiced-background.png"];
+        background.position = ccp(winSize.width / 2, winSize.height/2);
+        [self addChild:background z:INT32_MIN+1];
         
         //Sound
         [[SimpleAudioEngine sharedEngine] playBackgroundMusic:@"bgmusic.mp3" loop: YES];
@@ -120,10 +124,10 @@
         [uiLayer assignGameplayLayer:self];
         
         //Particle System Initialization
-        emitter = [CCParticleSystemQuad particleWithFile:@"White_Starburst.plist"];
-        emitter.position = ccp(winSize.width/2, winSize.height/2);
-        emitter.visible = NO;
-        [self addChild:emitter];
+//        emitter = [CCParticleSystemQuad particleWithFile:@"White_Starburst.plist"];
+//        emitter.position = ccp(winSize.width/2, winSize.height/2);
+//        emitter.visible = NO;
+//        [self addChild:emitter];
         
         NSDictionary* defaultPreferences = [NSDictionary dictionaryWithObjectsAndKeys:
                                             [NSNumber numberWithInt:0], @"disksDestroyed",
@@ -210,14 +214,18 @@
 }
 
 -(void) scoreParticlesAtLocation:(CGPoint) location {
-    [emitter resetSystem];
-    emitter.position = location;
-    emitter.visible = YES;
-    [self scheduleOnce:@selector(makeParticlesInvisible) delay:0.3f];
+    CCParticleSystemQuad* new_emitter = [CCParticleSystemQuad particleWithFile:@"White_Starburst.plist"];
+    new_emitter.position = location;
+    new_emitter.autoRemoveOnFinish = YES;
+    [self addChild:new_emitter];
 }
 
--(void) makeParticlesInvisible {
+//Deprecated
+-(void) makeParticlesInvisible:(CCParticleSystemQuad*) emitter {
     emitter.visible = NO;
+    if (emitter) {
+        [self removeChild: emitter cleanup:YES];
+    }
 }
 
 -(void) removeDisk:(Disk*)d retainVelocity:(BOOL)rv{
@@ -407,15 +415,15 @@
     
     [[NSUserDefaults standardUserDefaults] setObject:numDisksDestroyed forKey:@"disksDestroyed"];
     
-    if((int)values[1] > [(NSNumber*)[defaults objectForKey:@"stateTimeAttackGameHighScore"] intValue]) {
+    if([(NSNumber*)values[1] intValue] > [[defaults objectForKey:@"stateTimeAttackGameHighScore"] intValue]) {
         [defaults setObject:[values objectAtIndex:1] forKey:@"stateTimeAttackGameHighScore"];
     }
     
-    if((int)values[2] > [(NSNumber*)(int)[defaults objectForKey:@"stateEliminationGameHighScore"] intValue]) {
+    if([(NSNumber*)values[2] intValue] > [[defaults objectForKey:@"stateEliminationGameHighScore"] intValue]) {
         [defaults setObject:[values objectAtIndex:2] forKey:@"stateEliminationGameHighScore"];
     }
     
-    if((int)values[3] > [(NSNumber*)(int)[defaults objectForKey:@"stateSurvivalGameHighScore"] intValue]) {
+    if([(NSNumber*)values[3] intValue] > [[defaults objectForKey:@"stateSurvivalGameHighScore"] intValue]) {
         [defaults setObject:[values objectAtIndex:3] forKey:@"stateSurvivalGameHighScore"];
     }
     
