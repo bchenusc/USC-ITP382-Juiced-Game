@@ -84,7 +84,7 @@
                     m_manager.score += m_discScore;
                     
                 } else { // Wrong color quadrant
-                    
+                    [self shrinkSpecificQuadrant:intersectedCQ];
                 }
                 
                 [m_manager removeDisk:d retainVelocity:NO];
@@ -92,6 +92,31 @@
                 [m_manager.UI showScoreLabel:m_manager.score];
                 i--;
             }
+        }
+    }
+}
+
+- (void) shrinkSpecificQuadrant: (CornerQuadrant*) cq {
+    if (cq.width > 0) {
+        cq.width -= m_decrement;
+        if (cq.width < 0) {
+            cq.width = 0; //Zero out the quadrant size
+        }
+    } else {
+        cq.width += m_decrement;
+        if (cq.width > 0) {
+            cq.width = 0;
+        }
+    }
+    if (cq.height > 0) {
+        cq.height -= m_decrement;
+        if (cq.height < 0) {
+            cq.height = 0;
+        }
+    } else {
+        cq.height += m_decrement;
+        if (cq.height > 0) {
+            cq.height = 0;
         }
     }
 }
