@@ -136,6 +136,8 @@
     
     // Hide status bar
     [UIApplication sharedApplication].statusBarHidden = YES;
+    //Hide fps
+    [director_ setDisplayStats:NO];
 	
 	// make main window visible
 	[window_ makeKeyAndVisible];

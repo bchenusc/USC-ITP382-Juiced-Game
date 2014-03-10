@@ -20,6 +20,11 @@
     CCLabelTTF* m_IntroLabel;
     CCLabelTTF* m_MultLabel;
     
+    CCLabelTTF* m_TimeAttackLabel;
+    CCLabelTTF* m_SurvivalLabel;
+    CCLabelTTF* m_EliminationLabel;
+    CCLabelTTF* m_AchievementLabel;
+    
     GameplayLayer* m_GameplayLayer;
     
     //Transition variables

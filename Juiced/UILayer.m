@@ -47,9 +47,31 @@
         
         //Timer
         m_TimeLabel =[CCLabelTTF labelWithString:@"Time: " fontName: @"Fatsans" fontSize:12];
-        m_TimeLabel.position = ccp(size.width/2, size.height - 10);
+        m_TimeLabel.position = ccp(size.width/2, size.height - 20);
         m_TimeLabel.visible = NO;
         [self addChild : m_TimeLabel];
+        
+        //Labels for what goes where.
+        m_TimeAttackLabel = [CCLabelTTF labelWithString:@"Time Attack" fontName: @"Fatsans" fontSize:12];
+        m_TimeAttackLabel.position = ccp(55, 20);
+        m_TimeAttackLabel.visible = YES;
+        [self addChild : m_TimeAttackLabel];
+        
+        m_SurvivalLabel = [CCLabelTTF labelWithString:@"Survival" fontName: @"Fatsans" fontSize:12];
+        m_SurvivalLabel.position = ccp(size.width - 43, size.height - 20);
+        m_SurvivalLabel.visible = YES;
+        [self addChild : m_SurvivalLabel];
+        
+        m_EliminationLabel = [CCLabelTTF labelWithString:@"Elimination" fontName: @"Fatsans" fontSize:12];
+        m_EliminationLabel.position = ccp(50, size.height - 20);
+        m_EliminationLabel.visible = YES;
+        [self addChild : m_EliminationLabel];
+        
+        m_AchievementLabel = [CCLabelTTF labelWithString:@"Achievements" fontName: @"Fatsans" fontSize:12];
+        m_AchievementLabel.position = ccp(size.width - 65, 20);
+        m_AchievementLabel.visible = YES;
+        [self addChild : m_AchievementLabel];
+        
         
         //Instructions label
         m_IntroLabel =[CCLabelTTF labelWithString:@"Slide A Disk To Play " fontName: @"Fatsans" fontSize:12];
@@ -114,6 +136,7 @@
     [m_TitleLabel runAction:
      [CCSequence actions:
       [CCFadeOut actionWithDuration:0.2],
+      [CCCallFunc actionWithTarget:self selector:@selector(FadeOutGameModeLabels)],
       [CCDelayTime actionWithDuration:0.1],
       [CCCallFunc actionWithTarget:self selector:@selector(iReady)],
       [CCFadeIn actionWithDuration:0.2],
@@ -178,6 +201,20 @@
 
 -(void) hideIntroLabel {
     m_IntroLabel.visible = NO;
+}
+
+-(void) FadeOutGameModeLabels{
+    [m_TimeAttackLabel runAction:[CCFadeOut actionWithDuration:0.1]];
+    [m_AchievementLabel runAction:[CCFadeOut actionWithDuration:0.1]];
+    [m_SurvivalLabel runAction:[CCFadeOut actionWithDuration:0.1]];
+    [m_EliminationLabel runAction:[CCFadeOut actionWithDuration:0.1]];
+}
+
+-(void) FadeInGameModeLabels{
+    [m_TimeAttackLabel runAction:[CCFadeIn actionWithDuration:0.1]];
+    [m_AchievementLabel runAction:[CCFadeIn actionWithDuration:0.1]];
+    [m_SurvivalLabel runAction:[CCFadeIn actionWithDuration:0.1]];
+    [m_EliminationLabel runAction:[CCFadeIn actionWithDuration:0.1]];
 }
 
 -(void) iReady {
@@ -283,6 +320,7 @@
         [m_TitleLabel runAction:[CCFadeIn actionWithDuration:0.2]];
         m_IntroLabel.position = ccp(size.width/2, size.height/2 - 40);
         [m_IntroLabel runAction:[CCFadeIn actionWithDuration:0.1]];
+        [self FadeInGameModeLabels];
         [self hideTimeLabel];
         
         //[m_itemNewGame setIsEnabled:TRUE];
