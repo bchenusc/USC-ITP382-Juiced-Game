@@ -22,6 +22,7 @@
 // HelloWorldLayer
 @interface GameplayLayer : CCLayer {
     NSMutableArray* objects;
+    NSMutableArray* toBeRemoved;
     NSMutableArray* quadrants;
     
     CCSpriteBatchNode* iSpriteBatch;
@@ -42,6 +43,7 @@
 @property int score;
 @property (readonly) UILayer* UI;
 @property (readonly) NSMutableArray* disks;
+@property (readonly) NSMutableArray* disksToBeRemoved;
 @property (readonly) NSMutableArray* quads;
 
 //@property(nonatomic, retain) CCParticleSystemQuad* ParticleEmitter;

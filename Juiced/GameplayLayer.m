@@ -30,6 +30,7 @@
 @synthesize score = i_Score;
 @synthesize UI = uiLayer;
 @synthesize disks = objects;
+@synthesize disksToBeRemoved = toBeRemoved;
 @synthesize quads = quadrants;
 
 //@synthesize ParticleEmitter = emitter;
@@ -66,6 +67,7 @@
         
         // All user-interactable objects
         objects = [[NSMutableArray alloc] init];
+        toBeRemoved = [[NSMutableArray alloc] init];
         diskZOrder = 0;
         
         // Quadrants
@@ -190,6 +192,11 @@
     
     // Update the current state
     [m_GameState update:delta];
+    
+    // Update objects that will be removed and no longer effect gameplay
+    for (int i = 0; i < toBeRemoved.count; i++) {
+        [toBeRemoved[i] update:delta];
+    }
 }
 
 -(CornerQuadrant*) getQuadrantAtRect:(CGRect)rect {
@@ -223,6 +230,7 @@
 
 -(void) removeDisk:(Disk*)d retainVelocity:(BOOL)rv{
     [objects removeObject:d];
+    [toBeRemoved addObject:d];
     [d removeDisk];
     
     if (!rv) {
@@ -382,11 +390,12 @@
 
 - (void) clearAllDisks {
     // Remove all disks
-    [self unschedule:@selector(expandDisk:)];
     for(Disk* d in objects) {
+        [toBeRemoved addObject:d];
         [d removeDisk];
         d.velocity = 0;
     }
+    
     [objects removeAllObjects];
 }
 
@@ -429,6 +438,8 @@
 	// cocos2d will automatically release all the children (Label)
     
     [objects release];
+    
+    [toBeRemoved release];
     
     [quadrants release];
     

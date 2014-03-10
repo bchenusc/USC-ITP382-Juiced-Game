@@ -12,12 +12,20 @@
 
 @class GameplayLayer;
 
-enum Color {
+static const float EXPAND_SHRINK_SPEED = 10.0f; // This is in seconds^-1
+
+typedef NS_ENUM(NSInteger, Color) {
     white,
     red,
     blue,
     green,
     yellow
+};
+
+typedef NS_ENUM(NSInteger, DiskState) {
+    EXPANDING,
+    SHRINKING,
+    NONE
 };
 
 struct Touch {
@@ -27,6 +35,7 @@ struct Touch {
 
 @interface Disk : CCSprite <CCTouchOneByOneDelegate> {
     enum Color iColor;
+    enum DiskState iState;
     float iRadius;
     CGSize winSize;
     double iVelocity;
@@ -35,7 +44,6 @@ struct Touch {
     CCParticleSystemQuad* emitter;
     GameplayLayer* iGameplayLayer;
     BOOL iIsSelected;
-    BOOL iIsBeingRemoved;
 }
 
 @property (readonly) enum Color color;
