@@ -19,8 +19,8 @@
         
         m_gameTime = 0;
         m_multiplier = 4;
-        m_discScore = 1;
-        m_timeScore = 10;
+        m_discScore = 10;
+        m_timeScore = 100;
         
         //Set the vertical decrement/increment
         m_decrement = size.height/20;
