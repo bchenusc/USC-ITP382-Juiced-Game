@@ -32,7 +32,7 @@
 @synthesize disks = objects;
 @synthesize quads = quadrants;
 
-@synthesize ParticleEmitter = emitter;
+//@synthesize ParticleEmitter = emitter;
 
 // Helper class method that creates a Scene with the HelloWorldLayer as the only child.
 +(CCScene*) scene {
@@ -69,8 +69,9 @@
         
         // Batching nodes
         diskTexture = [[CCTextureCache sharedTextureCache] addImage:@"Disk.png"];
+        particleTexture = [[CCTextureCache sharedTextureCache] addImage:@"DiskCenter.png"];
         iSpriteBatch = [CCSpriteBatchNode batchNodeWithTexture:diskTexture];
-        iParticleBatch = [CCParticleBatchNode batchNodeWithTexture:diskTexture];
+        iParticleBatch = [CCParticleBatchNode batchNodeWithTexture:particleTexture];
         [self addChild:iSpriteBatch z:1];
         [self addChild:iParticleBatch z:1];
         
@@ -117,10 +118,10 @@
         [uiLayer assignGameplayLayer:self];
         
         //Particle System Initialization
-        emitter = [CCParticleSystemQuad particleWithFile:@"White_Starburst.plist"];
-        emitter.position = ccp(winSize.width/2, winSize.height/2);
-        emitter.visible = NO;
-        [self addChild:emitter];
+//        emitter = [CCParticleSystemQuad particleWithFile:@"White_Starburst.plist"];
+//        emitter.position = ccp(winSize.width/2, winSize.height/2);
+//        emitter.visible = NO;
+//        [self addChild:emitter];
         
         NSDictionary* defaultPreferences = [NSDictionary dictionaryWithObjectsAndKeys:
                                             [NSNumber numberWithInt:0], @"disksDestroyed",
@@ -202,14 +203,18 @@
 }
 
 -(void) scoreParticlesAtLocation:(CGPoint) location {
-    [emitter resetSystem];
-    emitter.position = location;
-    emitter.visible = YES;
-    [self scheduleOnce:@selector(makeParticlesInvisible) delay:0.3f];
+    CCParticleSystemQuad* new_emitter = [CCParticleSystemQuad particleWithFile:@"White_Starburst.plist"];
+    new_emitter.position = location;
+    new_emitter.autoRemoveOnFinish = YES;
+    [self addChild:new_emitter];
 }
 
--(void) makeParticlesInvisible {
+//Deprecated
+-(void) makeParticlesInvisible:(CCParticleSystemQuad*) emitter {
     emitter.visible = NO;
+    if (emitter) {
+        [self removeChild: emitter cleanup:YES];
+    }
 }
 
 -(void) removeDisk:(Disk*)d retainVelocity:(BOOL)rv{

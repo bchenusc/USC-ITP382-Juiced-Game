@@ -35,6 +35,7 @@ struct Touch {
     CCParticleSystemQuad* emitter;
     GameplayLayer* iGameplayLayer;
     BOOL iIsSelected;
+    BOOL iIsBeingRemoved;
 }
 
 @property (readonly) enum Color color;

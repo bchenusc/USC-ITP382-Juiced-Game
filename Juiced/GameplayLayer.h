@@ -27,6 +27,7 @@
     CCSpriteBatchNode* iSpriteBatch;
     CCParticleBatchNode* iParticleBatch;
     CCTexture2D* diskTexture;
+    CCTexture2D* particleTexture;
     
     int i_Score;
     int diskZOrder;
@@ -35,7 +36,7 @@
     GameState* m_NextGameState;
     
     UILayer* uiLayer;
-    CCParticleSystemQuad* emitter;
+    //CCParticleSystemQuad* emitter;
 }
 
 @property int score;
@@ -43,7 +44,7 @@
 @property (readonly) NSMutableArray* disks;
 @property (readonly) NSMutableArray* quads;
 
-@property(nonatomic, retain) CCParticleSystemQuad* ParticleEmitter;
+//@property(nonatomic, retain) CCParticleSystemQuad* ParticleEmitter;
 
 // Returns a CCScene that contains the HelloWorldLayer as the only child
 +(CCScene*) scene;

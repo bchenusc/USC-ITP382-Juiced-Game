@@ -39,6 +39,7 @@
     m_multiplier = 4;
     
     for (CornerQuadrant* cq in m_manager.quads) {
+        NSLog(@"Count");
         if (cq.width > 0) {
             cq.width = m_maxWidth;
         } else {
@@ -125,28 +126,54 @@
     int im_multiiplier = 4;
     //Shrink each quadrant
     for (CornerQuadrant* c in m_manager.quads) {
-        //Shrink the quadrant
-        if (c.width > 0) {
-            c.width -= m_decrement;
-            if (c.width < 0) {
-                c.width = 0; //Zero out the quadrant size
-            }
-        } else {
-            c.width += m_decrement;
-            if (c.width > 0) {
-                c.width = 0;
-            }
-        }
-        if (c.height > 0) {
-            c.height -= m_decrement;
-            if (c.height < 0) {
-                c.height = 0;
-            }
-        } else {
-            c.height += m_decrement;
-            if (c.height > 0) {
-                c.height = 0;
-            }
+        switch (c.color) {
+            case blue:
+                c.width += m_decrement;
+                c.height -= m_decrement;
+                if (c.width > 0) {
+                    c.width = 0;
+                }
+                if (c.height < 0) {
+                    c.height = 0;
+                }
+                break;
+                
+            case red:
+                c.width -= m_decrement;
+                c.height -= m_decrement;
+                if (c.width < 0) {
+                    c.width = 0;
+                }
+                if (c.height < 0) {
+                    c.height = 0;
+                }
+                break;
+                
+            case yellow:
+                c.width -= m_decrement;
+                c.height += m_decrement;
+                if (c.width < 0) {
+                    c.width = 0;
+                }
+                if (c.height > 0) {
+                    c.height = 0;
+                }
+                break;
+                
+            case green:
+                c.width += m_decrement;
+                c.height += m_decrement;
+                if (c.width > 0) {
+                    c.width = 0;
+                }
+                if (c.height > 0) {
+                    c.height = 0;
+                }
+                break;
+                
+            default:
+                break;
+                
         }
         //Manage the quadrant score multiplier
         if (c.height == 0 && c.width == 0) {
@@ -163,15 +190,30 @@
 }
 
 - (void) growQuadrants:(CornerQuadrant*) quad {
-    if (quad.width > 0) {
-        quad.width += m_increment;
-    } else {
-        quad.width -= m_increment;
-    }
-    if (quad.height > 0) {
-        quad.height += m_increment;
-    } else {
-        quad.height -= m_increment;
+    switch (quad.color) {
+        case blue:
+            quad.height += m_increment;
+            quad.width -= m_increment;
+            break;
+            
+        case red:
+            quad.height += m_increment;
+            quad.width += m_increment;
+            break;
+            
+        case yellow:
+            quad.height -= m_increment;
+            quad.width += m_increment;
+            break;
+            
+        case green:
+            quad.height -= m_increment;
+            quad.width -= m_increment;
+            break;
+            
+        default:
+            break;
+            
     }
     //Reset if over the max
     if (quad.width > m_maxWidth) {
@@ -225,19 +267,44 @@
     
     [m_manager setGameState:[[StateMainMenu alloc] init]];
     
-//    NSMutableArray* achievementValues = [NSMutableArray arrayWithObjects:
-//                                         [NSNumber numberWithInt:i_DisksDestroyed],
-//                                         [NSNumber numberWithInt:m_manager.score],
-//                                         [NSNumber numberWithInt:0],
-//                                         [NSNumber numberWithInt:0],
-//                                         nil];
-//    [m_manager setAchievementValues:achievementValues];
 }
 
 - (void) exit {
     [m_manager clearAllDisks];
     [m_manager.UI showScoreLabel:m_manager.score];
     [m_manager.UI showGameOver];
+    
+    for (CornerQuadrant* cq in m_manager.quads) {
+        NSLog(@"EC");
+        switch (cq.color) {
+            case blue:
+                cq.width = -m_maxWidth;
+                cq.height = m_maxHeight;
+                break;
+                
+            case red:
+                cq.width = m_maxWidth;
+                cq.height = m_maxHeight;
+                break;
+                
+            case yellow:
+                cq.width = m_maxWidth;
+                cq.height = -m_maxHeight;
+                break;
+                
+            case green:
+                cq.width = -m_maxWidth;
+                cq.height = -m_maxHeight;
+                break;
+                
+            case white:
+                break;
+                
+            default:
+                NSLog(@"Error in resizing on exit of state survival");
+                break;
+        }
+    }
 }
 
 @end
