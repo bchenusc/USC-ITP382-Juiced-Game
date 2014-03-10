@@ -20,10 +20,16 @@
     int m_Thickness;
 }
 
+// Create a corner quad with these values. You should use this if you want glowing effects to work properly
+-(id) initWithPosition:(CGPoint)position width:(float)width height:(float)height color:(enum Color)color;
+
 // Returns an array with two rects that make up this cornerquadrant
 -(NSMutableArray*) getCollidableArea;
 
-@property enum Color color;
+// Set color of quadrant
+-(void) setColorOfQuad:(enum Color)color;
+
+@property (readonly) enum Color color;
 @property CGFloat width;
 @property CGFloat height;
 @property CGPoint position;

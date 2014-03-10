@@ -82,35 +82,19 @@
         [self addChild:iParticleBatch z:1];
         
         // Add some corner quadrants for testing
-        CornerQuadrant* quad1 = [CornerQuadrant node];
-        quad1.position = ccp(0, 0);
-        quad1.width = winSize.width / 4;
-        quad1.height = winSize.height / 2;
-        quad1.color = red;
+        CornerQuadrant* quad1 = [[CornerQuadrant node] initWithPosition:ccp(0,0) width:winSize.width / 4 height:winSize.height / 2 color:red];
         [quadrants addObject:quad1];
         [self addChild:quad1];
         
-        CornerQuadrant* quad2 = [CornerQuadrant node];
-        quad2.position = ccp(0, winSize.height);
-        quad2.width = winSize.width / 4;
-        quad2.height = -winSize.height / 2;
-        quad2.color = yellow;
+        CornerQuadrant* quad2 = [[CornerQuadrant node] initWithPosition:ccp(0, winSize.height) width:winSize.width / 4 height:-winSize.height / 2 color:yellow];
         [quadrants addObject:quad2];
         [self addChild:quad2];
         
-        CornerQuadrant* quad3 = [CornerQuadrant node];
-        quad3.position = ccp(winSize.width, 0);
-        quad3.width = -winSize.width / 4;
-        quad3.height = winSize.height / 2;
-        quad3.color = blue;
+        CornerQuadrant* quad3 = [[CornerQuadrant node] initWithPosition:ccp(winSize.width, 0) width:-winSize.width / 4 height:winSize.height / 2 color:blue];
         [quadrants addObject:quad3];
         [self addChild:quad3];
         
-        CornerQuadrant* quad4 = [CornerQuadrant node];
-        quad4.position = ccp(winSize.width, winSize.height);
-        quad4.width = -winSize.width / 4;
-        quad4.height = -winSize.height / 2;
-        quad4.color = green;
+        CornerQuadrant* quad4 = [[CornerQuadrant node] initWithPosition:ccp(winSize.width, winSize.height) width:-winSize.width / 4 height:-winSize.height / 2 color:green];
         [quadrants addObject:quad4];
         [self addChild:quad4];
         
@@ -150,10 +134,10 @@
     [self spawnDiskAtLocation:ccp(winSize.width/4, winSize.height*3/4) withColor:yellow];
     [self spawnDiskAtLocation:ccp(winSize.width*3/4, winSize.height*3/4) withColor:green];
     
-    ((CornerQuadrant*)[quadrants objectAtIndex:0]).color = red;
-    ((CornerQuadrant*)[quadrants objectAtIndex:1]).color = yellow;
-    ((CornerQuadrant*)[quadrants objectAtIndex:2]).color = blue;
-    ((CornerQuadrant*)[quadrants objectAtIndex:3]).color = green;
+    [((CornerQuadrant*)[quadrants objectAtIndex:0]) setColorOfQuad:red];
+    [((CornerQuadrant*)[quadrants objectAtIndex:1]) setColorOfQuad:yellow];
+    [((CornerQuadrant*)[quadrants objectAtIndex:2]) setColorOfQuad:blue];
+    [((CornerQuadrant*)[quadrants objectAtIndex:3]) setColorOfQuad:green];
 }
 
 -(void) setGameState:(GameState*)newState {
@@ -353,19 +337,19 @@
         [cq setVisible:YES];
         switch([randomArray[i] integerValue]) {
             case 0:
-                cq.color = blue;
+                [cq setColorOfQuad:blue];
                 break;
             case 1:
-                cq.color = red;
+                [cq setColorOfQuad:red];
                 break;
             case 2:
-                cq.color = yellow;
+                [cq setColorOfQuad:yellow];
                 break;
             case 3:
-                cq.color = green;
+                [cq setColorOfQuad:green];
                 break;
             default:
-                cq.color = blue;
+                [cq setColorOfQuad:blue];
                 break;
         }
     }
@@ -376,7 +360,7 @@
     for(int i = 0; i < quadrants.count; i++) {
         CornerQuadrant* cq = quadrants[i];
         [cq setVisible:YES];
-        cq.color = color;
+        [cq setColorOfQuad:color];
     }
 }
 
