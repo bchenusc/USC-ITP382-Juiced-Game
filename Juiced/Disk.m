@@ -44,9 +44,7 @@
         emitter = NULL;
         
         iIsSelected = NO;
-        iIsBeingRemoved = NO;
-        
-        [self setDiskScale:0.0001f];
+        iState = NONE;
     }
     return self;
 }
@@ -62,35 +60,15 @@
     [node addChild:emitter];
     
     [self setDiskScale:0.0001f];
-    [self performSelector:@selector(expand) withObject:self];
+    iState = EXPANDING;
     
     return self;
 }
 
 -(void) removeDisk {
-    [self unschedule:@selector(expand)];
-    [self performSelector:@selector(shrink) withObject:self];
-    iIsBeingRemoved = YES;
-    
-}
-
-
--(void) expand {
-    [self setDiskScale:(self.scale + 1/6.0f)];
-    if(self.scale < 1) {
-        [self performSelector:@selector(expand) withObject:self afterDelay:.01f];
-    } else {
-        [self setDiskScale:1.0f];
-    }
-}
-
--(void) shrink {
-    [self setDiskScale:(self.scale - 1/6.0f)];
-    if(self.scale > 0.0002f) {
-        [self performSelector:@selector(shrink) withObject:self afterDelay:.01f];
-    } else {
-        [self removeFromParentAndCleanup:YES];
-    }
+    [[[CCDirector sharedDirector] touchDispatcher] removeDelegate:self];
+    iIsSelected = NO;
+    iState = SHRINKING;
 }
 
 -(CGRect) rect {
@@ -105,9 +83,7 @@
         scale = 0.0001f;
     }
     self.scale = scale;
-    if (emitter) {
-        emitter.scale = scale;
-    }
+    emitter.scale = scale;
 }
 
 -(void) setColor:(enum Color)color; {
@@ -143,6 +119,29 @@
 }
 
 -(void) update:(ccTime)delta {
+    if (iState == EXPANDING) {
+        float scale = self.scale;
+        scale += delta * EXPAND_SHRINK_SPEED;
+        if (scale >= 1.0f) {
+            scale = 1.0f;
+            iState = NONE;
+        }
+        [self setDiskScale:scale];
+    } else if (iState == SHRINKING) {
+        float scale = self.scale;
+        scale -= delta * EXPAND_SHRINK_SPEED;
+        if (scale <= 0.001f) {
+            scale = 0.001f;
+            iState = NONE;
+            [emitter removeFromParentAndCleanup:YES];
+            emitter = NULL;
+            [iGameplayLayer.disksToBeRemoved removeObject:self];
+            [self removeFromParentAndCleanup:YES];
+            return;
+        }
+        [self setDiskScale:scale];
+    }
+    
     CGPoint newPos = ccp(self.position.x + iDirection.x * iVelocity * delta, self.position.y + iDirection.y * iVelocity * delta);
     iVelocity *= (1 - 0.85 * delta);
     
@@ -231,17 +230,6 @@
 - (void) onEnter {
 	[[[CCDirector sharedDirector] touchDispatcher] addTargetedDelegate:self priority:0 swallowsTouches:YES];
 	[super onEnter];
-}
-
-- (void) onExit {
-	[[[CCDirector sharedDirector] touchDispatcher] removeDelegate:self];
-    
-    if (emitter) {
-        emitter.visible = NO;
-        [emitter removeFromParentAndCleanup:YES];
-    }
-    
-	[super onExit];
 }
 
 @end
