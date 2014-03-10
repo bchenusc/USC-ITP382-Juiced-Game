@@ -136,6 +136,7 @@
     [m_TitleLabel runAction:
      [CCSequence actions:
       [CCFadeOut actionWithDuration:0.2],
+      [CCCallFunc actionWithTarget:self selector:@selector(FadeOutGameModeLabels)],
       [CCDelayTime actionWithDuration:0.1],
       [CCCallFunc actionWithTarget:self selector:@selector(iReady)],
       [CCFadeIn actionWithDuration:0.2],
@@ -200,6 +201,20 @@
 
 -(void) hideIntroLabel {
     m_IntroLabel.visible = NO;
+}
+
+-(void) FadeOutGameModeLabels{
+    [m_TimeAttackLabel runAction:[CCFadeOut actionWithDuration:0.1]];
+    [m_AchievementLabel runAction:[CCFadeOut actionWithDuration:0.1]];
+    [m_SurvivalLabel runAction:[CCFadeOut actionWithDuration:0.1]];
+    [m_EliminationLabel runAction:[CCFadeOut actionWithDuration:0.1]];
+}
+
+-(void) FadeInGameModeLabels{
+    [m_TimeAttackLabel runAction:[CCFadeIn actionWithDuration:0.1]];
+    [m_AchievementLabel runAction:[CCFadeIn actionWithDuration:0.1]];
+    [m_SurvivalLabel runAction:[CCFadeIn actionWithDuration:0.1]];
+    [m_EliminationLabel runAction:[CCFadeIn actionWithDuration:0.1]];
 }
 
 -(void) iReady {
@@ -305,6 +320,7 @@
         [m_TitleLabel runAction:[CCFadeIn actionWithDuration:0.2]];
         m_IntroLabel.position = ccp(size.width/2, size.height/2 - 40);
         [m_IntroLabel runAction:[CCFadeIn actionWithDuration:0.1]];
+        [self FadeInGameModeLabels];
         [self hideTimeLabel];
         
         //[m_itemNewGame setIsEnabled:TRUE];
