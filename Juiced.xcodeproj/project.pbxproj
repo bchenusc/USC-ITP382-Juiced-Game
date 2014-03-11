@@ -154,7 +154,6 @@
 		D10FD69618A9DE5100328D09 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D10FD69518A9DE5100328D09 /* main.m */; };
 		D10FD69918A9DE5100328D09 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D10FD69818A9DE5100328D09 /* AppDelegate.m */; };
 		D10FD69C18A9DE5100328D09 /* GameplayLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = D10FD69B18A9DE5100328D09 /* GameplayLayer.m */; };
-		D10FD69F18A9DE5100328D09 /* IntroLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = D10FD69E18A9DE5100328D09 /* IntroLayer.m */; };
 		D115DFAB18CD415D007BB89D /* DiskCenter.png in Resources */ = {isa = PBXBuildFile; fileRef = D115DFA918CD415D007BB89D /* DiskCenter.png */; };
 		D115DFAC18CD415D007BB89D /* DiskCenter@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D115DFAA18CD415D007BB89D /* DiskCenter@2x.png */; };
 		D115DFB018CD9EA9007BB89D /* GlowSprite.png in Resources */ = {isa = PBXBuildFile; fileRef = D115DFAF18CD9EA9007BB89D /* GlowSprite.png */; };
@@ -474,8 +473,6 @@
 		D10FD69818A9DE5100328D09 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		D10FD69A18A9DE5100328D09 /* GameplayLayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameplayLayer.h; sourceTree = "<group>"; };
 		D10FD69B18A9DE5100328D09 /* GameplayLayer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GameplayLayer.m; sourceTree = "<group>"; };
-		D10FD69D18A9DE5100328D09 /* IntroLayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IntroLayer.h; sourceTree = "<group>"; };
-		D10FD69E18A9DE5100328D09 /* IntroLayer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IntroLayer.m; sourceTree = "<group>"; };
 		D115DFA918CD415D007BB89D /* DiskCenter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DiskCenter.png; sourceTree = "<group>"; };
 		D115DFAA18CD415D007BB89D /* DiskCenter@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "DiskCenter@2x.png"; sourceTree = "<group>"; };
 		D115DFAF18CD9EA9007BB89D /* GlowSprite.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = GlowSprite.png; sourceTree = "<group>"; };
@@ -585,8 +582,6 @@
 				D10FD69B18A9DE5100328D09 /* GameplayLayer.m */,
 				D16FA8D018AB461F0092EE7F /* Disk.h */,
 				D16FA8D118AB461F0092EE7F /* Disk.m */,
-				D10FD69D18A9DE5100328D09 /* IntroLayer.h */,
-				D10FD69E18A9DE5100328D09 /* IntroLayer.m */,
 				D10FD50718A9DE4F00328D09 /* Resources */,
 				D10FD51F18A9DE5000328D09 /* libs */,
 				D10FD69318A9DE5100328D09 /* Supporting Files */,
@@ -1178,7 +1173,6 @@
 				D10FD60918A9DE5100328D09 /* CCES2Renderer.m in Sources */,
 				D10FD57B18A9DE5000328D09 /* CCLabelAtlas.m in Sources */,
 				D10FD59718A9DE5000328D09 /* CCParallaxNode.m in Sources */,
-				D10FD69F18A9DE5100328D09 /* IntroLayer.m in Sources */,
 				D10FD52F18A9DE5000328D09 /* CCActionGrid.m in Sources */,
 				D10FD57818A9DE5000328D09 /* CCGrid.m in Sources */,
 				D10FD68718A9DE5100328D09 /* quaternion.c in Sources */,
