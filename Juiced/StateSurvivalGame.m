@@ -77,7 +77,7 @@
             if(intersectedCQ != NULL) {
                 // Check if the colors are the same
                 if(intersectedCQ.color == d.color) {
-                    [m_manager scoreParticlesAtLocation:d.position];
+                    [m_manager scoreParticlesAtLocation:d.position withColor:d.color];
                     [[SimpleAudioEngine sharedEngine] playEffect:@"paching-sound.mp3"];
                     
                     // Scoring stuff

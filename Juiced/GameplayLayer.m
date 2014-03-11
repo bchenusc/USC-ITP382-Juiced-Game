@@ -197,10 +197,34 @@
     return NULL;
 }
 
--(void) scoreParticlesAtLocation:(CGPoint) location {
+-(void) scoreParticlesAtLocation:(CGPoint)location withColor:(enum Color)color {
     CCParticleSystemQuad* new_emitter = [CCParticleSystemQuad particleWithFile:@"White_Starburst.plist"];
     new_emitter.position = location;
     new_emitter.autoRemoveOnFinish = YES;
+    
+    switch (color) {
+        case white:
+            new_emitter.startColor = ccc4FFromccc4B(ccc4(255, 255, 255, 102));
+            new_emitter.endColor = ccc4FFromccc4B(ccc4(255, 255, 255, 0));
+            break;
+        case blue:
+            new_emitter.startColor = ccc4FFromccc4B(ccc4(0, 51, 255, 102));
+            new_emitter.endColor = ccc4FFromccc4B(ccc4(0, 51, 255, 0));
+            break;
+        case red:
+            new_emitter.startColor = ccc4FFromccc4B(ccc4(255, 0, 51, 102));
+            new_emitter.endColor = ccc4FFromccc4B(ccc4(255, 0, 51, 0));
+            break;
+        case green:
+            new_emitter.startColor = ccc4FFromccc4B(ccc4(0, 214, 86, 102));
+            new_emitter.endColor = ccc4FFromccc4B(ccc4(0, 214, 86, 0));
+            break;
+        case yellow:
+            new_emitter.startColor = ccc4FFromccc4B(ccc4(255, 204, 0, 102));
+            new_emitter.endColor = ccc4FFromccc4B(ccc4(255, 204, 0, 0));
+            break;
+    }
+    
     [self addChild:new_emitter];
 }
 

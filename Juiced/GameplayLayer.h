@@ -85,7 +85,7 @@
 -(CornerQuadrant*) getQuadrantAtRect:(CGRect)rect;
 
 // Spawns score particles at a given location
--(void) scoreParticlesAtLocation:(CGPoint)location;
+-(void) scoreParticlesAtLocation:(CGPoint)location withColor:(enum Color)color;
 
 // Starts a game
 -(void) gameStart;
