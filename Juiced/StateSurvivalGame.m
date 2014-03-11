@@ -39,7 +39,7 @@
     m_multiplier = 4;
     
     for (CornerQuadrant* cq in m_manager.quads) {
-        NSLog(@"Count");
+        //NSLog(@"Count");
         if (cq.width > 0) {
             [cq setQuadWidth:m_maxWidth];
         } else {
@@ -85,6 +85,7 @@
                     m_manager.score += m_discScore;
                     
                 } else { // Wrong color quadrant
+                    [[SimpleAudioEngine sharedEngine] playEffect:@"error.mp3"];
                     [self shrinkSpecificQuadrant:intersectedCQ];
                 }
                 
@@ -284,7 +285,7 @@
     [m_manager.UI showGameOver];
     
     for (CornerQuadrant* cq in m_manager.quads) {
-        NSLog(@"EC");
+        //NSLog(@"EC");
         switch (cq.color) {
             case blue:
                 [cq setQuadWidth:-m_maxWidth];

@@ -10,6 +10,7 @@
 #import "StateTimeAttackGame.h"
 #import "StateSurvivalGame.h"
 #import "StateEliminationGame.h"
+#import "SimpleAudioEngine.h"
 
 @implementation StateAchievements
 
@@ -36,6 +37,7 @@
 -(void) handleMenuSelection : (Disk*) disk Quadrant : (CornerQuadrant*) quad {
     //Handle collisions here.
     if(quad.color == disk.color) {
+        [[SimpleAudioEngine sharedEngine] playEffect:@"paching-sound.mp3"];
         disk.velocity = 0;
         switch (disk.color) {
             case blue:

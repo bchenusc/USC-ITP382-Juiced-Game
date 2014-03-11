@@ -125,24 +125,20 @@
     }
 }
 
-// Set height of quadrant
 -(void) setQuadHeight:(CGFloat)height {
-    m_Height = height;
-    
     CCSprite* vert = [self.children objectAtIndex:0];
     
-    vert.scaleY = m_Height / 60;
-    [vert setPosition:ccp(m_Position.x + self.thickness / 2 * ((m_Width > 0) ? 1 : -1), m_Position.y + m_Height / 2)];
+    [vert setPosition:ccp(vert.position.x, vert.position.y + (height - m_Height))];
+    
+    m_Height = height;
 }
 
-// Set width of quadrant
 -(void) setQuadWidth:(CGFloat)width {
-    m_Width = width;
-    
     CCSprite* hor = [self.children objectAtIndex:1];
     
-    hor.scaleY = m_Width / 60;
-    [hor setPosition:ccp(m_Position.x + m_Width / 2, m_Position.y + self.thickness / 2 * ((m_Height > 0) ? 1 : -1))];
+    [hor setPosition:ccp(hor.position.x + (width - m_Width), hor.position.y)];
+    
+    m_Width = width;
 }
 
 -(NSMutableArray*) getCollidableArea {
